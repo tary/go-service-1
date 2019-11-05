@@ -1,0 +1,41 @@
+before_script:
+  - export PATH=$PATH:/usr/local/go/bin
+  - export GOPROXY=https://goproxy.io
+  - export GOPATH=~/go
+  - export GOBIN=~/go/bin
+
+stages:
+  - test
+  - build
+  - goreport
+
+  
+unit_tests:
+  stage: test
+  script:
+    - bash -c 'echo $CI_PROJECT_DIR && cd $CI_PROJECT_DIR && ./ci.sh test'
+
+race_detector:
+  stage: test
+  script:
+    - bash -c 'echo $CI_PROJECT_DIR && cd $CI_PROJECT_DIR && ./ci.sh race'
+
+code_coverage:
+  stage: test
+  script:
+    - bash -c 'echo $CI_PROJECT_DIR && cd $CI_PROJECT_DIR && ./ci.sh coverage'
+  
+code_lint:
+  stage: test
+  script:
+    - bash -c 'echo $CI_PROJECT_DIR && cd $CI_PROJECT_DIR && ./ci.sh lint'
+    
+build:
+  stage: build
+  script:
+    - bash -c 'echo $CI_PROJECT_DIR && cd $CI_PROJECT_DIR && ./ci.sh build'
+  stage: goreport
+  script:
+    - bash -c 'echo success'
+  
+

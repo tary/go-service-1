@@ -1,0 +1,6 @@
+[MongoDB]
+GameDBName = "game"
+Addr = "mongodb://game:123456@192.168.133.33:27017/game"
+#Addr = "mongodb://mail:Zwp0K4h4zAjZQwkzdOH6fWIdPA6xieXmQpps@211.159.201.75:27017,211.159.201.76:27017/testM"
+#Addr = "mongodb://127.0.0.1:27017"
+Timeout = 5

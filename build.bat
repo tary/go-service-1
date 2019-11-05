@@ -1,0 +1,3 @@
+
+set GOPROXY=https://goproxy.io
+go install ./...
