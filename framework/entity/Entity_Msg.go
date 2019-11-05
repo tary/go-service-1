@@ -1,9 +1,9 @@
 package entity
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 //RpcType rpc类型

@@ -1,11 +1,11 @@
 package iserver
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
-	"github.com/GA-TECH-SERVER/zeus/framework/msghandler"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/idata"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
+	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/msghandler"
 )
 
 // IEntity entity接口

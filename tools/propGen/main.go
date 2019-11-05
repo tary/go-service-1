@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/GA-TECH-SERVER/zeus/base/gameconfig"
+	"github.com/giant-tech/go-service/base/gameconfig"
 
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

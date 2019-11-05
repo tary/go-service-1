@@ -68,7 +68,7 @@ func (t *Template) genhead() string {
 	baseStr += "package entitydef\n"
 	baseStr += "\n"
 	baseStr += "import (\n"
-	baseStr += "	\"github.com/GA-TECH-SERVER/zeus/framework/iserver\"\n"
+	baseStr += "	\"github.com/giant-tech/go-service/framework/iserver\"\n"
 	baseStr += "	\"github.com/globalsign/mgo/bson\"\n"
 
 	baseStr += ")\n"

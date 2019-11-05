@@ -5,10 +5,10 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/entity"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/igateway"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/entity"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
 
 	assert "github.com/aurelien-rainone/assertgo"
 	log "github.com/cihub/seelog"

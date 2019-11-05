@@ -1,8 +1,8 @@
 package matchbase
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/internal"
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchitf"
+	"github.com/giant-tech/go-service/logic/matchbase/internal"
+	"github.com/giant-tech/go-service/logic/matchbase/matchitf"
 )
 
 // MatchBase 匹配基类

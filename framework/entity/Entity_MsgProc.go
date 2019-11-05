@@ -1,7 +1,7 @@
 package entity
 
 import log "github.com/cihub/seelog"
-import "github.com/GA-TECH-SERVER/zeus/base/stream"
+import "github.com/giant-tech/go-service/base/stream"
 
 // RPCSyncEntitySrvInfo 同步实体的服务信息
 func (e *Entity) RPCSyncEntitySrvInfo() {

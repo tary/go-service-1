@@ -2,13 +2,13 @@ package service
 
 import (
 	"github.com/spf13/viper"
-	"github.com/GA-TECH-SERVER/zeus/framework/entity"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	"github.com/GA-TECH-SERVER/zeus/framework/msghandler"
+	"github.com/giant-tech/go-service/framework/entity"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msghandler"
 
-	//dbservice "github.com/GA-TECH-SERVER/zeus/logic/logicredis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
+	//dbservice "github.com/giant-tech/go-service/logic/logicredis"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
 )
 
 // BaseService 上层服务依赖的基础服务

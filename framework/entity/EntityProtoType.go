@@ -3,8 +3,8 @@ package entity
 import (
 	"reflect"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/global"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
+	"github.com/giant-tech/go-service/framework/global"
+	"github.com/giant-tech/go-service/framework/iserver"
 
 	log "github.com/cihub/seelog"
 )

@@ -3,7 +3,7 @@ package events
 import (
 	"testing"
 	//"time"
-	//"github.com/GA-TECH-SERVER/zeus/framework/env"
+	//"github.com/giant-tech/go-service/framework/env"
 )
 
 func TestGlobalEvents(t *testing.T) {

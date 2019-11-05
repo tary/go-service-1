@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"sync/atomic" //"github.com/GA-TECH-SERVER/zeus/iserver"
+	"sync/atomic" //"github.com/giant-tech/go-service/iserver"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	"github.com/giant-tech/go-service/framework/idata"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

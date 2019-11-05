@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
+	"github.com/giant-tech/go-service/base/serializer"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

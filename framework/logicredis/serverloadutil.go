@@ -7,7 +7,7 @@ import (
 
 	log "github.com/cihub/seelog"
 	"github.com/garyburd/redigo/redis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
 )
 
 // defaultSrvName 暂仅支持一种服务类型，后期如有需要再扩展

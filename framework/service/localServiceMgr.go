@@ -3,13 +3,13 @@ package service
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
 
 	"github.com/cihub/seelog"
 
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 // LenStackBuf LenStackBuf

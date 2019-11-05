@@ -10,7 +10,7 @@ import (
 
 	"github.com/cihub/seelog"
 	"github.com/garyburd/redigo/redis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
 )
 
 // SessionUtil session相关

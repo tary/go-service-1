@@ -1,7 +1,7 @@
 package iserver
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/linmath"
+	"github.com/giant-tech/go-service/base/linmath"
 )
 
 // ICoordEntity 坐标结点

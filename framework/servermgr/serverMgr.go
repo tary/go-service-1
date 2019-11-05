@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	log "github.com/cihub/seelog"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	"github.com/giant-tech/go-service/framework/idata"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 )
 
 /*

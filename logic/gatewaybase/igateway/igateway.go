@@ -1,8 +1,8 @@
 package igateway
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 // ReconnectData 断线重连返回的数据

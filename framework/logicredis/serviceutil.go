@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/garyburd/redigo/redis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
+	"github.com/giant-tech/go-service/framework/idata"
 )
 
 /*

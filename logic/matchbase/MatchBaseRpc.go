@@ -2,7 +2,7 @@ package matchbase
 
 import (
 	"github.com/cihub/seelog"
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchdata"
+	"github.com/giant-tech/go-service/logic/matchbase/matchdata"
 )
 
 // RPCMatchReq 请求匹配，返回错误内容，如果为空串说明没有错误

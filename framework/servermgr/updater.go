@@ -7,7 +7,7 @@ import (
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 )
 
 /*

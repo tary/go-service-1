@@ -5,16 +5,16 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
-	"github.com/GA-TECH-SERVER/zeus/framework/msghandler"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/msghandler"
 
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/servicedef"
+	"github.com/giant-tech/go-service/framework/servicedef"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

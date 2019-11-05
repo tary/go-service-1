@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"reflect"
 
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/mongodbservice"
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	dbservice "github.com/giant-tech/go-service/base/mongodbservice"
+	"github.com/giant-tech/go-service/base/stream"
 
 	log "github.com/cihub/seelog"
 	"github.com/globalsign/mgo/bson"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
+	"github.com/giant-tech/go-service/framework/idata"
 
 	"github.com/spf13/viper"
 )

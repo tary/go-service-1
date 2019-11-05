@@ -3,9 +3,9 @@ package sdmgr
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/client"
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/sd/sdsess"
+	"github.com/giant-tech/go-service/base/net/client"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/sd/sdsess"
 )
 
 // IClient client接口

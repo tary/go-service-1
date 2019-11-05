@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/GA-TECH-SERVER/zeus/base/mail/consts"
+	"github.com/giant-tech/go-service/base/mail/consts"
 )
 
 // TokenAuth 实现credentials.PerRPCCredentials接口

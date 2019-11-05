@@ -1,6 +1,6 @@
 package iserver
 
-//"github.com/GA-TECH-SERVER/zeus/msghandler_entity"
+//"github.com/giant-tech/go-service/msghandler_entity"
 
 // IEntities 用于实体的管理
 type IEntities interface {

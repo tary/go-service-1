@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchdata"
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchitf"
+	"github.com/giant-tech/go-service/logic/matchbase/matchdata"
+	"github.com/giant-tech/go-service/logic/matchbase/matchitf"
 )
 
 // NewManager 创建新的Pool Manager

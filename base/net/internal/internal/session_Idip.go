@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/net/internal/internal/msgenc"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/internal/internal/msgenc"
+	"github.com/giant-tech/go-service/framework/msgdef"
 
 	log "github.com/cihub/seelog"
 )

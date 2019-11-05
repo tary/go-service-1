@@ -6,9 +6,9 @@ import (
 	"testing"
 	//"time"
 
-	//"github.com/GA-TECH-SERVER/zeus/framework/entity"
-	//"github.com/GA-TECH-SERVER/zeus/framework/env"
-	//"github.com/GA-TECH-SERVER/zeus/framework/events"
+	//"github.com/giant-tech/go-service/framework/entity"
+	//"github.com/giant-tech/go-service/framework/env"
+	//"github.com/giant-tech/go-service/framework/events"
 )
 
 /*func TestSetGetGlobalStr(t *testing.T) {

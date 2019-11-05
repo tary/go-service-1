@@ -6,9 +6,9 @@ import (
 	"sync"
 
 	"github.com/prometheus/common/log"
-	"github.com/GA-TECH-SERVER/zeus/base/mail/auth"
-	"github.com/GA-TECH-SERVER/zeus/base/mail/consts"
-	"github.com/GA-TECH-SERVER/zeus/base/mail/pb"
+	"github.com/giant-tech/go-service/base/mail/auth"
+	"github.com/giant-tech/go-service/base/mail/consts"
+	"github.com/giant-tech/go-service/base/mail/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

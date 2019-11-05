@@ -1,10 +1,10 @@
 package iserver
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
-	"github.com/GA-TECH-SERVER/zeus/framework/msghandler"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/msghandler"
 )
 
 // IServiceCtrl 上层服务需要实现的接口

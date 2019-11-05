@@ -1,7 +1,7 @@
 package matchitf
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchdata"
+	"github.com/giant-tech/go-service/logic/matchbase/matchdata"
 )
 
 // IMatchFunction 开发者需要实现的的匹配接口

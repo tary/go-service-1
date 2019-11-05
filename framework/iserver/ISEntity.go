@@ -1,8 +1,8 @@
 package iserver
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/linmath"
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/net/inet"
 )
 
 // ICellEntity 代表空间中的一个实体

@@ -1,6 +1,6 @@
 package iserver
 
-import "github.com/GA-TECH-SERVER/zeus/framework/idata"
+import "github.com/giant-tech/go-service/framework/idata"
 
 // IApp App接口
 type IApp interface {

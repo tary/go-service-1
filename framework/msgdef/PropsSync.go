@@ -3,7 +3,7 @@ package msgdef
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	"github.com/giant-tech/go-service/base/stream"
 )
 
 // PropsSync 玩家属性变化，服务器之间交换属性信息

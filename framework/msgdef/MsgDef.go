@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"runtime/debug"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/net/msgid"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/msgid"
 
 	log "github.com/cihub/seelog"
 )

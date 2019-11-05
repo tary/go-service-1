@@ -1,10 +1,10 @@
 package server
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	connhandler "github.com/GA-TECH-SERVER/zeus/base/net/server/internal/conn_handler"
-	"github.com/GA-TECH-SERVER/zeus/base/net/server/internal/listener"
-	msgprocset "github.com/GA-TECH-SERVER/zeus/base/net/server/internal/msg_proc_set"
+	"github.com/giant-tech/go-service/base/net/inet"
+	connhandler "github.com/giant-tech/go-service/base/net/server/internal/conn_handler"
+	"github.com/giant-tech/go-service/base/net/server/internal/listener"
+	msgprocset "github.com/giant-tech/go-service/base/net/server/internal/msg_proc_set"
 
 	"golang.org/x/time/rate"
 )

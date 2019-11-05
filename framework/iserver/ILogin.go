@@ -1,6 +1,6 @@
 package iserver
 
-import "github.com/GA-TECH-SERVER/zeus/base/net/inet"
+import "github.com/giant-tech/go-service/base/net/inet"
 
 // ILogin 登录接口
 type ILogin interface {

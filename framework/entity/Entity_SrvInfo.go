@@ -2,9 +2,9 @@ package entity
 
 import (
 	"github.com/cihub/seelog"
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	dbservice "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/idata"
+	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 )
 
 // isEntityExisted isEntityExisted

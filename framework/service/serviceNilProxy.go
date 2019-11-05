@@ -3,8 +3,8 @@ package service
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/idata"
 )
 
 // SNilProxy 空服务代理

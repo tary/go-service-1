@@ -6,13 +6,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/base/events"
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
-	logicredis "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
+	"github.com/giant-tech/go-service/base/events"
+	"github.com/giant-tech/go-service/base/net/inet"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
+	logicredis "github.com/giant-tech/go-service/framework/logicredis"
 
-	"github.com/GA-TECH-SERVER/zeus/base/timer"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
+	"github.com/giant-tech/go-service/base/timer"
+	"github.com/giant-tech/go-service/framework/iserver"
 
 	log "github.com/cihub/seelog"
 )

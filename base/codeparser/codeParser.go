@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"runtime/debug"
 
-	"github.com/GA-TECH-SERVER/zeus/base/utility"
+	"github.com/giant-tech/go-service/base/utility"
 
 	"github.com/cihub/seelog"
 	"github.com/prometheus/common/log"

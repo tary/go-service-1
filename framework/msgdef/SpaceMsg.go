@@ -4,8 +4,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/linmath"
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/stream"
 )
 
 // EnterCellReq 请求进入空间

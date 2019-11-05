@@ -6,7 +6,7 @@ import (
 
 	"github.com/cihub/seelog"
 	kcp "github.com/xtaci/kcp-go"
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/inet"
 )
 
 // Dial 创建一个连接

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/garyburd/redigo/redis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
 )
 
 // EntityUtil 以hash表存储entity数据

@@ -1,13 +1,13 @@
 package proc
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/igateway"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/userbase"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
+	"github.com/giant-tech/go-service/logic/gatewaybase/userbase"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/errormsg"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/errormsg"
+	"github.com/giant-tech/go-service/framework/msgdef"
 
 	assert "github.com/aurelien-rainone/assertgo"
 	log "github.com/cihub/seelog"

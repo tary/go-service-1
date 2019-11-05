@@ -4,7 +4,7 @@ import (
 	"container/list"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/logic/matchbase/matchdata"
+	"github.com/giant-tech/go-service/logic/matchbase/matchdata"
 )
 
 // CreateNewPool 创建新Pool

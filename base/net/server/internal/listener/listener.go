@@ -3,7 +3,7 @@ package listener
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/server/internal/listener/internal"
+	"github.com/giant-tech/go-service/base/net/server/internal/listener/internal"
 )
 
 // IListener 网络监听

@@ -5,7 +5,7 @@ import (
 	//"reflect"
 	"testing" //mgo "gopkg.in/mgo.v2"
 
-	//dbservice "github.com/GA-TECH-SERVER/zeus/base/mongodbservice"
+	//dbservice "github.com/giant-tech/go-service/base/mongodbservice"
 
 	//"github.com/cihub/seelog"
 	"github.com/globalsign/mgo/bson"

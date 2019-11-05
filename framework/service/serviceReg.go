@@ -3,8 +3,8 @@ package service
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
 
 	"github.com/cihub/seelog"
 )

@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"sync"
 
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
+	"github.com/giant-tech/go-service/base/serializer"
 
 	log "github.com/cihub/seelog"
 	"github.com/garyburd/redigo/redis"

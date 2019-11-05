@@ -2,9 +2,9 @@ package msgdef
 
 import (
 	"fmt"
-	//"github.com/GA-TECH-SERVER/zeus/common"
-	"github.com/GA-TECH-SERVER/zeus/base/linmath"
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	//"github.com/giant-tech/go-service/common"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/stream"
 )
 
 // EnterAOI 玩家进入AOI

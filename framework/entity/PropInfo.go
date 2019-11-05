@@ -3,12 +3,12 @@ package entity
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	"github.com/giant-tech/go-service/base/stream"
 
 	log "github.com/cihub/seelog"
 	"github.com/garyburd/redigo/redis"
 	"github.com/globalsign/mgo/bson"
-	"github.com/GA-TECH-SERVER/zeus/base/utility"
+	"github.com/giant-tech/go-service/base/utility"
 )
 
 // PropInfo 属性相关

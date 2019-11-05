@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/framework/app/internal"
+	"github.com/giant-tech/go-service/framework/app/internal"
 )
 
 // Run 逻辑入口

@@ -1,12 +1,12 @@
 package gatewaybase
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/server"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
-	"github.com/GA-TECH-SERVER/zeus/framework/service"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/igateway"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/proc"
+	"github.com/giant-tech/go-service/base/net/server"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/service"
+	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
+	"github.com/giant-tech/go-service/logic/gatewaybase/proc"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

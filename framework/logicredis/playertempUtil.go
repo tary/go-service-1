@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/garyburd/redigo/redis"
-	dbservice "github.com/GA-TECH-SERVER/zeus/base/redisservice"
+	dbservice "github.com/giant-tech/go-service/base/redisservice"
 )
 
 // 玩家在线情况下各种临时信息的存储, 不需要持久化

@@ -3,7 +3,7 @@ package msgdef
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	"github.com/giant-tech/go-service/base/stream"
 )
 
 // SrvMsgTransport 分布式实体之间传递消息用

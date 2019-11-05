@@ -1,6 +1,6 @@
 package msgprocset
 
-import "github.com/GA-TECH-SERVER/zeus/base/net/inet"
+import "github.com/giant-tech/go-service/base/net/inet"
 
 // IMsgProc 消息处理接口
 type IMsgProc interface {

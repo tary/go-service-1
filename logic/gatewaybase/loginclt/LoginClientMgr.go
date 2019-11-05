@@ -12,10 +12,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
+	"github.com/giant-tech/go-service/framework/iserver"
 
-	"github.com/GA-TECH-SERVER/zeus/framework/login"
-	"github.com/GA-TECH-SERVER/zeus/logic/gatewaybase/sbase"
+	"github.com/giant-tech/go-service/framework/login"
+	"github.com/giant-tech/go-service/logic/gatewaybase/sbase"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

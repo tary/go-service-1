@@ -3,11 +3,11 @@ package entity
 import (
 	"fmt"
 
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	redis "github.com/GA-TECH-SERVER/zeus/framework/logicredis"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef" //sess "github.com/GA-TECH-SERVER/zeus/netentity"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
+	redis "github.com/giant-tech/go-service/framework/logicredis"
+	"github.com/giant-tech/go-service/framework/msgdef" //sess "github.com/giant-tech/go-service/netentity"
 
 	"github.com/cihub/seelog"
 )

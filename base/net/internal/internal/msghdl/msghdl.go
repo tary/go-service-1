@@ -5,9 +5,9 @@ import (
 	"reflect"
 	"runtime/debug"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/msgdef"
 
 	assert "github.com/aurelien-rainone/assertgo"
 	log "github.com/cihub/seelog"

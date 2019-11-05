@@ -3,10 +3,10 @@ package connhandler
 import (
 	"net"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	msgprocset "github.com/GA-TECH-SERVER/zeus/base/net/server/internal/msg_proc_set"
-	"github.com/GA-TECH-SERVER/zeus/base/net/server/internal/session"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/base/net/inet"
+	msgprocset "github.com/giant-tech/go-service/base/net/server/internal/msg_proc_set"
+	"github.com/giant-tech/go-service/base/net/server/internal/session"
+	"github.com/giant-tech/go-service/framework/msgdef"
 
 	"golang.org/x/time/rate"
 )

@@ -7,11 +7,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
-	"github.com/GA-TECH-SERVER/zeus/framework/iserver"
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
-	"github.com/GA-TECH-SERVER/zeus/framework/servicedef"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/servicedef"
 
 	"github.com/cihub/seelog"
 	"github.com/spf13/viper"

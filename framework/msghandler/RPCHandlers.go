@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/GA-TECH-SERVER/zeus/base/serializer"
-	"github.com/GA-TECH-SERVER/zeus/framework/idata"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/idata"
 
 	log "github.com/cihub/seelog"
 	"github.com/spf13/viper"

@@ -3,8 +3,8 @@ package client
 import (
 	"net"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/net/internal"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/internal"
 
 	"golang.org/x/time/rate"
 )

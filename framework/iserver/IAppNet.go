@@ -1,6 +1,6 @@
 package iserver
 
-import "github.com/GA-TECH-SERVER/zeus/base/net/inet"
+import "github.com/giant-tech/go-service/base/net/inet"
 
 // IAppNet AppNet接口
 type IAppNet interface {

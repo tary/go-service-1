@@ -1,7 +1,7 @@
 package idata
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 // RetData 同步调用返回的数据

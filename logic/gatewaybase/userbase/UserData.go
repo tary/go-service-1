@@ -1,6 +1,6 @@
 package userbase
 
-import "github.com/GA-TECH-SERVER/zeus/base/net/inet"
+import "github.com/giant-tech/go-service/base/net/inet"
 
 // UserInitData 玩家初始化数据
 type UserInitData struct {

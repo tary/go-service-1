@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/inet"
 )
 
 // internalMSgID 网络内部保留消息id

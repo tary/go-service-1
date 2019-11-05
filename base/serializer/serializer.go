@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/GA-TECH-SERVER/zeus/base/stream"
+	"github.com/giant-tech/go-service/base/stream"
 
 	log "github.com/cihub/seelog"
 	"github.com/gogo/protobuf/proto"

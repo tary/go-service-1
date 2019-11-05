@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
-	"github.com/GA-TECH-SERVER/zeus/base/net/internal/internal/consts"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/internal/internal/consts"
 )
 
 // MsgID MSGid

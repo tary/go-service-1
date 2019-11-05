@@ -1,7 +1,7 @@
 package baseproc
 
 import (
-	"github.com/GA-TECH-SERVER/zeus/base/net/inet"
+	"github.com/giant-tech/go-service/base/net/inet"
 
 	assert "github.com/aurelien-rainone/assertgo"
 	"github.com/cihub/seelog"
