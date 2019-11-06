@@ -87,3 +87,5 @@ err := randProxy.SyncCall(&name, "GetName")
 
 	https://github.com/giant-tech/go-service-examples/tree/master/serviceA-call-serviceB
 
+## qq讨论群
+- 942711528
