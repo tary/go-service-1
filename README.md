@@ -1,7 +1,7 @@
 [![build status](
 https://img.shields.io/:license-apache-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GoDoc](https://godoc.org/github.com/micro/go-micro?status.svg)](https://godoc.org/github.com/micro/go-micro) [![Travis CI](https://api.travis-ci.org/micro/go-micro.svg?branch=master)](https://travis-ci.org/micro/go-micro) [![Go Report Card](https://goreportcard.com/badge/micro/go-micro)](https://goreportcard.com/report/github.com/micro/go-micro)
 
-# <img src="https://github.com/giant-tech/go-service/tree/master/resources/zeus.jpg" />
+# <img src="https://github.com/giant-tech/go-service/blob/master/resources/zeus.jpg" />
 zeus是用Golang开发的一款分布式服务器框架。
 
 # Overview
@@ -12,7 +12,7 @@ zeus提供了一套分布式组件（分布式服务和分布式实体），以�
 - Entity：服务中管理的对象，比如Player、Team等，可以分布在一到多个Service中。
 三者关系如下：
 
-<img src="https://github.com/giant-tech/go-service/tree/master/resources/app-service-entity.jpg" />
+<img src="https://github.com/giant-tech/go-service/blob/master/resources/app-service-entity.jpg" />
 
 Service和Entity的消息传递都交给App处理，Service之间并不建立连接。App会处理好服务发现和服务管理，以及本进程和跨进程的通讯。Service和Entity会提供一些RPC方法供他人调用，Entity的属性可以在不同Service之间进行自动同步。Service和Entity的RPC方法均支持同步调用和异步调用两种方式。
 
