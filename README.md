@@ -73,17 +73,17 @@ err := randProxy.SyncCall(&name, "GetName")
 ## 完整代码示例
 - unity客户端(c#)调用服务器
 
-	http://github.com/tech/public/go-service/examples/tree/master/client-service-demo-csharp
+	https://github.com/giant-tech/go-service-examples/tree/master/client-service-demo-csharp
 
 - go客户端调用服务器
 
-	http://github.com/tech/public/go-service/examples/tree/master/client-call-serviceA
+	https://github.com/giant-tech/go-service-examples/tree/master/client-call-serviceA
 
 - entity之间如何调用
 
-	http://github.com/tech/public/go-service/examples/tree/master/entity-call-entity
+	https://github.com/giant-tech/go-service-examples/tree/master/entity-call-entity
 
 - 两个service之间如何调用
 
-	http://github.com/tech/public/go-service/examples/tree/master/serviceA-call-serviceB
+	https://github.com/giant-tech/go-service-examples/tree/master/serviceA-call-serviceB
 
