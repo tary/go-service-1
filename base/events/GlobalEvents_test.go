@@ -11,7 +11,7 @@ func TestGlobalEvents(t *testing.T) {
 		fmt.Println("加载配置文件失败")
 		return
 	}
-	
+
 	e := NewGlobalEventsInst()
 	obj := new(forTest1)
 
@@ -26,7 +26,7 @@ func TestGlobalEvents(t *testing.T) {
 		fmt.Println("加载配置文件失败")
 		return
 	}
-	
+
 	e := NewGlobalEventsInst()
 	obj := new(forTest1)
 
