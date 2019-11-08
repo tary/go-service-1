@@ -19,7 +19,6 @@ type PGatewayServer struct {
 	sess         inet.ISession // 一般都需要包含session对象
 	IServiceBase iserver.IServiceBase
 	entity       iserver.IEntity
-	isClosed     bool //是否已经关闭
 }
 
 // RegisterMsgProcFunctions 克隆自身并注册消息处理函数.
@@ -118,20 +117,6 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 		}
 	}
 
-	//判断是否已经close
-	if p.isClosed {
-
-		iclose, ok := entity.(igateway.ICloseHandler)
-		if ok {
-			entity.PostFunction(func() { iclose.OnClose() })
-		} else {
-			log.Error("MsgProcLoginReq user not ICloseHandler, UID: ", msg.UID)
-		}
-
-		log.Errorf("MsgProcLoginReq but closed, UID: %d, p: %p, entity: %p", msg.UID, p, entity)
-		return
-	}
-
 	p.entity = entity
 
 	p.sess.SetVerified()
@@ -146,8 +131,6 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 // OnClosed 关闭回调
 func (p *PGatewayServer) OnClosed() {
 	// 会话断开时动作...
-
-	p.isClosed = true
 
 	//log.Infof("PGatewayServer OnClosed: %d %s, p: %p, entity: %p", p.sess.GetID(), p.sess.RemoteAddr(), p, p.entity)
 
