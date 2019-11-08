@@ -2,11 +2,11 @@
 https://img.shields.io/:license-apache-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GoDoc](https://godoc.org/github.com/micro/go-micro?status.svg)](https://godoc.org/github.com/micro/go-micro) [![Travis CI](https://api.travis-ci.org/micro/go-micro.svg?branch=master)](https://travis-ci.org/micro/go-micro) [![Go Report Card](https://goreportcard.com/badge/micro/go-micro)](https://goreportcard.com/report/github.com/micro/go-micro)
 
 # <img src="https://github.com/giant-tech/go-service/blob/master/resources/zeus.jpg" />
-zeus是用Golang开发的一款分布式服务器框架。
+go-service是用Golang开发的一款分布式服务器框架。
 
 # Overview
 
-zeus提供了一套分布式组件（分布式服务和分布式实体），以及它们所提供的RPC方法。我们可以在任何地方调用这些服务和实体所提供的方法，而不用关心这些服务和实体是不是与调用者在一个进程或机器。框架的三个核心概念为：App，Service，Entity。
+go-service提供了一套分布式组件（分布式服务和分布式实体），以及它们所提供的RPC方法。我们可以在任何地方调用这些服务和实体所提供的方法，而不用关心这些服务和实体是不是与调用者在一个进程或机器。框架的三个核心概念为：App，Service，Entity。
 - App：为一个进程，一台机器可以开启多个App，每个App可以根据配置加载一到多个Service。
 - Service：开发者所开发的逻辑服务（比如聊天服，网关服等），可以管理多个实体，也可以是无实体的服务。
 - Entity：服务中管理的对象，比如Player、Team等，可以分布在一到多个Service中。
