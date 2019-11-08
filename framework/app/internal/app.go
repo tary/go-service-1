@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"runtime/debug"
