@@ -4,7 +4,6 @@ import (
 	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
-	"github.com/giant-tech/go-service/logic/gatewaybase/userbase"
 
 	"github.com/giant-tech/go-service/framework/errormsg"
 	"github.com/giant-tech/go-service/framework/msgdef"
@@ -16,9 +15,12 @@ import (
 // PGatewayServer 是消息处理类(Processor).
 // 必须实现 RegisterMsgProcFunctions(), OnClosed() 和 MsgProc*() 接口。
 type PGatewayServer struct {
-	sess         inet.ISession // 一般都需要包含session对象
-	IServiceBase iserver.IServiceBase
-	entity       iserver.IEntity
+	sess         inet.ISession        // 一般都需要包含session对象
+	IServiceBase iserver.IServiceBase // 所属的服务
+	entity       iserver.IEntity      // 实体
+	group        iserver.IEntityGroup // 实体所属的group，如果不属于任何group，则为nil
+
+	proxyEntity iserver.IEntity
 }
 
 // RegisterMsgProcFunctions 克隆自身并注册消息处理函数.
@@ -53,77 +55,33 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 
 	ilogin, ok := p.IServiceBase.(igateway.ILoginHandler)
 	if ok {
-		ret := ilogin.OnLoginHandler(msg)
-		if ret != msgdef.ReturnTypeSuccess {
-			log.Error("MsgProc_LoginReq:OnLoginHandler err, uid: ", msg.UID, ", ret: ", ret)
-			retMsg.Result = uint32(ret)
-			p.sess.Send(retMsg)
-			return
-		}
+		retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
+
+		log.Error("MsgProcLoginReq:ReturnTypeFAILRELOGIN, UID: ", msg.UID)
+		p.sess.Send(retMsg)
+		return
 	}
 
-	var entity iserver.IEntity
-
-	oldEntity := p.IServiceBase.GetEntity(msg.UID)
-	if oldEntity != nil {
-		log.Debugf("MsgProcLoginReq, OnReconnect, UID: %d, sess: %p, oldSess: %p", msg.UID, p.sess, oldEntity.GetClientSess())
-
-		ireconnect, ok := oldEntity.(igateway.IReconnectHandler)
-		if !ok {
-			log.Errorf("MsgProcLoginReq not IReconnectHandler, UID: %d", msg.UID)
-
-			retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
-			p.sess.Send(retMsg)
-			return
-		}
-
-		ret := oldEntity.PostFunctionAndWait(func() interface{} { return ireconnect.OnReconnect(p.sess) })
-		retData, ok := ret.(*igateway.ReconnectData)
-		if !ok {
-			log.Errorf("MsgProcLoginReq OnReconnect failed, UID: %d", msg.UID)
-
-			retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
-			p.sess.Send(retMsg)
-			return
-		}
-
-		if retData.Err != nil {
-			log.Error("MsgProcLoginReq OnReconnect failed, UID: ", msg.UID, ", err: ", retData.Err)
-
-			retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
-			p.sess.Send(retMsg)
-			return
-		}
-
-		if !retData.IsCreateEntity {
-			entity = oldEntity
-		}
+	retData := ilogin.OnLoginHandler(p.sess, msg)
+	if retData.Msg.Result != uint32(msgdef.ReturnTypeSuccess) {
+		p.sess.Send(retData.Msg)
+		return
 	}
 
-	if entity == nil {
-		userBase := &userbase.UserInitData{
-			Sess:    p.sess,
-			Version: msg.Version,
-		}
+	p.entity = retData.Entity
+	p.group = retData.Group
 
-		var err error
-		// 创建新玩家
-		entity, err = p.IServiceBase.CreateEntityWithID("Player", msg.UID, 0, userBase, true, 0)
-		if err != nil {
-			log.Error("Create user failed, err: ", err, ", UID: ", msg.UID)
-			retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
-			p.sess.Send(retMsg)
-			return
-		}
+	if p.group != nil {
+		p.proxyEntity = p.group
+	} else {
+		p.proxyEntity = p.group
 	}
-
-	p.entity = entity
 
 	p.sess.SetVerified()
 
 	//发送送登录验证成功消息
 	retMsg.Result = uint32(errormsg.ReturnTypeSUCCESS)
-	p.sess.Send(retMsg)
+	p.sess.Send(retData.Msg)
 
 	//log.Debugf("Finish MsgProcLoginReq, UID: %d, p: %p, entity: %p", msg.UID, p, entity)
 }
@@ -134,7 +92,7 @@ func (p *PGatewayServer) OnClosed() {
 
 	//log.Infof("PGatewayServer OnClosed: %d %s, p: %p, entity: %p", p.sess.GetID(), p.sess.RemoteAddr(), p, p.entity)
 
-	if p.entity == nil {
+	if p.proxyEntity == nil {
 		return
 	}
 
@@ -142,10 +100,14 @@ func (p *PGatewayServer) OnClosed() {
 
 	iclose, ok := p.entity.(igateway.ICloseHandler)
 	if ok {
-		p.entity.PostFunction(func() { iclose.OnClose() })
+		p.proxyEntity.PostFunction(func() { iclose.OnClose() })
 	} else {
 		log.Error("OnClosed user not ICloseHandler, UID: ", p.entity.GetEntityID())
 	}
+
+	p.entity = nil
+	p.group = nil
+	p.proxyEntity = nil
 }
 
 // MsgProcCallMsg CallMsg消息处理
@@ -155,30 +117,32 @@ func (p *PGatewayServer) MsgProcCallMsg(msg *msgdef.CallMsg) {
 	msg.EntityID = p.entity.GetEntityID()
 	msg.IsFromClient = true
 
-	//如果是投递本服务并且是多协程的，消息投递给实体协程
-	if msg.SType == uint8(p.IServiceBase.GetSType()) && p.IServiceBase.IsMultiThread() {
-		if msg.IsSync {
-			retData := p.entity.PostCallMsgAndWait(msg)
+	//如果是本服务，则把消息投递给实体或者服务
+	if msg.SType == uint8(p.IServiceBase.GetSType()) {
+		// 如果为多协程，则投递给对应的实体
+		if p.IServiceBase.IsMultiThread() {
+			if msg.IsSync {
+				retData := p.proxyEntity.PostCallMsgAndWait(msg)
 
-			retMsg := &msgdef.CallRespMsg{}
-			retMsg.Seq = msg.Seq
-			retMsg.RetData = retData.Ret
+				retMsg := &msgdef.CallRespMsg{}
+				retMsg.Seq = msg.Seq
+				retMsg.RetData = retData.Ret
 
-			if retData.Err != nil {
-				retMsg.ErrString = retData.Err.Error()
+				if retData.Err != nil {
+					retMsg.ErrString = retData.Err.Error()
+				}
+
+				p.sess.Send(retMsg)
+			} else {
+				err := p.proxyEntity.PostCallMsg(msg)
+				if err != nil {
+					log.Error("AsyncCall err: ", err)
+				}
 			}
-
-			p.sess.Send(retMsg)
 		} else {
-			err := p.entity.PostCallMsg(msg)
-			if err != nil {
-				log.Error("AsyncCall err: ", err)
-			}
+			//消息投递给本服务
+			p.postToLocalService(p.IServiceBase.GetSID(), msg)
 		}
-	} else if msg.SType == uint8(p.IServiceBase.GetSType()) {
-		//消息投递给本服务
-		msg.GroupID = p.entity.GetGroupID()
-		p.postToLocalService(p.IServiceBase.GetSID(), msg)
 	} else {
 		//消息转发给其他服务
 		msg.FromSID = p.IServiceBase.GetSID()

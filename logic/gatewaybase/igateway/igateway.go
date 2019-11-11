@@ -2,6 +2,7 @@ package igateway
 
 import (
 	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
@@ -11,9 +12,16 @@ type ReconnectData struct {
 	Err            error // 错误内容
 }
 
+// LoginRetData 登录返回的数据
+type LoginRetData struct {
+	Msg    *msgdef.LoginResp    // 结果
+	Entity iserver.IEntity      // 实体
+	Group  iserver.IEntityGroup // 实体组（当Entity属于某一组，比如场景）
+}
+
 // ILoginHandler 登录处理
 type ILoginHandler interface {
-	OnLoginHandler(msg *msgdef.LoginReq) msgdef.ReturnType
+	OnLoginHandler(sess inet.ISession, msg *msgdef.LoginReq) *LoginRetData
 }
 
 // IReconnectHandler 重连处理

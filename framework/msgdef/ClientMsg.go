@@ -26,17 +26,19 @@ const (
 // LoginReq 登录请求
 // Client ==> LobbyServer
 type LoginReq struct {
-	Token   string
-	UID     uint64
-	Version string
-	ExtData []byte //自定义数据
+	Account string // 账号
+	Token   string // token
+	UID     uint64 // 玩家ID
+	Version string // 版本
+	ExtData []byte // 自定义数据
 }
 
 // LoginResp 登录返回
 // LobbyServer ==> Client
 type LoginResp struct {
-	Result  uint32
-	ExtData []byte //自定义数据
+	Result  uint32 // 返回类型
+	ErrStr  string // 错误内容
+	ExtData []byte // 自定义数据
 }
 
 // Ping ping
