@@ -54,7 +54,7 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 	}
 
 	ilogin, ok := p.IServiceBase.(igateway.ILoginHandler)
-	if ok {
+	if !ok {
 		retMsg.Result = uint32(errormsg.ReturnTypeFAILRELOGIN)
 
 		log.Error("MsgProcLoginReq:ReturnTypeFAILRELOGIN, UID: ", msg.UID)
@@ -74,7 +74,7 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 	if p.group != nil {
 		p.proxyEntity = p.group
 	} else {
-		p.proxyEntity = p.group
+		p.proxyEntity = p.entity
 	}
 
 	p.sess.SetVerified()
