@@ -58,7 +58,7 @@ type CreateEntityNotify struct {
 // CallMsg 远程调用消息
 type CallMsg struct {
 	GroupID      uint64 // 目标实体所属的GroupID
-	EntityID     uint64 // 目的EntityID
+	EntityID     uint64 // 目标EntityID
 	SType        uint8  // 目标服务类型
 	SID          uint64 // 目标服务ID
 	FromSID      uint64 // From Service ID
