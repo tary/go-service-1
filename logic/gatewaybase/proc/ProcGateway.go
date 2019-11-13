@@ -114,12 +114,15 @@ func (p *PGatewayServer) OnClosed() {
 func (p *PGatewayServer) MsgProcCallMsg(msg *msgdef.CallMsg) {
 	//log.Infof("MsgProcCallMsg, Seq:%d, MethodName:%s, stype: %d", msg.Seq, msg.MethodName, msg.SType)
 	//目前客户端只能调用自己实体的RPC方法
-	if msg.EntityID != p.entity.GetEntityID() {
-		log.Error("MsgProcCallMsg EntityID error, client EntityID: ", msg.EntityID, ", server EntityID: ", p.entity.GetEntityID())
 
-		p.sess.Close()
-		return
-	}
+	msg.EntityID = p.entity.GetEntityID()
+
+	// if msg.EntityID != p.entity.GetEntityID() {
+	// 	log.Error("MsgProcCallMsg EntityID error, client EntityID: ", msg.EntityID, ", server EntityID: ", p.entity.GetEntityID())
+
+	// 	p.sess.Close()
+	// 	return
+	// }
 
 	msg.IsFromClient = true
 
