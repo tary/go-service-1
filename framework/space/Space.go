@@ -31,7 +31,7 @@ type Space struct {
 	dirtyEntities []*Entity
 }
 
-// OnInit 初始化
+// OnEntityInit 初始化
 func (s *Space) OnEntityInit() {
 	// 暂时先写一个最大的尺寸，后期应该从maploaded结束后再初始化
 	s.ICoord = NewTileCoord(9000, 9000)
@@ -47,14 +47,13 @@ func (s *Space) OnEntityInit() {
 	//s.regSpaceSrvID()
 }
 
-// OnAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
+// OnEntityAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
 func (s *Space) OnEntityAfterInit() {
-
 	s.Entity.OnEntityAfterInit()
 	s.loadMap()
 }
 
-// OnDestroy 析构函数
+// OnEntityDestroy 析构函数
 func (s *Space) OnEntityDestroy() {
 	s.Entities.Destroy()
 	//s.unRegSpaceSrvID()
@@ -90,7 +89,7 @@ func (s *Space) OnEntityDestroy() {
 
 // }
 
-// OnLoop 完全覆盖Entity的Loop方法
+// OnEntityLoop 完全覆盖Entity的Loop方法
 func (s *Space) OnEntityLoop() {
 	//s.DoMsg()
 	s.Entity.OnEntityLoop()
@@ -128,7 +127,7 @@ func (s *Space) GetTimeStamp() uint32 {
 }
 
 // AddEntity 在空间中添加entity
-func (s *Space) AddEntity(entityType string, entityID uint64, dbid uint64, initParam interface{}, syncInit bool, isGhost bool) error {
+func (s *Space) AddEntity(entityType string, entityID uint64, initParam interface{}, syncInit bool) error {
 	e, err := s.CreateEntityWithID(entityType, entityID, s.GetEntityID(), initParam, syncInit, 0)
 	if err != nil {
 		return err
