@@ -43,7 +43,7 @@ import (
 		}
 
 		if !iserver.GetSrvInst().IsSrvValid() {
-			iserver.GetSrvInst().HandlerSrvInvalid(ie.GetID())
+			iserver.GetSrvInst().HandlerSrvInvalid(ie.GetEntityID())
 		} else {
 			te.FireMsg(innerMsg.Name(), innerMsg)
 		}

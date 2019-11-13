@@ -1,11 +1,11 @@
 package space
 
 import (
-	"zeus/iserver"
+	"github.com/giant-tech/go-service/framework/iserver"
 )
 
 type iSpaceCtrl interface {
-	updateCoord(iserver.ISpaceEntity)
+	updateCoord(iserver.ICellEntity)
 }
 
 func (s *Space) refreshEntityState() {
@@ -36,11 +36,6 @@ func (s *Space) FireRPC(methodName string, data []byte) {
 // RegMsgProc 注册消息处理函数
 func (s *Space) RegMsgProc(proc interface{}) {
 	s.Entity.RegMsgProc(proc)
-}
-
-// DoMsg 消息处理
-func (s *Space) DoMsg() {
-	s.Entity.DoMsg()
 }
 
 // DoNormalMsg 立刻处理消息

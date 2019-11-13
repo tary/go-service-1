@@ -3,8 +3,8 @@ package space
 import (
 	"container/list"
 	"errors"
-	"zeus/iserver"
-	"zeus/linmath"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/base/linmath"
 
 	"github.com/cihub/seelog"
 )
@@ -427,7 +427,7 @@ func (t *Tiles) update(n iserver.ICoordEntity) {
 		return
 	}
 
-	info, ok := t.entites[n.GetID()]
+	info, ok := t.entites[n.GetEntityID]
 	if !ok {
 		t.add(n, pos)
 	} else {
@@ -438,25 +438,25 @@ func (t *Tiles) update(n iserver.ICoordEntity) {
 // Remove 从坐标系统中删除
 func (t *Tiles) remove(n iserver.ICoordEntity) {
 
-	info, ok := t.entites[n.GetID()]
+	info, ok := t.entites[n.GetEntityID]
 	if !ok {
 		return
 	}
 
 	info.tower.remove(n)
-	delete(t.entites, n.GetID())
+	delete(t.entites, n.GetEntityID)
 }
 
 func (t *Tiles) add(n iserver.ICoordEntity, pos CoordPos) {
 
 	tower := t.getTower(pos)
 	if tower == nil {
-		seelog.Error("add failed ", pos, n.GetID())
+		seelog.Error("add failed ", pos, n.GetEntityID)
 		return
 		// panic("inner wrong ")
 	}
 
-	t.entites[n.GetID()] = &CoordInfo{n, tower}
+	t.entites[n.GetEntityID] = &CoordInfo{n, tower}
 	tower.add(n)
 }
 

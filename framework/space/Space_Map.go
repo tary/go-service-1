@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
-	"zeus/linmath"
+	"github.com/giant-tech/go-service/base/linmath"
 
 	"github.com/cihub/seelog"
 )
@@ -66,7 +66,7 @@ func (s *Space) FindPath(srcPos, destPos linmath.Vector3) ([]linmath.Vector3, er
 // Raycast 以origin为原点, direction为方向, length为长度, 作射线检测, mask为射线检测的层级
 func (s *Space) Raycast(origin, direction linmath.Vector3, length float32, mask int32) (float32, linmath.Vector3, int32, bool, error) {
 	if s.mapInfo == nil {
-		return 0, linmath.Vector3_Invalid(), 0, false, fmt.Errorf("no map info")
+		return 0, linmath.Vector3Invalid(), 0, false, fmt.Errorf("no map info")
 	}
 
 	dist, pos, layer, hit := s.mapInfo.scene.Raycast(origin, direction, length, mask)

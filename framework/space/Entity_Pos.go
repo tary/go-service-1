@@ -1,8 +1,8 @@
 package space
 
 import (
-	"zeus/iserver"
-	"zeus/linmath"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/framework/iserver"
 )
 
 // SetPos 设置位置
@@ -15,10 +15,6 @@ func (e *Entity) SetCoordPos(pos linmath.Vector3) {
 	e.pos = pos
 
 	e.determineAOIFlag()
-
-	if e.IsBeLinked() {
-		e.updateLinkerPos(pos)
-	}
 
 	// e.updatePosCoord(pos)
 	iPC, ok := e.GetRealPtr().(iserver.IPosChange)

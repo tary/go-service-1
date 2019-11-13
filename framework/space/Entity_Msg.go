@@ -1,19 +1,20 @@
 package space
 
 import (
-	"zeus/iserver"
-	"zeus/linmath"
-	"zeus/msgdef"
-	"zeus/serializer"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/serializer"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 type delayedCastMsg struct {
-	msg        msgdef.IMsg
+	msg        inet.IMsg
 	isCastToMe bool
 }
 
 // CastMsgToAllClient 发送消息给所有关注我的客户端
-func (e *Entity) CastMsgToAllClient(msg msgdef.IMsg) {
+func (e *Entity) CastMsgToAllClient(msg inet.IMsg) {
 	e.delayedCastMsgs = append(e.delayedCastMsgs, &delayedCastMsg{
 		msg:        msg,
 		isCastToMe: true,
@@ -21,57 +22,43 @@ func (e *Entity) CastMsgToAllClient(msg msgdef.IMsg) {
 }
 
 // CastMsgToMe 发送消息给自己
-func (e *Entity) CastMsgToMe(msg msgdef.IMsg) {
-	e.Post(iserver.ServerTypeClient, msg)
+func (e *Entity) CastMsgToMe(msg inet.IMsg) {
+	//e.Post(iserver.ServerTypeClient, msg)
 }
 
 // CastMsgToAllClientExceptMe  发送给除了自己外的其它人
-func (e *Entity) CastMsgToAllClientExceptMe(msg msgdef.IMsg) {
+func (e *Entity) CastMsgToAllClientExceptMe(msg inet.IMsg) {
 	e.delayedCastMsgs = append(e.delayedCastMsgs, &delayedCastMsg{
 		msg:        msg,
 		isCastToMe: false,
 	})
 }
 
-func (e *Entity) CastMsgToRangeExceptMe(center *linmath.Vector3, radius int, msg msgdef.IMsg) {
+func (e *Entity) CastMsgToRangeExceptMe(center *linmath.Vector3, radius int, msg inet.IMsg) {
 	e.GetSpace().TravsalRange(center, radius, func(ia iserver.ICoordEntity) {
 		if ise, ok := ia.(iserver.IEntityStateGetter); ok {
-			if ise.GetEntityState() != iserver.Entity_State_Loop {
+			if ise.GetEntityState() != iserver.EntityStateLoop {
 				return
 			}
 
-			if ie, ok := ia.(iserver.IEntity); ok && ie.GetID() != e.GetID() {
-				ie.Post(iserver.ServerTypeClient, msg)
+			if ie, ok := ia.(iserver.IEntity); ok && ie.GetEntityID() != e.GetEntityID() {
+				//ie.Post(iserver.ServerTypeClient, msg)
 			}
 		}
 	})
 }
 
-func (e *Entity) CastMsgToCenterExceptMe(center *linmath.Vector3, radius int, msg msgdef.IMsg) {
+func (e *Entity) CastMsgToCenterExceptMe(center *linmath.Vector3, radius int, msg inet.IMsg) {
 	e.GetSpace().TravsalCenter(center, radius, func(ia iserver.ICoordEntity) {
 		if ise, ok := ia.(iserver.IEntityStateGetter); ok {
-			if ise.GetEntityState() != iserver.Entity_State_Loop {
+			if ise.GetEntityState() != iserver.EntityStateLoop {
 				return
 			}
 
-			if ie, ok := ia.(iserver.IEntity); ok && ie.GetID() != e.GetID() {
-				ie.Post(iserver.ServerTypeClient, msg)
+			if ie, ok := ia.(iserver.IEntity); ok && ie.GetEntityID() != e.GetEntityID() {
+				//ie.Post(iserver.ServerTypeClient, msg)
 			}
 		}
-	})
-}
-
-// CastRPCToAllClient 触发RPC消息给所有关注我的客户端
-func (e *Entity) CastRPCToAllClient(methodName string, args ...interface{}) {
-	data := serializer.Serialize(args...)
-	msg := &msgdef.RPCMsg{}
-	msg.ServerType = iserver.ServerTypeClient
-	msg.MethodName = methodName
-	msg.Data = data
-
-	e.delayedCastMsgs = append(e.delayedCastMsgs, &delayedCastMsg{
-		msg:        msg,
-		isCastToMe: true,
 	})
 }
 
@@ -95,8 +82,9 @@ func (e *Entity) CastRPCToAllClientExceptMe(methodName string, args ...interface
 }
 
 // PostToClient 投递消息给客户端
-func (e *Entity) PostToClient(msg msgdef.IMsg) error {
-	return e.Post(iserver.ServerTypeClient, msg)
+func (e *Entity) PostToClient(msg inet.IMsg) error {
+	return nil
+	//return e.Post(iserver.ServerTypeClient, msg)
 }
 
 // FlushDelayedCastMsgs 发送所有缓冲的Cast消息
@@ -108,29 +96,29 @@ func (e *Entity) FlushDelayedCastMsgs() {
 	for _, dcm := range e.delayedCastMsgs {
 		// 填充RPC消息中的SrcEntityID字段
 		if rpcMsg, ok := dcm.msg.(*msgdef.RPCMsg); ok {
-			rpcMsg.SrcEntityID = e.GetID()
+			rpcMsg.SrcEntityID = e.GetEntityID()
 		}
 
 		e.GetSpace().TravsalAOI(e, func(ia iserver.ICoordEntity) {
 			if ise, ok := ia.(iserver.IEntityStateGetter); ok {
-				if ise.GetEntityState() != iserver.Entity_State_Loop {
+				if ise.GetEntityState() != iserver.EntityStateLoop {
 					return
 				}
 
-				if ie, ok := ia.(iserver.IEntity); ok && (e.GetID() != ie.GetID() || dcm.isCastToMe) {
-					ie.Post(iserver.ServerTypeClient, dcm.msg)
+				if ie, ok := ia.(iserver.IEntity); ok && (e.GetEntityID() != ie.GetEntityID() || dcm.isCastToMe) {
+					//ie.Post(iserver.ServerTypeClient, dcm.msg)
 				}
 			}
 		})
 
 		e.TravsalExtWatchs(func(o *extWatchEntity) {
 			if ise, ok := o.entity.(iserver.IEntityStateGetter); ok {
-				if ise.GetEntityState() != iserver.Entity_State_Loop {
+				if ise.GetEntityState() != iserver.EntityStateLoop {
 					return
 				}
 
 				if ie, ok := o.entity.(iserver.IEntity); ok {
-					ie.Post(iserver.ServerTypeClient, dcm.msg)
+					//ie.Post(iserver.ServerTypeClient, dcm.msg)
 				}
 			}
 		})

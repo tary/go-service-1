@@ -3,8 +3,9 @@ package space
 import (
 	"errors"
 	"io/ioutil"
-	"zeus/common"
-	"zeus/nav"
+
+	"github.com/giant-tech/go-service/base/stream"
+	"github.com/giant-tech/go-service/framework/nav"
 )
 
 func (ms *Maps) loadNavMesh(path string) (*nav.Mesh, *nav.MeshPathFinder, error) {
@@ -27,7 +28,7 @@ func (ms *Maps) loadRange(path string) (*MapRanges, error) {
 
 	rs := newMapRanges()
 
-	br := common.NewByteStream(data)
+	br := stream.NewByteStream(data)
 
 	b1, _ := br.ReadByte()
 	b2, _ := br.ReadByte()
@@ -69,7 +70,7 @@ func (ms *Maps) loadHeight(path string) (*MapHeightMap, error) {
 		return nil, err
 	}
 
-	br := common.NewByteStream(data)
+	br := stream.NewByteStream(data)
 
 	b1, _ := br.ReadByte()
 	b2, _ := br.ReadByte()

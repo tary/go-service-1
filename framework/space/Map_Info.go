@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math"
 	"math/rand"
-	"zeus/linmath"
+	"github.com/giant-tech/go-service/base/linmath"
 )
 
 // MapRange 区域信息

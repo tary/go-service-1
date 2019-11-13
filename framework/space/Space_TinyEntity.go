@@ -2,7 +2,7 @@ package space
 
 import (
 	"errors"
-	"zeus/iserver"
+	"github.com/giant-tech/go-service/framework/iserver"
 )
 
 var errEntityExisted = errors.New("entityExisted")

@@ -2,7 +2,8 @@ package space
 
 import (
 	"errors"
-	"zeus/msgdef"
+
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 type iPropsSender interface {
@@ -19,7 +20,7 @@ func (e *Entity) SendFullProps() error {
 	}
 
 	msg := &msgdef.PropsSyncClient{
-		EntityID: e.GetID(),
+		EntityID: e.GetEntityID(),
 		Num:      uint32(num),
 		Data:     data,
 	}
@@ -43,7 +44,7 @@ func (e *Entity) GetBaseProps() []byte {
 func (e *Entity) genBasePropsMsg() *msgdef.EntityBaseProps {
 	msg := &msgdef.EntityBaseProps{}
 
-	msg.EntityID = e.GetID()
+	msg.EntityID = e.GetEntityID()
 
 	if e.linkTarget != nil {
 		msg.LinkTarget = e.linkTarget.GetID()

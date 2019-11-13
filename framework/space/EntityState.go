@@ -4,9 +4,12 @@ import (
 	"errors"
 	"math"
 	"reflect"
-	"zeus/common"
-	"zeus/linmath"
-	"zeus/serializer"
+
+	"github.com/giant-tech/go-service/base/serializer"
+
+	"github.com/giant-tech/go-service/base/linmath"
+
+	"github.com/giant-tech/go-service/base/stream"
 
 	log "github.com/cihub/seelog"
 )
@@ -226,13 +229,13 @@ func (s *EntityState) UnmarshalEvent() (string, []interface{}, error) {
 		return "", nil, errEventsNil
 	}
 
-	br := common.NewByteStream(s.Events)
+	br := stream.NewByteStream(s.Events)
 	event, err := br.ReadStr()
 	if err != nil {
 		return "", nil, err
 	}
 
-	br = common.NewByteStream(s.Events)
+	br = stream.NewByteStream(s.Events)
 	eLen, _ := br.ReadUInt16()
 	if len(s.Events) < (int(eLen) + 3) {
 		return "", nil, errEventsError
@@ -250,7 +253,7 @@ func (s *EntityState) MarshalEvent(event string, args ...interface{}) error {
 
 	s.Events = make([]byte, len(event)+3+len(argsData))
 
-	bw := common.NewByteStream(s.Events)
+	bw := stream.NewByteStream(s.Events)
 	if err := bw.WriteStr(event); err != nil {
 		return err
 	}
@@ -265,7 +268,7 @@ func (s *EntityState) MarshalEvent(event string, args ...interface{}) error {
 }
 
 // SetBaseValue 设置基础值
-func (s *EntityState) SetBaseValue(mask int, bs *common.ByteStream) {
+func (s *EntityState) SetBaseValue(mask int, bs *stream.ByteStream) {
 	switch mask {
 	case EntityStateMask_Pos_X:
 		s.Pos.X, _ = bs.ReadFloat32()
@@ -291,7 +294,7 @@ func (s *EntityState) SetBaseValue(mask int, bs *common.ByteStream) {
 }
 
 // CompareAndSetBaseValueDelta 比较基础值
-func (s *EntityState) CompareAndSetBaseValueDelta(o *EntityState, mask *int32, maskoffset uint32, bs *common.ByteStream) bool {
+func (s *EntityState) CompareAndSetBaseValueDelta(o *EntityState, mask *int32, maskoffset uint32, bs *stream.ByteStream) bool {
 	var oldfloat float32
 	var newfloat float32
 	var olduint uint64
@@ -364,7 +367,7 @@ func (s *EntityState) CompareAndSetBaseValueDelta(o *EntityState, mask *int32, m
 }
 
 // WriteBaseValue 设置基础状态
-func (s *EntityState) WriteBaseValue(mask *int32, maskoffset uint32, bs *common.ByteStream) bool {
+func (s *EntityState) WriteBaseValue(mask *int32, maskoffset uint32, bs *stream.ByteStream) bool {
 	var newfloat float32
 	var newuint uint64
 	var newbytes []byte

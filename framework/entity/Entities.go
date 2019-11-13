@@ -238,7 +238,7 @@ func (es *Entities) TravsalEntity(entityType string, f func(iserver.IEntity)) {
 	if it, ok := es.entitiesByType.Load(entityType); ok {
 		it.(*sync.Map).Range(func(k, v interface{}) bool {
 			//ise := v.(iserver.IEntityStateGetter)
-			// if ise.GetEntityState() != iserver.Entity_State_Loop {
+			// if ise.GetEntityState() != iserver.EntityStateLoop {
 			// 	return true
 			// }
 

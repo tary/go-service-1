@@ -1,9 +1,9 @@
 package space
 
 import (
-	"zeus/iserver"
-	"zeus/linmath"
-	"zeus/msgdef"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 type iStateValidate interface {
@@ -202,13 +202,13 @@ func (e *Entity) updateState() {
 		if !isEmpty {
 			e.GetSpace().TravsalAOI(e, func(o iserver.ICoordEntity) {
 				if e.entrustTarget != nil {
-					if e.entrustTarget.GetID() == o.GetID() {
+					if e.entrustTarget.GetID() == o.GetEntityID() {
 						return
 					}
 				}
 
-				if o.IsWatcher() && e.GetID() != o.GetID() {
-					o.(IWatcher).addStateChangeMsg(e.GetID(), data)
+				if o.IsWatcher() && e.GetEntityID() != o.GetEntityID() {
+					o.(IWatcher).addStateChangeMsg(e.GetEntityID(), data)
 				}
 			})
 
@@ -218,7 +218,7 @@ func (e *Entity) updateState() {
 				}
 
 				if ext.entity.IsWatcher() {
-					ext.entity.(IWatcher).addStateChangeMsg(e.GetID(), data)
+					ext.entity.(IWatcher).addStateChangeMsg(e.GetEntityID(), data)
 				}
 			})
 		}

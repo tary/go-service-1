@@ -2,9 +2,9 @@ package space
 
 import (
 	"reflect"
-	"zeus/common"
-	"zeus/iserver"
-	"zeus/linmath"
+	"github.com/giant-tech/go-service/base/stream"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/base/linmath"
 
 	"github.com/cihub/seelog"
 )
@@ -201,7 +201,7 @@ func (e *TinyEntity) initProps() {
 	}
 
 	e.packProps = make([]byte, size)
-	bs := common.NewByteStream(e.packProps)
+	bs := stream.NewByteStream(e.packProps)
 
 	for name, value := range e.props {
 		if err := bs.WriteStr(name); err != nil {
@@ -240,7 +240,7 @@ func (e *TinyEntity) getValueStreamSize(v *tinyPropInfo) int {
 	return s + len(typeName) + 2
 }
 
-func (e *TinyEntity) writeValueToStream(bs *common.ByteStream, v *tinyPropInfo) error {
+func (e *TinyEntity) writeValueToStream(bs *stream.ByteStream, v *tinyPropInfo) error {
 
 	var err error
 
@@ -282,7 +282,7 @@ func (e *TinyEntity) writeValueToStream(bs *common.ByteStream, v *tinyPropInfo) 
 
 func (e *TinyEntity) initState() {
 	e.packState = make([]byte, 4+4+6*4)
-	bs := common.NewByteStream(e.packState)
+	bs := stream.NewByteStream(e.packState)
 
 	var mask uint32
 	mask = EntityStateMask_Pos_X | EntityStateMask_Pos_Y | EntityStateMask_Pos_Z | EntityStateMask_Rota_X | EntityStateMask_Rota_Y | EntityStateMask_Rota_Z

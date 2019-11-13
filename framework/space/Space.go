@@ -3,11 +3,8 @@ package space
 import (
 	"errors"
 	"time"
-	"zeus/dbservice"
-	"zeus/entity"
-	"zeus/iserver"
-
-	log "github.com/cihub/seelog"
+	"github.com/giant-tech/go-service/framework/entity"
+	"github.com/giant-tech/go-service/framework/iserver"
 )
 
 // IMapLoader 地图加载成功或失败的接口
@@ -50,7 +47,7 @@ func (s *Space) OnInit() {
 	s.Entities.IMsgHandlers = s.Entity.IMsgHandlers
 
 	s.Entity.OnInit()
-	s.regSpaceSrvID()
+	//s.regSpaceSrvID()
 }
 
 // OnAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
@@ -63,38 +60,38 @@ func (s *Space) OnAfterInit() {
 // OnDestroy 析构函数
 func (s *Space) OnDestroy() {
 	s.Entities.Destroy()
-	s.unRegSpaceSrvID()
+	//s.unRegSpaceSrvID()
 	s.Entity.OnDestroy()
 }
 
-func (s *Space) regSpaceSrvID() {
+// func (s *Space) regSpaceSrvID() {
 
-	isExistd, err := dbservice.SpaceUtil(s.GetID()).IsExist()
+// 	isExistd, err := dbservice.SpaceUtil(s.GetID()).IsExist()
 
-	if err != nil {
-		log.Error("redis error ", err)
-		return
-	}
+// 	if err != nil {
+// 		log.Error("redis error ", err)
+// 		return
+// 	}
 
-	if isExistd {
-		log.Error("space Id have existed")
-		return
-	}
+// 	if isExistd {
+// 		log.Error("space Id have existed")
+// 		return
+// 	}
 
-	err = dbservice.SpaceUtil(s.GetID()).RegSrvID(iserver.GetSrvInst().GetSrvID())
-	if err != nil {
-		log.Error("redis error ", err)
-	}
+// 	err = dbservice.SpaceUtil(s.GetID()).RegSrvID(iserver.GetSrvInst().GetSrvID())
+// 	if err != nil {
+// 		log.Error("redis error ", err)
+// 	}
 
-}
+// }
 
-func (s *Space) unRegSpaceSrvID() {
-	err := dbservice.SpaceUtil(s.GetID()).UnReg()
-	if err != nil {
-		log.Error("redis error", err)
-	}
+// func (s *Space) unRegSpaceSrvID() {
+// 	err := dbservice.SpaceUtil(s.GetID()).UnReg()
+// 	if err != nil {
+// 		log.Error("redis error", err)
+// 	}
 
-}
+// }
 
 // OnLoop 完全覆盖Entity的Loop方法
 func (s *Space) OnLoop() {
@@ -139,10 +136,10 @@ func (s *Space) AddEntity(entityType string, entityID uint64, dbid uint64, initP
 		return err
 	}
 
-	_, ok := e.(iserver.ISpaceEntity)
+	_, ok := e.(iserver.ICellEntity)
 	if !ok {
-		s.DestroyEntity(e.GetID())
-		return errors.New("the entity which add to space must be ISpaceEntity ")
+		s.DestroyEntity(e.GetEntityID())
+		return errors.New("the entity which add to space must be ICellEntity ")
 	}
 
 	return nil

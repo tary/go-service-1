@@ -1,10 +1,10 @@
 package space
 
 import (
-	"zeus/dbservice"
-	"zeus/iserver"
-	"zeus/linmath"
-	"zeus/msgdef"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/iserver"
+	logicredis "github.com/giant-tech/go-service/framework/logicredis"
 )
 
 func (e *TinyEntity) GetDBID() uint64 {
@@ -19,7 +19,7 @@ func (e *TinyEntity) GetCellID() uint64 {
 	return e.space.GetID()
 }
 
-func (e *TinyEntity) GetSrvIDS() map[uint8]*dbservice.EntitySrvInfo {
+func (e *TinyEntity) GetSrvIDS() map[uint8]*logicredis.EntitySrvInfo {
 	return nil
 }
 
@@ -31,7 +31,7 @@ func (e *TinyEntity) IsSpaceEntity() bool {
 	return true
 }
 
-func (e *TinyEntity) Post(srvType uint8, msg msgdef.IMsg) error {
+func (e *TinyEntity) Post(srvType uint8, msg inet.IMsg) error {
 	return nil
 }
 
@@ -53,26 +53,6 @@ func (e *TinyEntity) LeaveSpace() {
 
 func (e *TinyEntity) GetProxy() iserver.IEntityProxy {
 	return nil
-}
-
-func (e *TinyEntity) LinkToTarget(t iserver.ICoordEntity) {}
-
-func (e *TinyEntity) Unlink() {}
-
-func (e *TinyEntity) LinkedBy(o iserver.ICoordEntity) {}
-
-func (e *TinyEntity) UnlinkedBy(o iserver.ICoordEntity) {}
-
-func (e *TinyEntity) GetLinkedEntity() map[uint64]iserver.ICoordEntity {
-	return nil
-}
-
-func (e *TinyEntity) IsLinked() bool {
-	return false
-}
-
-func (e *TinyEntity) IsBeLinked() bool {
-	return false
 }
 
 func (e *TinyEntity) SetCoordPos(pos linmath.Vector3) {}

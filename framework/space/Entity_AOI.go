@@ -2,9 +2,10 @@ package space
 
 import (
 	"math"
-	"zeus/iserver"
-	"zeus/linmath"
-	"zeus/msgdef"
+
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 const (
@@ -33,31 +34,32 @@ func (e *Entity) SendFullAOIs() error {
 		return nil
 	}
 
-	e.GetSpace().TravsalAOI(e, func(o iserver.ICoordEntity) {
-		ip, ok := o.(iAOIPacker)
-		if !ok {
-			e.Error("Get AOIPacker failed")
-			return
-		}
+	return nil
+	// e.GetSpace().TravsalAOI(e, func(o iserver.ICoordEntity) {
+	// 	ip, ok := o.(iAOIPacker)
+	// 	if !ok {
+	// 		e.Error("Get AOIPacker failed")
+	// 		return
+	// 	}
 
-		num, propBytes := ip.GetAOIProp()
-		m := &msgdef.EnterAOI{
-			EntityID:   ip.GetID(),
-			EntityType: ip.GetType(),
-			State:      ip.GetStatePack(),
-			PropNum:    uint16(num),
-			Properties: propBytes,
-			BaseProps:  ip.GetBaseProps(),
-		}
+	// 	num, propBytes := ip.GetAOIProp()
+	// 	m := &msgdef.EnterAOI{
+	// 		EntityID:   ip.GetID(),
+	// 		EntityType: ip.GetType(),
+	// 		State:      ip.GetStatePack(),
+	// 		PropNum:    uint16(num),
+	// 		Properties: propBytes,
+	// 		BaseProps:  ip.GetBaseProps(),
+	// 	}
 
-		data := make([]byte, m.Size()+1)
-		data[0] = 1
-		m.MarshalTo(data[1:])
+	// 	data := make([]byte, m.Size()+1)
+	// 	data[0] = 1
+	// 	m.MarshalTo(data[1:])
 
-		msg.AddData(data)
-	})
+	// 	msg.AddData(data)
+	// })
 
-	return e.Post(iserver.ServerTypeClient, msg)
+	// return e.Post(iserver.ServerTypeClient, msg)
 }
 
 // SetWatcher 设置当前entity 为watcher
@@ -102,7 +104,7 @@ func (e *Entity) AddExtWatchEntity(o iserver.ICoordEntity) {
 		e.extWatchList = make(map[uint64]*extWatchEntity)
 	}
 
-	if _, ok := e.extWatchList[o.GetID()]; ok {
+	if _, ok := e.extWatchList[o.GetEntityID()]; ok {
 		return
 	}
 
@@ -110,7 +112,7 @@ func (e *Entity) AddExtWatchEntity(o iserver.ICoordEntity) {
 	if e.GetSpace() != nil {
 		e.GetSpace().TravsalAOI(e, func(n iserver.ICoordEntity) {
 			// 已经在AOI范围内
-			if n.GetID() == o.GetID() {
+			if n.GetEntityID() == o.GetEntityID() {
 				inMyAOI = true
 			}
 		})
@@ -120,7 +122,7 @@ func (e *Entity) AddExtWatchEntity(o iserver.ICoordEntity) {
 		e.OnEntityEnterAOI(o)
 	}
 
-	e.extWatchList[o.GetID()] = &extWatchEntity{
+	e.extWatchList[o.GetEntityID()] = &extWatchEntity{
 		entity:  o,
 		isInAOI: inMyAOI,
 	}
@@ -132,7 +134,7 @@ func (e *Entity) RemoveExtWatchEntity(o iserver.ICoordEntity) {
 		return
 	}
 
-	if _, ok := e.extWatchList[o.GetID()]; !ok {
+	if _, ok := e.extWatchList[o.GetEntityID()]; !ok {
 		return
 	}
 
@@ -141,13 +143,13 @@ func (e *Entity) RemoveExtWatchEntity(o iserver.ICoordEntity) {
 	if e.GetSpace() != nil {
 		e.GetSpace().TravsalAOI(e, func(n iserver.ICoordEntity) {
 			// 已经在AOI范围内
-			if n.GetID() == o.GetID() {
+			if n.GetEntityID() == o.GetEntityID() {
 				inMyAOI = true
 			}
 		})
 	}
 
-	delete(e.extWatchList, o.GetID())
+	delete(e.extWatchList, o.GetEntityID())
 
 	if !inMyAOI {
 		e.OnEntityLeaveAOI(o)
@@ -180,7 +182,7 @@ func (e *Entity) TravsalExtWatchs(f func(*extWatchEntity)) {
 //OnEntityEnterAOI 实体进入AOI范围
 func (e *Entity) OnEntityEnterAOI(o iserver.ICoordEntity) {
 	// 当o在我的额外关注列表中时, 不触发真正的EnterAOI, 只是打个标记
-	if extWatch, ok := e.extWatchList[o.GetID()]; ok {
+	if extWatch, ok := e.extWatchList[o.GetEntityID()]; ok {
 		extWatch.isInAOI = true
 		return
 	}
@@ -192,25 +194,12 @@ func (e *Entity) OnEntityEnterAOI(o iserver.ICoordEntity) {
 	if o.IsWatcher() {
 		e.beWatchedNums++
 	}
-
-	if o.IsBeLinked() {
-		linkers := o.GetLinkedEntity()
-		for _, l := range linkers {
-			if e._isWatcher {
-				e.aoies = append(e.aoies, AOIInfo{true, l})
-			}
-
-			if l.IsWatcher() {
-				e.beWatchedNums++
-			}
-		}
-	}
 }
 
 //OnEntityLeaveAOI 实体离开AOI范围
 func (e *Entity) OnEntityLeaveAOI(o iserver.ICoordEntity) {
 	// 当o在我的额外关注列表中时, 不触发真正的LeaveAOI
-	if extWatch, ok := e.extWatchList[o.GetID()]; ok {
+	if extWatch, ok := e.extWatchList[o.GetEntityID()]; ok {
 		extWatch.isInAOI = false
 		return
 	}
@@ -221,27 +210,6 @@ func (e *Entity) OnEntityLeaveAOI(o iserver.ICoordEntity) {
 
 	if o.IsWatcher() {
 		e.beWatchedNums--
-	}
-
-	// 如果Entity处于委托状态, 并且委托的目标离开了AOI范围, 则取消委托
-	// TODO: 临时策略
-	if e.IsEntrusted() {
-		if e.entrustTarget.GetID() == o.GetID() {
-			e.UnEntrust()
-		}
-	}
-
-	if o.IsBeLinked() {
-		linkers := o.GetLinkedEntity()
-		for _, l := range linkers {
-			if e._isWatcher {
-				e.aoies = append(e.aoies, AOIInfo{false, l})
-			}
-
-			if l.IsWatcher() {
-				e.beWatchedNums--
-			}
-		}
 	}
 }
 
@@ -270,7 +238,7 @@ func (e *Entity) updateAOI() {
 					State:      ip.GetStatePack(),
 					PropNum:    uint16(num),
 					Properties: propBytes,
-					BaseProps:  ip.GetBaseProps(),
+					//BaseProps:  ip.GetBaseProps(),
 				}
 
 				data = make([]byte, m.Size()+1)

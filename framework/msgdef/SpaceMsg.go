@@ -494,3 +494,14 @@ func (msg *NewRealNotify) Unmarshal(data []byte) error {
 func (msg *NewRealNotify) Size() (n int) {
 	return stream.CalcSize(msg)
 }
+
+///////////////////////////////////////////////////////////////////
+
+// EntityBaseProps Entity基本属性
+type EntityBaseProps struct {
+	EntityID      uint64   // 自己的EntityID
+	LinkTarget    uint64   // 链接到哪个Entity
+	LinkerList    []uint64 // 哪些Entity链接到我
+	EntrustTarget uint64   // 委托给谁
+	EntrustedList []uint64 // 哪些Entity委托给我
+}

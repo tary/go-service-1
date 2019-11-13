@@ -1,10 +1,11 @@
 package space
 
 import (
-	"zeus/entity"
-	"zeus/iserver"
-	"zeus/linmath"
-	"zeus/msgdef"
+	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/entity"
+	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 // IEntityCtrl 内部使用接口
@@ -43,7 +44,7 @@ type IWatcher interface {
 	iserver.IEntity
 	iserver.IPos
 
-	PostToClient(msgdef.IMsg) error
+	PostToClient(inet.IMsg) error
 
 	/*
 		getWatchAOIRange() float32
@@ -108,8 +109,8 @@ type Entity struct {
 	linkerList map[uint64]iserver.ICoordEntity
 
 	// entity托管相关
-	entrustTarget iserver.ISpaceEntity // 委托的目标Entity
-	entrustedList map[uint64]iserver.ISpaceEntity
+	entrustTarget iserver.ICellEntity // 委托的目标Entity
+	entrustedList map[uint64]iserver.ICellEntity
 
 	// CastToAll相关的消息缓存
 	delayedCastMsgs []*delayedCastMsg
@@ -129,11 +130,11 @@ type extWatchEntity struct {
 }
 
 // OnInit 构造函数
-func (e *Entity) OnInit() {
-	e.Entity.OnInit()
+func (e *Entity) OnEntityInit() {
+	e.Entity.OnEntityInit()
 
-	e.pos = linmath.Vector3_Invalid()
-	e.lastAOIPos = linmath.Vector3_Invalid()
+	e.pos = linmath.Vector3Invalid()
+	e.lastAOIPos = linmath.Vector3Invalid()
 	e.needUpdateAOI = false
 
 	e.aoies = make([]AOIInfo, 0, 5)
@@ -145,33 +146,32 @@ func (e *Entity) OnInit() {
 	e._isWatcher = false
 
 	e.aoiSyncMsg = msgdef.NewAOISyncUserState()
-	e.RegMsgProc(&EntityMsgProc{e: e})
 
 }
 
 // OnAfterInit 后代的初始化
 func (e *Entity) OnAfterInit() {
-	e.Entity.OnAfterInit()
+	e.Entity.OnEntityAfterInit()
 	e.onEnterSpace()
 	e.updatePosCoord(e.pos)
 }
 
 // OnDestroy 析构函数
-func (e *Entity) OnDestroy() {
+func (e *Entity) OnEntityDestroy() {
 	e.onLeaveSpace()
 
-	e.Entity.OnDestroy()
+	e.Entity.OnEntityDestroy()
 }
 
 // GetSpace 获取所在的空间
 func (e *Entity) GetSpace() iserver.ISpace {
 
 	if e.space == nil {
-		if e.GetCellID() == 0 {
+		if e.GetGroupID() == 0 {
 			return nil
 		}
 
-		e.space = iserver.GetSrvInst().GetEntity(e.GetCellID()).(iserver.ISpace)
+		e.space = e.GetIEntities().(iserver.ISpace)
 	}
 
 	return e.space
@@ -184,16 +184,16 @@ func (e *Entity) onEnterSpace() {
 	}
 
 	if e.IsWatcher() {
-		msg := &msgdef.EnterSpace{
-			CellID:    e.GetSpace().GetID(),
-			MapName:   e.GetSpace().GetInitParam().(string),
-			EntityID:  e.GetID(),
-			Addr:      iserver.GetSrvInst().GetCurSrvInfo().OuterAddress,
-			TimeStamp: e.GetSpace().GetTimeStamp(),
+		msg := &msgdef.EnterCell{
+			CellID: e.GetSpace().GetEntityID(),
+			//MapName:  e.GetSpace().GetInitParam().(string),
+			EntityID: e.GetEntityID(),
+			//Addr:      iserver.GetSrvInst().GetCurSrvInfo().OuterAddress,
+			//TimeStamp: e.GetSpace().GetTimeStamp(),
 		}
-		if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
-			e.Error("Send EnterSpace failed ", err)
-		}
+		// if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
+		// 	e.Error("Send EnterSpace failed ", err)
+		// }
 
 		e.aoies = append(e.aoies, AOIInfo{true, e})
 	}
@@ -214,10 +214,10 @@ func (e *Entity) onLeaveSpace() {
 		e.clearExtWatchs()
 		e.updateAOI()
 
-		msg := &msgdef.LeaveSpace{}
-		if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
-			e.Error("Send LeaveSpace failed ", err)
-		}
+		msg := &msgdef.LeaveCell{}
+		// if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
+		// 	e.Error("Send LeaveSpace failed ", err)
+		// }
 	}
 }
 
@@ -230,10 +230,10 @@ func (e *Entity) onLeaveSpace() {
 // OnLoop 循环调用
 func (e *Entity) OnLoop() {
 	e.resetState()
-	e.Entity.DoMsg()
-	e.Entity.DoLooper()
+
+	//e.Entity.DoLooper()
 	e.updatePosCoord(e.pos)
-	// e.updateAOI()
+
 	e.updateState()
 
 	// e.updateAOI()
@@ -245,8 +245,8 @@ func (e *Entity) OnLoop() {
 
 // onLateLoop 后处理
 func (e *Entity) onLateLoop() {
-	e.Entity.ReflushDirtyProp()
-	e.Entity.FlushDelayedMsgs()
+	//e.Entity.ReflushDirtyProp()
+	//e.Entity.FlushDelayedMsgs()
 	e.FlushBaseProps()
 
 	// 真正发送所有消息

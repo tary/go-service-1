@@ -6,7 +6,7 @@ import (
 
 // ICoordEntity 坐标结点
 type ICoordEntity interface {
-	GetID() uint64
+	GetEntityID() uint64
 	SetPos(pos linmath.Vector3)
 	SetCoordPos(pos linmath.Vector3)
 	GetPos() linmath.Vector3

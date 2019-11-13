@@ -3,8 +3,9 @@ package space
 import (
 	"fmt"
 	"sync"
-	"zeus/nav"
-	"zeus/unitypx"
+
+	"github.com/giant-tech/go-service/framework/nav"
+	"github.com/giant-tech/go-service/framework/unitypx"
 
 	log "github.com/cihub/seelog"
 )

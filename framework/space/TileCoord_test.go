@@ -3,8 +3,8 @@ package space
 // import (
 // 	"fmt"
 // 	"testing"
-// 	"zeus/iserver"
-// 	"zeus/linmath"
+// 	"github.com/giant-tech/go-service/framework/iserver"
+// 	"github.com/giant-tech/go-service/base/linmath"
 // )
 
 // type TestCoordNode struct {
@@ -42,11 +42,11 @@ package space
 // }
 
 // func (n *TestAOICoordNode) OnEntityEnterAOI(o iserver.ICoordEntity) {
-// 	fmt.Println(o.GetID(), "   enter to  ", n.GetID())
+// 	fmt.Println(o.GetEntityID(), "   enter to  ", n.GetEntityID)
 // }
 
 // func (n *TestAOICoordNode) OnEntityLeaveAOI(o iserver.ICoordEntity) {
-// 	fmt.Println(o.GetID(), " leave from ", n.GetID())
+// 	fmt.Println(o.GetEntityID(), " leave from ", n.GetEntityID)
 // }
 
 // func TestCoord(t *testing.T) {
