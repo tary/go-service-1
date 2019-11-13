@@ -3,7 +3,6 @@ package space
 import (
 	"github.com/giant-tech/go-service/base/linmath"
 	"github.com/giant-tech/go-service/base/net/inet"
-	"github.com/giant-tech/go-service/framework/iserver"
 	logicredis "github.com/giant-tech/go-service/framework/logicredis"
 )
 
@@ -16,7 +15,7 @@ func (e *TinyEntity) GetCellID() uint64 {
 		return 0
 	}
 
-	return e.space.GetID()
+	return e.space.GetEntityID()
 }
 
 func (e *TinyEntity) GetSrvIDS() map[uint8]*logicredis.EntitySrvInfo {
@@ -49,10 +48,6 @@ func (e *TinyEntity) EnterSpace(spaceID uint64) {
 
 func (e *TinyEntity) LeaveSpace() {
 
-}
-
-func (e *TinyEntity) GetProxy() iserver.IEntityProxy {
-	return nil
 }
 
 func (e *TinyEntity) SetCoordPos(pos linmath.Vector3) {}

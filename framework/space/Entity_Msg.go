@@ -3,9 +3,7 @@ package space
 import (
 	"github.com/giant-tech/go-service/base/linmath"
 	"github.com/giant-tech/go-service/base/net/inet"
-	"github.com/giant-tech/go-service/base/serializer"
 	"github.com/giant-tech/go-service/framework/iserver"
-	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 type delayedCastMsg struct {
@@ -64,21 +62,21 @@ func (e *Entity) CastMsgToCenterExceptMe(center *linmath.Vector3, radius int, ms
 
 // CastRPCToMe 触发自己的RPC消息
 func (e *Entity) CastRPCToMe(methodName string, args ...interface{}) {
-	e.RPC(iserver.ServerTypeClient, methodName, args...)
+	//e.RPC(iserver.ServerTypeClient, methodName, args...)
 }
 
 // CastRPCToAllClientExceptMe 触发除了自己以外的其它客户端的RPC消息
 func (e *Entity) CastRPCToAllClientExceptMe(methodName string, args ...interface{}) {
-	data := serializer.Serialize(args...)
-	msg := &msgdef.RPCMsg{}
-	msg.ServerType = iserver.ServerTypeClient
-	msg.MethodName = methodName
-	msg.Data = data
+	// data := serializer.Serialize(args...)
+	// msg := &msgdef.RPCMsg{}
+	// msg.ServerType = iserver.ServerTypeClient
+	// msg.MethodName = methodName
+	// msg.Data = data
 
-	e.delayedCastMsgs = append(e.delayedCastMsgs, &delayedCastMsg{
-		msg:        msg,
-		isCastToMe: false,
-	})
+	// e.delayedCastMsgs = append(e.delayedCastMsgs, &delayedCastMsg{
+	// 	msg:        msg,
+	// 	isCastToMe: false,
+	// })
 }
 
 // PostToClient 投递消息给客户端
@@ -95,9 +93,9 @@ func (e *Entity) FlushDelayedCastMsgs() {
 
 	for _, dcm := range e.delayedCastMsgs {
 		// 填充RPC消息中的SrcEntityID字段
-		if rpcMsg, ok := dcm.msg.(*msgdef.RPCMsg); ok {
-			rpcMsg.SrcEntityID = e.GetEntityID()
-		}
+		// if rpcMsg, ok := dcm.msg.(*msgdef.RPCMsg); ok {
+		// 	rpcMsg.SrcEntityID = e.GetEntityID()
+		// }
 
 		e.GetSpace().TravsalAOI(e, func(ia iserver.ICoordEntity) {
 			if ise, ok := ia.(iserver.IEntityStateGetter); ok {
@@ -117,9 +115,9 @@ func (e *Entity) FlushDelayedCastMsgs() {
 					return
 				}
 
-				if ie, ok := o.entity.(iserver.IEntity); ok {
-					//ie.Post(iserver.ServerTypeClient, dcm.msg)
-				}
+				//if ie, ok := o.entity.(iserver.IEntity); ok {
+				//ie.Post(iserver.ServerTypeClient, dcm.msg)
+				//}
 			}
 		})
 	}

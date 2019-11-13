@@ -2,9 +2,10 @@ package space
 
 import (
 	"reflect"
+
+	"github.com/giant-tech/go-service/base/linmath"
 	"github.com/giant-tech/go-service/base/stream"
 	"github.com/giant-tech/go-service/framework/iserver"
-	"github.com/giant-tech/go-service/base/linmath"
 
 	"github.com/cihub/seelog"
 )
@@ -74,8 +75,8 @@ func (e *TinyEntity) onEntityCreated(entityID uint64, entityType string, space i
 	e.props = make(map[string]*tinyPropInfo)
 }
 
-// GetID 获取ID号
-func (e *TinyEntity) GetID() uint64 {
+// GetEntityID 获取ID号
+func (e *TinyEntity) GetEntityID() uint64 {
 	return e.id
 }
 

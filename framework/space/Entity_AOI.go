@@ -28,7 +28,7 @@ type iAOISender interface {
 
 // SendFullAOIs 发送完整的AOI信息
 func (e *Entity) SendFullAOIs() error {
-	msg := msgdef.NewEntityAOISMsg()
+	//msg := msgdef.NewEntityAOISMsg()
 
 	if e.GetSpace() == nil {
 		return nil

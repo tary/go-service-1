@@ -1,8 +1,8 @@
 package space
 
 import (
-	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/base/linmath"
+	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
@@ -82,10 +82,6 @@ func (e *Entity) syncClientUserState(msg *msgdef.SyncUserState) {
 
 // SetPos 设置位置
 func (e *Entity) SetPos(pos linmath.Vector3) {
-	if e.IsLinked() {
-		return
-	}
-
 	e.states.GetLastState().SetPos(pos)
 	e.SetCoordPos(pos)
 	e.states.GetLastState().SetModify(true)
@@ -93,10 +89,6 @@ func (e *Entity) SetPos(pos linmath.Vector3) {
 
 // SetRota 设置旋转
 func (e *Entity) SetRota(rota linmath.Vector3) {
-	if e.IsLinked() {
-		return
-	}
-
 	e.states.GetLastState().SetRota(rota)
 	e.states.GetLastState().SetModify(true)
 }
@@ -108,9 +100,6 @@ func (e *Entity) GetPos() linmath.Vector3 {
 
 // GetRota 获取旋转
 func (e *Entity) GetRota() linmath.Vector3 {
-	if e.IsLinked() {
-		return e.linkTarget.GetRota()
-	}
 	return e.states.GetLastState().GetRota()
 }
 
@@ -201,12 +190,6 @@ func (e *Entity) updateState() {
 
 		if !isEmpty {
 			e.GetSpace().TravsalAOI(e, func(o iserver.ICoordEntity) {
-				if e.entrustTarget != nil {
-					if e.entrustTarget.GetID() == o.GetEntityID() {
-						return
-					}
-				}
-
 				if o.IsWatcher() && e.GetEntityID() != o.GetEntityID() {
 					o.(IWatcher).addStateChangeMsg(e.GetEntityID(), data)
 				}

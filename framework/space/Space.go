@@ -3,6 +3,7 @@ package space
 import (
 	"errors"
 	"time"
+
 	"github.com/giant-tech/go-service/framework/entity"
 	"github.com/giant-tech/go-service/framework/iserver"
 )
@@ -31,10 +32,10 @@ type Space struct {
 }
 
 // OnInit 初始化
-func (s *Space) OnInit() {
+func (s *Space) OnEntityInit() {
 	// 暂时先写一个最大的尺寸，后期应该从maploaded结束后再初始化
 	s.ICoord = NewTileCoord(9000, 9000)
-	s.Entities = entity.NewEntities(false)
+	//s.Entities = entity.NewEntities(false)
 
 	s.tinyEntities = make(map[uint64]ITinyEntity)
 	s.startTime = time.Now()
@@ -42,31 +43,27 @@ func (s *Space) OnInit() {
 	s.isMapLoaded = false
 	s.dirtyEntities = make([]*Entity, 0, 100)
 
-	s.RegMsgProc(&SpaceMsgProc{space: s})
-	//s.Entity.IMsgHandlers = s.Entities.IMsgHandlers
-	s.Entities.IMsgHandlers = s.Entity.IMsgHandlers
-
-	s.Entity.OnInit()
+	s.Entity.OnEntityInit()
 	//s.regSpaceSrvID()
 }
 
 // OnAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
-func (s *Space) OnAfterInit() {
+func (s *Space) OnEntityAfterInit() {
 
-	s.Entity.OnAfterInit()
+	s.Entity.OnEntityAfterInit()
 	s.loadMap()
 }
 
 // OnDestroy 析构函数
-func (s *Space) OnDestroy() {
+func (s *Space) OnEntityDestroy() {
 	s.Entities.Destroy()
 	//s.unRegSpaceSrvID()
-	s.Entity.OnDestroy()
+	s.Entity.OnEntityDestroy()
 }
 
 // func (s *Space) regSpaceSrvID() {
 
-// 	isExistd, err := dbservice.SpaceUtil(s.GetID()).IsExist()
+// 	isExistd, err := dbservice.SpaceUtil(s.GetEntityID()).IsExist()
 
 // 	if err != nil {
 // 		log.Error("redis error ", err)
@@ -78,7 +75,7 @@ func (s *Space) OnDestroy() {
 // 		return
 // 	}
 
-// 	err = dbservice.SpaceUtil(s.GetID()).RegSrvID(iserver.GetSrvInst().GetSrvID())
+// 	err = dbservice.SpaceUtil(s.GetEntityID()).RegSrvID(iserver.GetSrvInst().GetSrvID())
 // 	if err != nil {
 // 		log.Error("redis error ", err)
 // 	}
@@ -86,7 +83,7 @@ func (s *Space) OnDestroy() {
 // }
 
 // func (s *Space) unRegSpaceSrvID() {
-// 	err := dbservice.SpaceUtil(s.GetID()).UnReg()
+// 	err := dbservice.SpaceUtil(s.GetEntityID()).UnReg()
 // 	if err != nil {
 // 		log.Error("redis error", err)
 // 	}
@@ -94,10 +91,10 @@ func (s *Space) OnDestroy() {
 // }
 
 // OnLoop 完全覆盖Entity的Loop方法
-func (s *Space) OnLoop() {
+func (s *Space) OnEntityLoop() {
 	//s.DoMsg()
-	s.Entity.OnLoop()
-	s.Entities.MainLoop()
+	s.Entity.OnEntityLoop()
+	s.Entities.Loop()
 
 	s.Entities.Range(func(k, v interface{}) bool {
 		if iA, ok := v.(iAOIUpdater); ok {
@@ -126,12 +123,13 @@ func (s *Space) OnLoop() {
 
 // GetTimeStamp 获取当前的时间戳
 func (s *Space) GetTimeStamp() uint32 {
-	return uint32(time.Now().Sub(s.startTime) / iserver.GetSrvInst().GetFrameDeltaTime())
+	//return uint32(time.Now().Sub(s.startTime) / iserver.GetSrvInst().GetFrameDeltaTime())
+	return 1
 }
 
 // AddEntity 在空间中添加entity
 func (s *Space) AddEntity(entityType string, entityID uint64, dbid uint64, initParam interface{}, syncInit bool, isGhost bool) error {
-	e, err := s.CreateEntity(entityType, entityID, dbid, s.GetID(), initParam, syncInit, isGhost, 0)
+	e, err := s.CreateEntityWithID(entityType, entityID, s.GetEntityID(), initParam, syncInit, 0)
 	if err != nil {
 		return err
 	}

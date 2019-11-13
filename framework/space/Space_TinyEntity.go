@@ -2,7 +2,6 @@ package space
 
 import (
 	"errors"
-	"github.com/giant-tech/go-service/framework/iserver"
 )
 
 var errEntityExisted = errors.New("entityExisted")
@@ -17,11 +16,11 @@ func (s *Space) AddTinyEntity(entityType string, entityID uint64, initParam inte
 		return errEntityExisted
 	}
 
-	ie := iserver.GetSrvInst().NewEntityByProtoType(entityType).(ITinyEntity)
-	ie.onEntityCreated(entityID, entityType, s.GetRealPtr().(iserver.ISpace), initParam, ie)
+	// ie := iserver.GetSrvInst().NewEntityByProtoType(entityType).(ITinyEntity)
+	// ie.onEntityCreated(entityID, entityType, s.GetRealPtr().(iserver.ISpace), initParam, ie)
 
-	ie.onInit()
-	s.tinyEntities[entityID] = ie
+	//ie.onInit()
+	//s.tinyEntities[entityID] = ie
 
 	return nil
 }

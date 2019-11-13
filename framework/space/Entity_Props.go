@@ -3,6 +3,7 @@ package space
 import (
 	"errors"
 
+	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
@@ -29,41 +30,23 @@ func (e *Entity) SendFullProps() error {
 }
 
 // GetAOIProp 获得进入其它人AOI范围内需要收到的属性数据
-func (e *Entity) GetAOIProp() (int, []byte) {
-	return e.PackProps(true)
+func (e *Entity) GetAOIProp() (uint32, []byte) {
+	return e.PackProps(uint32(idata.ServiceClient))
 }
 
 // GetBaseProps 获取基础属性
 func (e *Entity) GetBaseProps() []byte {
-	msg := e.genBasePropsMsg()
-	data := make([]byte, msg.Size())
-	msg.MarshalTo(data)
-	return data
+	// msg := e.genBasePropsMsg()
+	// data := make([]byte, msg.Size())
+	// msg.MarshalTo(data)
+	// return data
+	return nil
 }
 
 func (e *Entity) genBasePropsMsg() *msgdef.EntityBaseProps {
 	msg := &msgdef.EntityBaseProps{}
 
 	msg.EntityID = e.GetEntityID()
-
-	if e.linkTarget != nil {
-		msg.LinkTarget = e.linkTarget.GetID()
-	}
-	if len(e.linkerList) != 0 {
-		msg.LinkerList = make([]uint64, 0, 1)
-		for id := range e.linkerList {
-			msg.LinkerList = append(msg.LinkerList, id)
-		}
-	}
-	if e.entrustTarget != nil {
-		msg.EntrustTarget = e.entrustTarget.GetID()
-	}
-	if len(e.entrustedList) != 0 {
-		msg.EntrustedList = make([]uint64, 0, 1)
-		for id := range e.entrustedList {
-			msg.EntrustedList = append(msg.EntrustedList, id)
-		}
-	}
 
 	return msg
 }

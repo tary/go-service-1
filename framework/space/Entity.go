@@ -104,14 +104,6 @@ type Entity struct {
 
 	basePropsDirty bool
 
-	// entity链接相关
-	linkTarget iserver.ICoordEntity // 链接的目标Entity
-	linkerList map[uint64]iserver.ICoordEntity
-
-	// entity托管相关
-	entrustTarget iserver.ICellEntity // 委托的目标Entity
-	entrustedList map[uint64]iserver.ICellEntity
-
 	// CastToAll相关的消息缓存
 	delayedCastMsgs []*delayedCastMsg
 }
@@ -184,13 +176,13 @@ func (e *Entity) onEnterSpace() {
 	}
 
 	if e.IsWatcher() {
-		msg := &msgdef.EnterCell{
-			CellID: e.GetSpace().GetEntityID(),
-			//MapName:  e.GetSpace().GetInitParam().(string),
-			EntityID: e.GetEntityID(),
-			//Addr:      iserver.GetSrvInst().GetCurSrvInfo().OuterAddress,
-			//TimeStamp: e.GetSpace().GetTimeStamp(),
-		}
+		// msg := &msgdef.EnterCell{
+		// 	CellID: e.GetSpace().GetEntityID(),
+		// 	//MapName:  e.GetSpace().GetInitParam().(string),
+		// 	EntityID: e.GetEntityID(),
+		// 	//Addr:      iserver.GetSrvInst().GetCurSrvInfo().OuterAddress,
+		// 	//TimeStamp: e.GetSpace().GetTimeStamp(),
+		// }
 		// if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
 		// 	e.Error("Send EnterSpace failed ", err)
 		// }
@@ -214,7 +206,7 @@ func (e *Entity) onLeaveSpace() {
 		e.clearExtWatchs()
 		e.updateAOI()
 
-		msg := &msgdef.LeaveCell{}
+		//msg := &msgdef.LeaveCell{}
 		// if err := e.Post(iserver.ServerTypeClient, msg); err != nil {
 		// 	e.Error("Send LeaveSpace failed ", err)
 		// }
