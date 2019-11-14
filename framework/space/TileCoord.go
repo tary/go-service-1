@@ -94,15 +94,15 @@ func newCoordPos(pos linmath.Vector3) CoordPos {
 //////////////////////////////////////////////////////////////
 
 const (
-	towerDir_All       = 0
-	towerDir_Left      = 1
-	towerDir_LeftDown  = 2
-	towerDir_Down      = 3
-	towerDir_RightDown = 4
-	towerDir_Right     = 5
-	towerDir_RightUp   = 6
-	towerDir_Up        = 7
-	towerDir_LeftUp    = 8
+	towerDirAll       = 0
+	towerDirLeft      = 1
+	towerDirLeftDown  = 2
+	towerDirDown      = 3
+	towerDirRightDown = 4
+	towerDirRight     = 5
+	towerDirRightUp   = 6
+	towerDirUp        = 7
+	towerDirLeftUp    = 8
 )
 
 // Tower 灯塔
@@ -135,15 +135,15 @@ func newTower(tiles *Tiles, gridX, gridY int) *Tower {
 func (t *Tower) init() {
 	t.neighbours = make([]int, 9)
 
-	t.neighbours[towerDir_All] = t.getNeighbourID(0, 0)
-	t.neighbours[towerDir_Left] = t.getNeighbourID(-1, 0)
-	t.neighbours[towerDir_LeftDown] = t.getNeighbourID(-1, -1)
-	t.neighbours[towerDir_Down] = t.getNeighbourID(0, -1)
-	t.neighbours[towerDir_RightDown] = t.getNeighbourID(1, -1)
-	t.neighbours[towerDir_Right] = t.getNeighbourID(1, 0)
-	t.neighbours[towerDir_RightUp] = t.getNeighbourID(1, 1)
-	t.neighbours[towerDir_Up] = t.getNeighbourID(0, 1)
-	t.neighbours[towerDir_LeftUp] = t.getNeighbourID(-1, 1)
+	t.neighbours[towerDirAll] = t.getNeighbourID(0, 0)
+	t.neighbours[towerDirLeft] = t.getNeighbourID(-1, 0)
+	t.neighbours[towerDirLeftDown] = t.getNeighbourID(-1, -1)
+	t.neighbours[towerDirDown] = t.getNeighbourID(0, -1)
+	t.neighbours[towerDirRightDown] = t.getNeighbourID(1, -1)
+	t.neighbours[towerDirRight] = t.getNeighbourID(1, 0)
+	t.neighbours[towerDirRightUp] = t.getNeighbourID(1, 1)
+	t.neighbours[towerDirUp] = t.getNeighbourID(0, 1)
+	t.neighbours[towerDirLeftUp] = t.getNeighbourID(-1, 1)
 }
 
 func (t *Tower) getNeighbourID(deltaX, deltaY int) int {
@@ -152,7 +152,7 @@ func (t *Tower) getNeighbourID(deltaX, deltaY int) int {
 
 func (t *Tower) add(n iserver.ICoordEntity) {
 	t.notifyTowerAdd(n)
-	t.travsalNeighour(towerDir_All, func(tt *Tower) { tt.notifyTowerAdd(n) })
+	t.travsalNeighour(towerDirAll, func(tt *Tower) { tt.notifyTowerAdd(n) })
 
 	t.addToList(n)
 }
@@ -169,7 +169,7 @@ func (t *Tower) remove(n iserver.ICoordEntity) {
 	t.removeFromList(n)
 
 	t.notifyTowerRemove(n)
-	t.travsalNeighour(towerDir_All, func(tt *Tower) { tt.notifyTowerRemove(n) })
+	t.travsalNeighour(towerDirAll, func(tt *Tower) { tt.notifyTowerRemove(n) })
 }
 
 func (t *Tower) removeFromList(n iserver.ICoordEntity) {
@@ -218,21 +218,21 @@ func (t *Tower) getDir(deltaX, deltaY int) int {
 	var dir int
 
 	if deltaX == 1 && deltaY == 0 {
-		dir = towerDir_Right
+		dir = towerDirRight
 	} else if deltaX == 1 && deltaY == -1 {
-		dir = towerDir_RightDown
+		dir = towerDirRightDown
 	} else if deltaX == 0 && deltaY == -1 {
-		dir = towerDir_Down
+		dir = towerDirDown
 	} else if deltaX == -1 && deltaY == -1 {
-		dir = towerDir_LeftDown
+		dir = towerDirLeftDown
 	} else if deltaX == -1 && deltaY == 0 {
-		dir = towerDir_Left
+		dir = towerDirLeft
 	} else if deltaX == -1 && deltaY == 1 {
-		dir = towerDir_LeftUp
+		dir = towerDirLeftUp
 	} else if deltaX == 0 && deltaY == 1 {
-		dir = towerDir_Up
+		dir = towerDirUp
 	} else if deltaX == 1 && deltaY == 1 {
-		dir = towerDir_RightUp
+		dir = towerDirRightUp
 	}
 
 	return dir
@@ -243,22 +243,22 @@ func (t *Tower) getInvertDir(dir int) int {
 	var invDir int
 
 	switch dir {
-	case towerDir_Left:
-		invDir = towerDir_Right
-	case towerDir_LeftDown:
-		invDir = towerDir_RightUp
-	case towerDir_Down:
-		invDir = towerDir_Up
-	case towerDir_RightDown:
-		invDir = towerDir_LeftUp
-	case towerDir_Right:
-		invDir = towerDir_Left
-	case towerDir_RightUp:
-		invDir = towerDir_LeftDown
-	case towerDir_Up:
-		invDir = towerDir_Down
-	case towerDir_LeftUp:
-		invDir = towerDir_RightDown
+	case towerDirLeft:
+		invDir = towerDirRight
+	case towerDirLeftDown:
+		invDir = towerDirRightUp
+	case towerDirDown:
+		invDir = towerDirUp
+	case towerDirRightDown:
+		invDir = towerDirLeftUp
+	case towerDirRight:
+		invDir = towerDirLeft
+	case towerDirRightUp:
+		invDir = towerDirLeftDown
+	case towerDirUp:
+		invDir = towerDirDown
+	case towerDirLeftUp:
+		invDir = towerDirRightDown
 	}
 
 	return invDir
@@ -407,15 +407,15 @@ func (t *Tiles) init() {
 func (t *Tiles) initNeighbour() {
 
 	t.towerNeighbours = make([][]int, 9)
-	t.towerNeighbours[towerDir_All] = []int{towerDir_Left, towerDir_LeftDown, towerDir_Down, towerDir_RightDown, towerDir_Right, towerDir_RightUp, towerDir_Up, towerDir_LeftUp}
-	t.towerNeighbours[towerDir_Left] = []int{towerDir_LeftUp, towerDir_Left, towerDir_LeftDown}
-	t.towerNeighbours[towerDir_LeftDown] = []int{towerDir_LeftUp, towerDir_Left, towerDir_LeftDown, towerDir_Down, towerDir_RightDown}
-	t.towerNeighbours[towerDir_Down] = []int{towerDir_LeftDown, towerDir_Down, towerDir_RightDown}
-	t.towerNeighbours[towerDir_RightDown] = []int{towerDir_LeftDown, towerDir_Down, towerDir_RightDown, towerDir_Right, towerDir_RightUp}
-	t.towerNeighbours[towerDir_Right] = []int{towerDir_RightDown, towerDir_Right, towerDir_RightUp}
-	t.towerNeighbours[towerDir_RightUp] = []int{towerDir_RightDown, towerDir_Right, towerDir_RightUp, towerDir_Up, towerDir_LeftUp}
-	t.towerNeighbours[towerDir_Up] = []int{towerDir_RightUp, towerDir_Up, towerDir_LeftUp}
-	t.towerNeighbours[towerDir_LeftUp] = []int{towerDir_RightUp, towerDir_Up, towerDir_LeftUp, towerDir_Left, towerDir_LeftDown}
+	t.towerNeighbours[towerDirAll] = []int{towerDirLeft, towerDirLeftDown, towerDirDown, towerDirRightDown, towerDirRight, towerDirRightUp, towerDirUp, towerDirLeftUp}
+	t.towerNeighbours[towerDirLeft] = []int{towerDirLeftUp, towerDirLeft, towerDirLeftDown}
+	t.towerNeighbours[towerDirLeftDown] = []int{towerDirLeftUp, towerDirLeft, towerDirLeftDown, towerDirDown, towerDirRightDown}
+	t.towerNeighbours[towerDirDown] = []int{towerDirLeftDown, towerDirDown, towerDirRightDown}
+	t.towerNeighbours[towerDirRightDown] = []int{towerDirLeftDown, towerDirDown, towerDirRightDown, towerDirRight, towerDirRightUp}
+	t.towerNeighbours[towerDirRight] = []int{towerDirRightDown, towerDirRight, towerDirRightUp}
+	t.towerNeighbours[towerDirRightUp] = []int{towerDirRightDown, towerDirRight, towerDirRightUp, towerDirUp, towerDirLeftUp}
+	t.towerNeighbours[towerDirUp] = []int{towerDirRightUp, towerDirUp, towerDirLeftUp}
+	t.towerNeighbours[towerDirLeftUp] = []int{towerDirRightUp, towerDirUp, towerDirLeftUp, towerDirLeft, towerDirLeftDown}
 
 }
 
@@ -546,7 +546,7 @@ func (t *Tiles) TravsalAOI(n iserver.ICoordEntity, cb func(iserver.ICoordEntity)
 	}
 
 	tt.TravsalAOI(cb)
-	t.travsalNeighour(tt, towerDir_All, func(nt *Tower) { nt.TravsalAOI(cb) })
+	t.travsalNeighour(tt, towerDirAll, func(nt *Tower) { nt.TravsalAOI(cb) })
 }
 
 // 遍历center为中心，半径范围radius内的所有实体执行cb

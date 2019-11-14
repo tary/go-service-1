@@ -16,9 +16,8 @@ type IMapLoader interface {
 
 // Space 空间实体
 type Space struct {
-	entity.Entity
+	entity.GroupEntity
 	iserver.ICoord
-	*entity.Entities
 	mapInfo *Map
 	mapName string
 
@@ -33,9 +32,10 @@ type Space struct {
 
 // OnEntityInit 初始化
 func (s *Space) OnEntityInit() {
+	s.GroupEntity.OnEntityInit()
+
 	// 暂时先写一个最大的尺寸，后期应该从maploaded结束后再初始化
 	s.ICoord = NewTileCoord(9000, 9000)
-	//s.Entities = entity.NewEntities(false)
 
 	s.tinyEntities = make(map[uint64]ITinyEntity)
 	s.startTime = time.Now()
@@ -43,21 +43,19 @@ func (s *Space) OnEntityInit() {
 	s.isMapLoaded = false
 	s.dirtyEntities = make([]*Entity, 0, 100)
 
-	s.Entity.OnEntityInit()
 	//s.regSpaceSrvID()
 }
 
 // OnEntityAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
 func (s *Space) OnEntityAfterInit() {
-	s.Entity.OnEntityAfterInit()
+	s.GroupEntity.Entity.OnEntityAfterInit()
 	s.loadMap()
 }
 
 // OnEntityDestroy 析构函数
 func (s *Space) OnEntityDestroy() {
-	s.Entities.Destroy()
+	s.GroupEntity.OnEntityDestroy()
 	//s.unRegSpaceSrvID()
-	s.Entity.OnEntityDestroy()
 }
 
 // func (s *Space) regSpaceSrvID() {
@@ -92,10 +90,9 @@ func (s *Space) OnEntityDestroy() {
 // OnEntityLoop 完全覆盖Entity的Loop方法
 func (s *Space) OnEntityLoop() {
 	//s.DoMsg()
-	s.Entity.OnEntityLoop()
-	s.Entities.Loop()
+	s.GroupEntity.OnEntityLoop()
 
-	s.Entities.Range(func(k, v interface{}) bool {
+	s.GroupEntity.Range(func(k, v interface{}) bool {
 		if iA, ok := v.(iAOIUpdater); ok {
 			iA.updateAOI()
 		}
@@ -105,7 +102,7 @@ func (s *Space) OnEntityLoop() {
 
 	// s.refreshEntityState()
 
-	s.Entities.Range(func(k, v interface{}) bool {
+	s.GroupEntity.Range(func(k, v interface{}) bool {
 		if iW, ok := v.(IWatcher); ok {
 			if iW.GetType() == "Player" {
 				iW.reflushStateChangeMsg()

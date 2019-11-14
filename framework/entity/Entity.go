@@ -377,7 +377,13 @@ func (e *Entity) OnEntityLoop() {
 
 // OnEntityDestroy entity销毁
 func (e *Entity) OnEntityDestroy() {
+	// e.reflushToDB()
 
+	// if e.clientSess != nil {
+	// 	e.clientSess.Close()
+	// }
+
+	e.state = iserver.EntityStateInValid
 }
 
 // IsDestroyed IsDestroyed是否销毁

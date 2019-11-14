@@ -7,10 +7,9 @@ type GroupEntity struct {
 }
 
 // OnEntityInit 初始化
-func (g *GroupEntity) OnEntityInit() error {
+func (g *GroupEntity) OnEntityInit() {
 	g.Entity.OnEntityInit()
 	g.Entities = NewEntities(false, g.Entity.GetIEntities().GetLocalService())
-	return nil
 }
 
 // OnEntityLoop loop
@@ -21,7 +20,8 @@ func (g *GroupEntity) OnEntityLoop() {
 
 // OnEntityDestroy group destroy
 func (g *GroupEntity) OnEntityDestroy() {
-	g.Entity.OnEntityDestroy()
 	//销毁所有成员
 	g.Destroy()
+
+	g.Entity.OnEntityDestroy()
 }
