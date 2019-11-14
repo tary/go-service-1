@@ -145,15 +145,19 @@ func (gu *GateUserBase) AsyncSendRaw(buff []byte) {
 }
 
 // Send 发送消息
-func (gu *GateUserBase) Send(msg inet.IMsg) {
+func (gu *GateUserBase) Send(msg inet.IMsg) error {
 	if gu.CliSess != nil {
-		gu.CliSess.Send(msg)
+		return gu.CliSess.Send(msg)
 	}
+
+	return fmt.Errorf("CliSess is nil")
 }
 
 // SendRaw 发送原始数据
-func (gu *GateUserBase) SendRaw(buff []byte) {
+func (gu *GateUserBase) SendRaw(buff []byte) error {
 	if gu.CliSess != nil {
-		gu.CliSess.SendRaw(buff)
+		return gu.CliSess.SendRaw(buff)
 	}
+
+	return fmt.Errorf("CliSess is nil")
 }

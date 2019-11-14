@@ -26,8 +26,8 @@ type _IInternalSession interface {
 	RegMsgProcFunc(msgID inet.MsgID, procFunc func(inet.IMsg))
 	RegMsgProc(interface{})
 
-	Send(inet.IMsg)
-	SendRaw([]byte)
+	Send(inet.IMsg) error
+	SendRaw([]byte) error
 	EncodeMsg(inet.IMsg) ([]byte, error)
 	CompressAndEncrypt(buf []byte) ([]byte, error)
 

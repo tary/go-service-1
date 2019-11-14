@@ -637,8 +637,7 @@ func (e *Entity) AsyncCall(sType idata.ServiceType, methodName string, args ...i
 	if e.GetIEntities().GetLocalService().GetSType() == idata.ServiceGateway && sType == idata.ServiceClient {
 		cli := e.GetClientSess()
 		if cli != nil {
-			cli.Send(msg)
-			return nil
+			return cli.Send(msg)
 		}
 
 		log.Error("AsyncCall failed: ClientSess is null, sType: ", sType, ", methodName: ", methodName)

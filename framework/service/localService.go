@@ -109,9 +109,7 @@ func (s *LocalService) PostCallMsg(msg *msgdef.CallMsg) error {
 			return fmt.Errorf("entity not found")
 		}
 
-		e.GetClientSess().Send(msg)
-
-		return nil
+		return e.GetClientSess().Send(msg)
 	}
 
 	//如果是多线程，实体的消息直接给实体管道
