@@ -1,6 +1,8 @@
 package iserver
 
 import (
+	"time"
+
 	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/msgdef"
@@ -26,6 +28,7 @@ type IServiceBase interface {
 	GetSID() uint64
 	//获取服务类型
 	GetSType() idata.ServiceType
+	GetTickMS() time.Duration
 	//获取服务名
 	GetSName() string
 	//获取服务信息

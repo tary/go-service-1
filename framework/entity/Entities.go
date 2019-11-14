@@ -166,7 +166,7 @@ func (es *Entities) CreateEntityWithID(entityType string, entityID uint64, group
 
 	// if es.isMultilThread {
 	// 	go func() {
-	// 		ticker := time.NewTicker(es.iprotoType.GetFrameDeltaTime())
+	// 		ticker := time.NewTicker(es.iprotoType.GetTickMS())
 	// 		defer ticker.Stop()
 
 	// 		for {

@@ -197,12 +197,7 @@ func (s *LocalService) PostCallMsgAndWait(msg *msgdef.CallMsg) *idata.RetData {
 
 // Run 服务开始
 func (s *LocalService) Run(closeSig chan bool) {
-	tickMS := viper.GetInt64(s.GetSName() + ".TickMS")
-	if tickMS == 0 {
-		tickMS = 2000
-	}
-
-	seelog.Debug("run service , serviceName: ", s.GetSName(), ", serviceType: ", s.GetSType(), ", ServerID: ", s.GetSID(), " tickMS: ", tickMS)
+	seelog.Debug("run service , serviceName: ", s.GetSName(), ", serviceType: ", s.GetSType(), ", ServerID: ", s.GetSID(), " tickMS: ", s.GetTickMS())
 
 	//通知上层服务可用
 	localservices := GetLocalServiceMgr().GetAllLocalService(s.GetSID())
@@ -217,7 +212,7 @@ func (s *LocalService) Run(closeSig chan bool) {
 		s.PostCallMsg(msg)
 	}
 
-	ticker := time.NewTicker(time.Duration(tickMS) * time.Millisecond)
+	ticker := time.NewTicker(time.Duration(s.GetTickMS()) * time.Millisecond)
 	defer ticker.Stop()
 
 	loopFun := func() bool {

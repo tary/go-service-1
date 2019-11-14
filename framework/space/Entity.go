@@ -141,8 +141,8 @@ func (e *Entity) OnEntityInit() {
 
 }
 
-// OnAfterInit 后代的初始化
-func (e *Entity) OnAfterInit() {
+// OnEntityAfterInit 后代的初始化
+func (e *Entity) OnEntityAfterInit() {
 	e.Entity.OnEntityAfterInit()
 	e.onEnterSpace()
 	e.updatePosCoord(e.pos)

@@ -42,54 +42,21 @@ func (s *Space) OnEntityInit() {
 
 	s.isMapLoaded = false
 	s.dirtyEntities = make([]*Entity, 0, 100)
-
-	//s.regSpaceSrvID()
 }
 
 // OnEntityAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
 func (s *Space) OnEntityAfterInit() {
-	s.GroupEntity.Entity.OnEntityAfterInit()
+	s.GroupEntity.OnEntityAfterInit()
 	s.loadMap()
 }
 
 // OnEntityDestroy 析构函数
 func (s *Space) OnEntityDestroy() {
 	s.GroupEntity.OnEntityDestroy()
-	//s.unRegSpaceSrvID()
 }
-
-// func (s *Space) regSpaceSrvID() {
-
-// 	isExistd, err := dbservice.SpaceUtil(s.GetEntityID()).IsExist()
-
-// 	if err != nil {
-// 		log.Error("redis error ", err)
-// 		return
-// 	}
-
-// 	if isExistd {
-// 		log.Error("space Id have existed")
-// 		return
-// 	}
-
-// 	err = dbservice.SpaceUtil(s.GetEntityID()).RegSrvID(iserver.GetSrvInst().GetSrvID())
-// 	if err != nil {
-// 		log.Error("redis error ", err)
-// 	}
-
-// }
-
-// func (s *Space) unRegSpaceSrvID() {
-// 	err := dbservice.SpaceUtil(s.GetEntityID()).UnReg()
-// 	if err != nil {
-// 		log.Error("redis error", err)
-// 	}
-
-// }
 
 // OnEntityLoop 完全覆盖Entity的Loop方法
 func (s *Space) OnEntityLoop() {
-	//s.DoMsg()
 	s.GroupEntity.OnEntityLoop()
 
 	s.GroupEntity.Range(func(k, v interface{}) bool {
@@ -119,7 +86,7 @@ func (s *Space) OnEntityLoop() {
 
 // GetTimeStamp 获取当前的时间戳
 func (s *Space) GetTimeStamp() uint32 {
-	//return uint32(time.Now().Sub(s.startTime) / iserver.GetSrvInst().GetFrameDeltaTime())
+	return uint32(time.Now().Sub(s.startTime) / s.GetLocalService().GetTickMS())
 	return 1
 }
 
