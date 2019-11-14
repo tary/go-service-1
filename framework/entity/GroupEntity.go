@@ -7,9 +7,11 @@ type GroupEntity struct {
 }
 
 // OnEntityInit 初始化
-func (g *GroupEntity) OnEntityInit() {
-	g.Entity.OnEntityInit()
+func (g *GroupEntity) OnEntityInit() error {
+	err := g.Entity.OnEntityInit()
 	g.Entities = NewEntities(false, g.Entity.GetIEntities().GetLocalService())
+
+	return err
 }
 
 // OnEntityLoop loop

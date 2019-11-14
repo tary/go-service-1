@@ -8,7 +8,6 @@ import (
 	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/entity"
 	"github.com/giant-tech/go-service/framework/idata"
-	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
 
 	assert "github.com/aurelien-rainone/assertgo"
 	log "github.com/cihub/seelog"
@@ -19,29 +18,16 @@ import (
 // GateUserBase 基础网关信息
 type GateUserBase struct {
 	entity.Entity
-	isClosed      atomic.Bool //玩家协程是否已经关闭
-	isLogout      bool        //是否已经调用Logout
-	isRunning     bool
-	igateUser     igateway.IGateUser
-	ClientVersion string //版本号
+	isClosed  atomic.Bool //玩家协程是否已经关闭
+	isLogout  bool        //是否已经调用Logout
+	isRunning bool
 }
 
-// OnInit 初始化调用
-func (gu *GateUserBase) OnInit(initData interface{}) error {
+// OnEntityLoop lobby user的逻辑帧
+func (gu *GateUserBase) OnEntityLoop() {
+	gu.FlushDirtyProp()
 
-	var ok bool
-	gu.igateUser, ok = gu.Entity.GetRealPtr().(igateway.IGateUser)
-	if !ok {
-		return fmt.Errorf("Logic gateUser is not IGateUser")
-	}
-
-	userData, ok := initData.(*UserInitData)
-	if ok {
-		gu.SetClientSess(userData.Sess)
-		gu.ClientVersion = userData.Version
-	}
-
-	return gu.igateUser.OnUserInit()
+	gu.Entity.OnEntityLoop()
 }
 
 // Run 运行玩家协程
@@ -73,7 +59,7 @@ func (gu *GateUserBase) Run() {
 
 		select {
 		case <-ticker.C:
-			gu.loop()
+			gu.MainLoop()
 
 		case data := <-gu.DataC:
 			gu.ProcessCall(data)
@@ -103,13 +89,6 @@ func (gu *GateUserBase) CloseCliSession() {
 	}
 }
 
-// Loop lobby user的逻辑帧
-func (gu *GateUserBase) loop() {
-	gu.FlushDirtyProp()
-
-	gu.igateUser.OnUserTick()
-}
-
 //Logout 登出
 func (gu *GateUserBase) Logout() {
 	if gu.isLogout {
@@ -121,8 +100,6 @@ func (gu *GateUserBase) Logout() {
 	log.Info("Logout(), id: ", gu.GetEntityID())
 
 	//loginclt.GetLoginCliMgr().PlayerLogout(gu.GetEntityID())
-
-	gu.igateUser.OnUserFini()
 
 	// 关闭客户端连接
 	gu.CloseCliSession()

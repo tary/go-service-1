@@ -96,6 +96,21 @@ func (s *LocalService) InitLocalService(sname string) error {
 	return err
 }
 
+// PostFunction 投递函数给实体，并在实体所在的协程中执行
+func (s *LocalService) PostFunction(f func()) {
+	s.dataC <- &idata.CallData{Func: f}
+}
+
+// PostFunctionAndWait 投递函数给实体协程执行，并等待执行结果
+func (s *LocalService) PostFunctionAndWait(f func() interface{}) interface{} {
+	// 结果从ch返回
+	ch := make(chan interface{}, 1)
+	s.dataC <- &idata.CallData{Func: func() { ch <- f() }}
+
+	// 等待直到返回结果
+	return <-ch
+}
+
 // PostCallMsg 投递消息给本服务，立即返回
 func (s *LocalService) PostCallMsg(msg *msgdef.CallMsg) error {
 	// seelog.Infof("PostCallMsg, Seq:%d, MethodName:%s, groupID:%d, entityID:%d",
@@ -244,6 +259,12 @@ func (s *LocalService) Run(closeSig chan bool) {
 }
 
 func (s *LocalService) processCall(data *idata.CallData) {
+	//如果Func不为nil则直接调用
+	if data.Func != nil {
+		data.Func()
+		return
+	}
+
 	if data.Msg.EntityID != 0 {
 		var e iserver.IEntity
 		if data.Msg.GroupID != 0 {

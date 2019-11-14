@@ -31,7 +31,7 @@ type Space struct {
 }
 
 // OnEntityInit 初始化
-func (s *Space) OnEntityInit() {
+func (s *Space) OnEntityInit() error {
 	s.GroupEntity.OnEntityInit()
 
 	// 暂时先写一个最大的尺寸，后期应该从maploaded结束后再初始化
@@ -42,6 +42,8 @@ func (s *Space) OnEntityInit() {
 
 	s.isMapLoaded = false
 	s.dirtyEntities = make([]*Entity, 0, 100)
+
+	return nil
 }
 
 // OnEntityAfterInit 逻辑层初始化完成之后, 再启动逻辑协程
@@ -86,8 +88,7 @@ func (s *Space) OnEntityLoop() {
 
 // GetTimeStamp 获取当前的时间戳
 func (s *Space) GetTimeStamp() uint32 {
-	return uint32(time.Now().Sub(s.startTime) / s.GetLocalService().GetTickMS())
-	return 1
+	return uint32(int64(time.Now().Sub(s.startTime)) / s.GetLocalService().GetTickMS())
 }
 
 // AddEntity 在空间中添加entity

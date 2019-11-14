@@ -41,6 +41,6 @@ type IGateUser interface {
 	OnUserTick()
 	OnUserFini()
 
-	IReconnectHandler
-	ICloseHandler
+	//IReconnectHandler
+	//ICloseHandler
 }

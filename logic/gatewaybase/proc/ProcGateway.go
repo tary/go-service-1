@@ -68,8 +68,17 @@ func (p *PGatewayServer) MsgProcLoginReq(msg *msgdef.LoginReq) {
 		return
 	}
 
+	if retData.Entity == nil {
+		retData.Msg.Result = uint32(msgdef.ReturnTypeServerBusy)
+		p.sess.Send(retData.Msg)
+		return
+	}
+
 	p.entity = retData.Entity
 	p.group = retData.Group
+
+	//设置session
+	p.entity.SetClientSess(p.sess)
 
 	if p.group != nil {
 		p.proxyEntity = p.group
@@ -100,7 +109,12 @@ func (p *PGatewayServer) OnClosed() {
 
 	iclose, ok := p.entity.(igateway.ICloseHandler)
 	if ok {
-		p.proxyEntity.PostFunction(func() { iclose.OnClose() })
+		if p.IServiceBase.IsMultiThread() {
+			p.proxyEntity.PostFunction(func() { iclose.OnClose() })
+		} else {
+			p.IServiceBase.GetLocalService().PostFunction(func() { iclose.OnClose() })
+		}
+
 	} else {
 		log.Error("OnClosed user not ICloseHandler, UID: ", p.entity.GetEntityID())
 	}

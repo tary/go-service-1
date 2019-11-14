@@ -122,7 +122,7 @@ type extWatchEntity struct {
 }
 
 // OnInit 构造函数
-func (e *Entity) OnEntityInit() {
+func (e *Entity) OnEntityInit() error {
 	e.Entity.OnEntityInit()
 
 	e.pos = linmath.Vector3Invalid()
@@ -139,6 +139,7 @@ func (e *Entity) OnEntityInit() {
 
 	e.aoiSyncMsg = msgdef.NewAOISyncUserState()
 
+	return nil
 }
 
 // OnEntityAfterInit 后代的初始化
