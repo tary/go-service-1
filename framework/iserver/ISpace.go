@@ -9,7 +9,7 @@ type ISpace interface {
 
 	GetTimeStamp() uint32
 
-	AddEntity(entityType string, entityID uint64, dbid uint64, initParam interface{}, syncInit bool) error
+	AddEntity(entityType string, entityID uint64, initParam interface{}, syncInit bool) (IEntity, error)
 	RemoveEntity(entityID uint64) error
 
 	AddTinyEntity(entityType string, entityID uint64, initParam interface{}) error

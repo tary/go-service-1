@@ -112,7 +112,6 @@ func (e *TinyEntity) onInit() {
 	}
 
 	e.initProps()
-	e.initState()
 
 	if e.GetSpace() != nil {
 		e.GetSpace().UpdateCoord(e)
@@ -279,22 +278,4 @@ func (e *TinyEntity) writeValueToStream(bs *stream.ByteStream, v *tinyPropInfo) 
 	}
 
 	return err
-}
-
-func (e *TinyEntity) initState() {
-	e.packState = make([]byte, 4+4+6*4)
-	bs := stream.NewByteStream(e.packState)
-
-	var mask uint32
-	mask = EntityStateMaskPosX | EntityStateMaskPosY | EntityStateMaskPosZ | EntityStateMaskRotaX | EntityStateMaskRotaY | EntityStateMaskRotaZ
-
-	bs.WriteUInt32(e.GetSpace().GetTimeStamp())
-	bs.WriteUInt32(mask)
-	bs.WriteFloat32(e.pos.X)
-	bs.WriteFloat32(e.pos.Y)
-	bs.WriteFloat32(e.pos.Z)
-
-	bs.WriteFloat32(e.rota.X)
-	bs.WriteFloat32(e.rota.Y)
-	bs.WriteFloat32(e.rota.Z)
 }

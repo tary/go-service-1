@@ -1,7 +1,6 @@
 package space
 
 import (
-	"github.com/giant-tech/go-service/base/linmath"
 	"github.com/giant-tech/go-service/base/net/inet"
 	logicredis "github.com/giant-tech/go-service/framework/logicredis"
 )
@@ -49,8 +48,6 @@ func (e *TinyEntity) EnterSpace(spaceID uint64) {
 func (e *TinyEntity) LeaveSpace() {
 
 }
-
-func (e *TinyEntity) SetCoordPos(pos linmath.Vector3) {}
 
 func (e *TinyEntity) GetBaseProps() []byte {
 	return nil

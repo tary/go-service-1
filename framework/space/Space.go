@@ -92,19 +92,19 @@ func (s *Space) GetTimeStamp() uint32 {
 }
 
 // AddEntity 在空间中添加entity
-func (s *Space) AddEntity(entityType string, entityID uint64, initParam interface{}, syncInit bool) error {
+func (s *Space) AddEntity(entityType string, entityID uint64, initParam interface{}, syncInit bool) (iserver.IEntity, error) {
 	e, err := s.CreateEntityWithID(entityType, entityID, s.GetEntityID(), initParam, syncInit, 0)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	_, ok := e.(iserver.ICellEntity)
 	if !ok {
 		s.DestroyEntity(e.GetEntityID())
-		return errors.New("the entity which add to space must be ICellEntity ")
+		return nil, errors.New("the entity which add to space must be ICellEntity ")
 	}
 
-	return nil
+	return e, nil
 }
 
 // RemoveEntity 在空间中删除entity

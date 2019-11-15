@@ -8,7 +8,6 @@ import (
 type ICoordEntity interface {
 	GetEntityID() uint64
 	SetPos(pos linmath.Vector3)
-	SetCoordPos(pos linmath.Vector3)
 	GetPos() linmath.Vector3
 	SetRota(rota linmath.Vector3)
 	GetRota() linmath.Vector3

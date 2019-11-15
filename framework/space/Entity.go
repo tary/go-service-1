@@ -85,11 +85,11 @@ type IWatcher interface {
 // Entity 空间中的实体
 type Entity struct {
 	entity.Entity
-	states *EntityStates
 
 	space iserver.ISpace
 
-	pos linmath.Vector3
+	pos  linmath.Vector3
+	rota linmath.Vector3
 
 	lastAOIPos    linmath.Vector3
 	needUpdateAOI bool
@@ -132,8 +132,6 @@ func (e *Entity) OnEntityInit() error {
 	e.aoies = make([]AOIInfo, 0, 5)
 
 	e.delayedCastMsgs = make([]*delayedCastMsg, 0, 1)
-
-	e.initStates()
 
 	e._isWatcher = false
 
@@ -222,12 +220,9 @@ func (e *Entity) onLeaveSpace() {
 
 // OnLoop 循环调用
 func (e *Entity) OnLoop() {
-	e.resetState()
 
 	//e.Entity.DoLooper()
 	e.updatePosCoord(e.pos)
-
-	e.updateState()
 
 	// e.updateAOI()
 	// e.resetState()

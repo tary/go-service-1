@@ -55,9 +55,6 @@ type IClientBroadcaster interface {
 	CastRPCToAllClient(methodName string, args ...interface{})
 	CastRPCToMe(methodName string, args ...interface{})
 	CastRPCToAllClientExceptMe(methodName string, args ...interface{})
-
-	BroadcastEvent(event string, args ...interface{})
-	BroadcastEventExceptMe(event string, args ...interface{})
 }
 
 // IAOIEntity  AOI实体类型查询

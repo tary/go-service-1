@@ -6,7 +6,7 @@ import (
 )
 
 // SetPos 设置位置
-func (e *Entity) SetCoordPos(pos linmath.Vector3) {
+func (e *Entity) SetPos(pos linmath.Vector3) {
 	if e.pos.IsEqual(pos) {
 		return
 	}
@@ -21,4 +21,19 @@ func (e *Entity) SetCoordPos(pos linmath.Vector3) {
 	if ok {
 		iPC.OnPosChange(e.pos, origPos)
 	}
+}
+
+// SetRota 设置旋转
+func (e *Entity) SetRota(rota linmath.Vector3) {
+	e.rota = rota
+}
+
+// GetPos 获取位置
+func (e *Entity) GetPos() linmath.Vector3 {
+	return e.pos
+}
+
+// GetRota 获取旋转
+func (e *Entity) GetRota() linmath.Vector3 {
+	return e.rota
 }
