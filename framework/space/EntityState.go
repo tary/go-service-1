@@ -41,22 +41,22 @@ type IEntityState interface {
 }
 
 const (
-	EntityStateMask_Max = 32
+	EntityStateMaskMax = 32
 
-	EntityStateMask_Pos_X = 0
-	EntityStateMask_Pos_Y = 1
-	EntityStateMask_Pos_Z = 2
+	EntityStateMaskPosX = 0
+	EntityStateMaskPosY = 1
+	EntityStateMaskPosZ = 2
 
-	EntityStateMask_Rota_X = 3
-	EntityStateMask_Rota_Y = 4
-	EntityStateMask_Rota_Z = 5
+	EntityStateMaskRotaX = 3
+	EntityStateMaskRotaY = 4
+	EntityStateMaskRotaZ = 5
 
-	EntityStateMask_Param1 = 6
-	EntityStateMask_Param2 = 7
+	EntityStateMaskParam1 = 6
+	EntityStateMaskParam2 = 7
 
-	EntityStateMask_Events = 8
+	EntityStateMaskEvents = 8
 
-	EntityStateMask_Reserve = 10
+	EntityStateMaskReserve = 10
 )
 
 var ErrorMaskOffsetExceed = errors.New("mask offset exceed")
@@ -270,23 +270,23 @@ func (s *EntityState) MarshalEvent(event string, args ...interface{}) error {
 // SetBaseValue 设置基础值
 func (s *EntityState) SetBaseValue(mask int, bs *stream.ByteStream) {
 	switch mask {
-	case EntityStateMask_Pos_X:
+	case EntityStateMaskPosX:
 		s.Pos.X, _ = bs.ReadFloat32()
-	case EntityStateMask_Pos_Y:
+	case EntityStateMaskPosY:
 		s.Pos.Y, _ = bs.ReadFloat32()
-	case EntityStateMask_Pos_Z:
+	case EntityStateMaskPosZ:
 		s.Pos.Z, _ = bs.ReadFloat32()
-	case EntityStateMask_Rota_X:
+	case EntityStateMaskRotaX:
 		s.Rota.X, _ = bs.ReadFloat32()
-	case EntityStateMask_Rota_Y:
+	case EntityStateMaskRotaY:
 		s.Rota.Y, _ = bs.ReadFloat32()
-	case EntityStateMask_Rota_Z:
+	case EntityStateMaskRotaZ:
 		s.Rota.Z, _ = bs.ReadFloat32()
-	case EntityStateMask_Param1:
+	case EntityStateMaskParam1:
 		s.Param1, _ = bs.ReadUInt64()
-	case EntityStateMask_Param2:
+	case EntityStateMaskParam2:
 		s.Param2, _ = bs.ReadUInt64()
-	case EntityStateMask_Events:
+	case EntityStateMaskEvents:
 		s.Events, _ = bs.ReadBytes()
 	default:
 		log.Error("Set base value failed ", mask)
@@ -304,39 +304,39 @@ func (s *EntityState) CompareAndSetBaseValueDelta(o *EntityState, mask *int32, m
 	var t int
 
 	switch maskoffset {
-	case EntityStateMask_Pos_X:
+	case EntityStateMaskPosX:
 		oldfloat = s.Pos.X
 		newfloat = o.Pos.X
 		t = 1
-	case EntityStateMask_Pos_Y:
+	case EntityStateMaskPosY:
 		oldfloat = s.Pos.Y
 		newfloat = o.Pos.Y
 		t = 1
-	case EntityStateMask_Pos_Z:
+	case EntityStateMaskPosZ:
 		oldfloat = s.Pos.Z
 		newfloat = o.Pos.Z
 		t = 1
-	case EntityStateMask_Rota_X:
+	case EntityStateMaskRotaX:
 		oldfloat = s.Rota.X
 		newfloat = o.Rota.X
 		t = 1
-	case EntityStateMask_Rota_Y:
+	case EntityStateMaskRotaY:
 		oldfloat = s.Rota.Y
 		newfloat = o.Rota.Y
 		t = 1
-	case EntityStateMask_Rota_Z:
+	case EntityStateMaskRotaZ:
 		oldfloat = s.Rota.Z
 		newfloat = o.Rota.Z
 		t = 1
-	case EntityStateMask_Param1:
+	case EntityStateMaskParam1:
 		olduint = s.Param1
 		newuint = o.Param1
 		t = 2
-	case EntityStateMask_Param2:
+	case EntityStateMaskParam2:
 		olduint = s.Param2
 		newuint = o.Param2
 		t = 2
-	case EntityStateMask_Events:
+	case EntityStateMaskEvents:
 		oldbytes = s.Events
 		newbytes = o.Events
 		t = 3
@@ -374,31 +374,31 @@ func (s *EntityState) WriteBaseValue(mask *int32, maskoffset uint32, bs *stream.
 	var t int
 
 	switch maskoffset {
-	case EntityStateMask_Pos_X:
+	case EntityStateMaskPosX:
 		newfloat = s.Pos.X
 		t = 1
-	case EntityStateMask_Pos_Y:
+	case EntityStateMaskPosY:
 		newfloat = s.Pos.Y
 		t = 1
-	case EntityStateMask_Pos_Z:
+	case EntityStateMaskPosZ:
 		newfloat = s.Pos.Z
 		t = 1
-	case EntityStateMask_Rota_X:
+	case EntityStateMaskRotaX:
 		newfloat = s.Rota.X
 		t = 1
-	case EntityStateMask_Rota_Y:
+	case EntityStateMaskRotaY:
 		newfloat = s.Rota.Y
 		t = 1
-	case EntityStateMask_Rota_Z:
+	case EntityStateMaskRotaZ:
 		newfloat = s.Rota.Z
 		t = 1
-	case EntityStateMask_Param1:
+	case EntityStateMaskParam1:
 		newuint = s.Param1
 		t = 2
-	case EntityStateMask_Param2:
+	case EntityStateMaskParam2:
 		newuint = s.Param2
 		t = 2
-	case EntityStateMask_Events:
+	case EntityStateMaskEvents:
 		newbytes = s.Events
 		t = 3
 	default:

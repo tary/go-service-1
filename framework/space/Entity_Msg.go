@@ -32,6 +32,7 @@ func (e *Entity) CastMsgToAllClientExceptMe(msg inet.IMsg) {
 	})
 }
 
+// CastMsgToRangeExceptMe
 func (e *Entity) CastMsgToRangeExceptMe(center *linmath.Vector3, radius int, msg inet.IMsg) {
 	e.GetSpace().TravsalRange(center, radius, func(ia iserver.ICoordEntity) {
 		if ise, ok := ia.(iserver.IEntityStateGetter); ok {

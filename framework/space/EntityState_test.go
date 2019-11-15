@@ -49,7 +49,7 @@ func (s *TestState) String() string {
 
 // 	b.ResetTimer()
 // 	for i := 0; i < b.N; i++ {
-// 		state.Bind("Pos", EntityStateMask_Pos_X)
+// 		state.Bind("Pos", EntityStateMaskPosX)
 // 	}
 // }
 

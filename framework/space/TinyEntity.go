@@ -286,7 +286,7 @@ func (e *TinyEntity) initState() {
 	bs := stream.NewByteStream(e.packState)
 
 	var mask uint32
-	mask = EntityStateMask_Pos_X | EntityStateMask_Pos_Y | EntityStateMask_Pos_Z | EntityStateMask_Rota_X | EntityStateMask_Rota_Y | EntityStateMask_Rota_Z
+	mask = EntityStateMaskPosX | EntityStateMaskPosY | EntityStateMaskPosZ | EntityStateMaskRotaX | EntityStateMaskRotaY | EntityStateMaskRotaZ
 
 	bs.WriteUInt32(e.GetSpace().GetTimeStamp())
 	bs.WriteUInt32(mask)

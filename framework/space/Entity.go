@@ -121,7 +121,7 @@ type extWatchEntity struct {
 	isInAOI bool // 是否在AOI范围内
 }
 
-// OnInit 构造函数
+// OnEntityInit 构造函数
 func (e *Entity) OnEntityInit() error {
 	e.Entity.OnEntityInit()
 
@@ -149,7 +149,7 @@ func (e *Entity) OnEntityAfterInit() {
 	e.updatePosCoord(e.pos)
 }
 
-// OnDestroy 析构函数
+// OnEntityDestroy 析构函数
 func (e *Entity) OnEntityDestroy() {
 	e.onLeaveSpace()
 
