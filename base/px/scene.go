@@ -56,6 +56,7 @@ func (scene *Scene) Raycast(origin, direction linmath.Vector3, length float32, m
 	return 0, linmath.Vector3_Invalid(), 0, false
 }
 
+// CapsuleRaycast 射线检测
 func (scene *Scene) CapsuleRaycast(head, foot linmath.Vector3, radius float32, origin, direction linmath.Vector3, length float32) (float32, bool) {
 	capsule := C.unitypx_capsule_t{}
 	capsule.p0_x = C.float(head.X)
@@ -84,6 +85,7 @@ func (scene *Scene) CapsuleRaycast(head, foot linmath.Vector3, radius float32, o
 	return math.MaxFloat32, false
 }
 
+// SphereRaycast 射线检测
 func (scene *Scene) SphereRaycast(center linmath.Vector3, radius float32, origin, direction linmath.Vector3, length float32) (float32, bool) {
 	sphere := C.unitypx_sphere_t{}
 	sphere.center_x = C.float(center.X)
