@@ -72,3 +72,14 @@ type ISyncToGhosts interface {
 type ISendMsgToReal interface {
 	SendMsgToReal(msg inet.IMsg)
 }
+
+// AOIInfo aoi信息
+type AOIInfo struct {
+	IsEnter bool
+	Entity  ICoordEntity
+}
+
+// IAOIUpdate  AOI更新，由逻辑层实现
+type IAOIUpdate interface {
+	AOIUpdate([]AOIInfo)
+}

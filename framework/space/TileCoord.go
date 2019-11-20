@@ -67,13 +67,13 @@ func (c *TileCoord) TravsalAOI(n iserver.ICoordEntity, cb func(iserver.ICoordEnt
 }
 
 // 遍历center为中心，半径范围radius内的所有实体执行cb
-func (c *TileCoord) TravsalRange(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
-	c.farTiles.TravsalRange(center, radius, cb)
+func (c *TileCoord) TravsalCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
+	c.farTiles.TravsalCenter(center, radius, cb)
 }
 
 // 遍历center所在的Tower，在该Tower内的center为中心，半径范围radius内的所有实体执行cb
-func (c *TileCoord) TravsalCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
-	c.farTiles.TravsalCenter(center, radius, cb)
+func (c *TileCoord) TravsalTowerCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
+	c.farTiles.TravsalTowerCenter(center, radius, cb)
 }
 
 ////////////////////////////////////////////////////////////////
@@ -549,8 +549,8 @@ func (t *Tiles) TravsalAOI(n iserver.ICoordEntity, cb func(iserver.ICoordEntity)
 	t.travsalNeighour(tt, towerDirAll, func(nt *Tower) { nt.TravsalAOI(cb) })
 }
 
-// 遍历center为中心，半径范围radius内的所有实体执行cb
-func (t *Tiles) TravsalRange(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
+// TravsalCenter 遍历center为中心，半径范围radius内的所有实体执行cb
+func (t *Tiles) TravsalCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
 	minX := int(center.X) - radius
 	minZ := int(center.Z) - radius
 	maxX := int(center.X) + radius
@@ -596,8 +596,8 @@ func (t *Tiles) TravsalRange(center *linmath.Vector3, radius int, cb func(iserve
 	}
 }
 
-// 遍历center所在的Tower，在该Tower内的center为中心，半径范围radius内的所有实体执行cb
-func (t *Tiles) TravsalCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
+// TravsalTowerCenter 遍历center所在的Tower，在该Tower内的center为中心，半径范围radius内的所有实体执行cb
+func (t *Tiles) TravsalTowerCenter(center *linmath.Vector3, radius int, cb func(iserver.ICoordEntity)) {
 	x := int(center.X)
 	z := int(center.Z)
 	gridX := x / t.gridSize

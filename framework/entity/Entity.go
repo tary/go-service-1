@@ -127,6 +127,15 @@ func (e *Entity) GetClientSess() inet.ISession {
 	return nil
 }
 
+// Send 发送消息，非协程安全
+func (e *Entity) Send(msg inet.IMsg) error {
+	if e.CliSess != nil {
+		return e.CliSess.Send(msg)
+	}
+
+	return fmt.Errorf("CliSess is nil")
+}
+
 // GetName 获取实体Name
 func (e *Entity) GetName() string {
 	return e.entityName

@@ -72,11 +72,6 @@ func (s *Space) OnEntityLoop() {
 	// s.refreshEntityState()
 
 	s.GroupEntity.Range(func(k, v interface{}) bool {
-		if iW, ok := v.(IWatcher); ok {
-			if iW.GetType() == "Player" {
-				iW.reflushStateChangeMsg()
-			}
-		}
 
 		if iL, ok := v.(iLateLooper); ok {
 			iL.onLateLoop()

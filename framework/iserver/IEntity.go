@@ -24,6 +24,8 @@ type IEntity interface {
 
 	SetClientSess(inet.ISession) bool
 	GetClientSess() inet.ISession
+	// Send 发送消息，非协程安全
+	Send(msg inet.IMsg) error
 
 	EnterCell(cellID uint64)
 	LeaveCell()

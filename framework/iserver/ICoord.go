@@ -33,8 +33,8 @@ type ICoord interface {
 	TravsalAOI(ICoordEntity, func(ICoordEntity))
 
 	// 遍历center为中心，半径范围radius内的所有实体执行cb
-	TravsalRange(center *linmath.Vector3, radius int, cb func(ICoordEntity))
+	TravsalCenter(center *linmath.Vector3, radius int, cb func(ICoordEntity))
 
 	// 遍历center所在的Tower，在该Tower内的center为中心，半径范围radius内的所有实体执行cb
-	TravsalCenter(center *linmath.Vector3, radius int, cb func(ICoordEntity))
+	TravsalTowerCenter(center *linmath.Vector3, radius int, cb func(ICoordEntity))
 }

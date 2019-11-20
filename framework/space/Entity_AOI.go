@@ -5,7 +5,6 @@ import (
 
 	"github.com/giant-tech/go-service/base/linmath"
 	"github.com/giant-tech/go-service/framework/iserver"
-	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 const (
@@ -16,50 +15,6 @@ const (
 type iAOIPacker interface {
 	GetID() uint64
 	GetType() string
-	GetAOIProp() (int, []byte)
-	GetBaseProps() []byte
-	GetStatePack() []byte
-}
-
-// iAOISender 断线重连之后打包发送完整AOI信息
-type iAOISender interface {
-	SendFullAOIs() error
-}
-
-// SendFullAOIs 发送完整的AOI信息
-func (e *Entity) SendFullAOIs() error {
-	//msg := msgdef.NewEntityAOISMsg()
-
-	if e.GetSpace() == nil {
-		return nil
-	}
-
-	return nil
-	// e.GetSpace().TravsalAOI(e, func(o iserver.ICoordEntity) {
-	// 	ip, ok := o.(iAOIPacker)
-	// 	if !ok {
-	// 		e.Error("Get AOIPacker failed")
-	// 		return
-	// 	}
-
-	// 	num, propBytes := ip.GetAOIProp()
-	// 	m := &msgdef.EnterAOI{
-	// 		EntityID:   ip.GetID(),
-	// 		EntityType: ip.GetType(),
-	// 		State:      ip.GetStatePack(),
-	// 		PropNum:    uint16(num),
-	// 		Properties: propBytes,
-	// 		BaseProps:  ip.GetBaseProps(),
-	// 	}
-
-	// 	data := make([]byte, m.Size()+1)
-	// 	data[0] = 1
-	// 	m.MarshalTo(data[1:])
-
-	// 	msg.AddData(data)
-	// })
-
-	// return e.Post(iserver.ServerTypeClient, msg)
 }
 
 // SetWatcher 设置当前entity 为watcher
@@ -188,7 +143,7 @@ func (e *Entity) OnEntityEnterAOI(o iserver.ICoordEntity) {
 	}
 
 	if e._isWatcher {
-		e.aoies = append(e.aoies, AOIInfo{true, o})
+		e.aoies = append(e.aoies, iserver.AOIInfo{IsEnter: true, Entity: o})
 	}
 
 	if o.IsWatcher() {
@@ -205,7 +160,7 @@ func (e *Entity) OnEntityLeaveAOI(o iserver.ICoordEntity) {
 	}
 
 	if e._isWatcher {
-		e.aoies = append(e.aoies, AOIInfo{false, o})
+		e.aoies = append(e.aoies, iserver.AOIInfo{IsEnter: false, Entity: o})
 	}
 
 	if o.IsWatcher() {
@@ -214,51 +169,9 @@ func (e *Entity) OnEntityLeaveAOI(o iserver.ICoordEntity) {
 }
 
 func (e *Entity) updateAOI() {
-
 	if len(e.aoies) != 0 && e._isWatcher {
-		msg := msgdef.NewEntityAOISMsg()
-		for i := 0; i < len(e.aoies); i++ {
+		e.GetRealPtr().(iserver.IAOIUpdate).AOIUpdate(e.aoies)
 
-			if msg.Num >= 20 {
-				e.PostToClient(msg)
-				msg = msgdef.NewEntityAOISMsg()
-			}
-
-			info := e.aoies[i]
-
-			ip := info.entity.(iAOIPacker)
-
-			var data []byte
-
-			if info.isEnter {
-				num, propBytes := ip.GetAOIProp()
-				m := &msgdef.EnterAOI{
-					EntityID:   ip.GetID(),
-					EntityType: ip.GetType(),
-					State:      ip.GetStatePack(),
-					PropNum:    uint16(num),
-					Properties: propBytes,
-					//BaseProps:  ip.GetBaseProps(),
-				}
-
-				data = make([]byte, m.Size()+1)
-				data[0] = 1
-				m.MarshalTo(data[1:])
-
-			} else {
-				m := &msgdef.LeaveAOI{
-					EntityID: ip.GetID(),
-				}
-
-				data = make([]byte, m.Size()+1)
-				data[0] = 0
-				m.MarshalTo(data[1:])
-			}
-
-			msg.AddData(data)
-		}
-
-		e.PostToClient(msg)
 		e.aoies = e.aoies[0:0]
 	}
 }

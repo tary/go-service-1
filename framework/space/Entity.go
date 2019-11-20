@@ -5,7 +5,6 @@ import (
 	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/entity"
 	"github.com/giant-tech/go-service/framework/iserver"
-	"github.com/giant-tech/go-service/framework/msgdef"
 )
 
 // IEntityCtrl 内部使用接口
@@ -88,30 +87,17 @@ type Entity struct {
 
 	space iserver.ISpace
 
-	pos  linmath.Vector3
-	rota linmath.Vector3
+	rota       linmath.Vector3 // 旋转
+	pos        linmath.Vector3 // 当前位置
+	lastAOIPos linmath.Vector3 // 上次位置
 
-	lastAOIPos    linmath.Vector3
 	needUpdateAOI bool
 	_isWatcher    bool
 
-	aoies         []AOIInfo
+	aoies         []iserver.AOIInfo
 	beWatchedNums int
 
 	extWatchList map[uint64]*extWatchEntity
-
-	aoiSyncMsg *msgdef.AOISyncUserState
-
-	basePropsDirty bool
-
-	// CastToAll相关的消息缓存
-	delayedCastMsgs []*delayedCastMsg
-}
-
-// AOIInfo aoi信息
-type AOIInfo struct {
-	isEnter bool
-	entity  iserver.ICoordEntity
 }
 
 // extWatchEntity 额外关注列表
@@ -129,13 +115,9 @@ func (e *Entity) OnEntityInit() error {
 	e.lastAOIPos = linmath.Vector3Invalid()
 	e.needUpdateAOI = false
 
-	e.aoies = make([]AOIInfo, 0, 5)
-
-	e.delayedCastMsgs = make([]*delayedCastMsg, 0, 1)
+	e.aoies = make([]iserver.AOIInfo, 0, 5)
 
 	e._isWatcher = false
-
-	e.aoiSyncMsg = msgdef.NewAOISyncUserState()
 
 	return nil
 }
@@ -186,7 +168,7 @@ func (e *Entity) onEnterSpace() {
 		// 	e.Error("Send EnterSpace failed ", err)
 		// }
 
-		e.aoies = append(e.aoies, AOIInfo{true, e})
+		e.aoies = append(e.aoies, iserver.AOIInfo{IsEnter: true, Entity: e})
 	}
 }
 
@@ -201,7 +183,7 @@ func (e *Entity) onLeaveSpace() {
 	}
 
 	if e.IsWatcher() {
-		e.aoies = append(e.aoies, AOIInfo{false, e})
+		e.aoies = append(e.aoies, iserver.AOIInfo{IsEnter: false, Entity: e})
 		e.clearExtWatchs()
 		e.updateAOI()
 
@@ -235,16 +217,9 @@ func (e *Entity) OnLoop() {
 func (e *Entity) onLateLoop() {
 	//e.Entity.ReflushDirtyProp()
 	//e.Entity.FlushDelayedMsgs()
-	e.FlushBaseProps()
 
 	// 真正发送所有消息
-	e.FlushDelayedCastMsgs()
-}
-
-func (e *Entity) syncClock() {
-	e.PostToClient(&msgdef.SyncClock{
-		TimeStamp: e.GetSpace().GetTimeStamp(),
-	})
+	//e.FlushDelayedCastMsgs()
 }
 
 // IsSpaceEntity 是否是个SpaceEntity
