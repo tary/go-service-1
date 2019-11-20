@@ -125,7 +125,6 @@ func (e *EProxy) AsyncCall(stype idata.ServiceType, methodName string, args ...i
 
 		return is.PostCallMsg(msg)
 	}
-	s.SendMsg(msg)
 
-	return nil
+	return s.SendMsg(msg)
 }

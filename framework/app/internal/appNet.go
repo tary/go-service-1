@@ -409,15 +409,14 @@ func (appnet *AppNet) Send(toAppid uint64, msg inet.IMsg) error {
 	if iserver.GetApp().GetAppID() < toAppid {
 		isess, ok := appnet.clientSesses.Load(iserver.GetApp().GetAppID())
 		if ok {
-			isess.(inet.ISession).Send(msg)
-			return nil
+			return isess.(inet.ISession).Send(msg)
 		}
 	} else {
 		isess, ok := appnet.srvSessiones.Load(iserver.GetApp().GetAppID())
 		if ok {
-			isess.(inet.ISession).Send(msg)
-			return nil
+			return isess.(inet.ISession).Send(msg)
 		}
 	}
+
 	return fmt.Errorf("SrvNet server %d  Server not existed, id:%d", iserver.GetApp().GetAppID(), toAppid)
 }

@@ -105,9 +105,8 @@ func (s *SProxy) AsyncCall(methodName string, args ...interface{}) error {
 
 		return is.PostCallMsg(msg)
 	}
-	s.SendMsg(msg)
 
-	return nil
+	return s.SendMsg(msg)
 }
 
 // SendMsg 发送消息给自己的服务器
@@ -117,9 +116,7 @@ func (s *SProxy) SendMsg(msg inet.IMsg) error {
 		return fmt.Errorf("Sess is nil")
 	}
 
-	s.Sess.Send(msg)
-
-	return nil
+	return s.Sess.Send(msg)
 }
 
 // GetSID 获取服务ID

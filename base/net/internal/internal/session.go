@@ -118,16 +118,16 @@ func (sess *Session) SetEncrypt(isEncrypt bool) {
 }
 
 // Send 发送消息，立即返回.
-func (sess *Session) Send(msg inet.IMsg) {
+func (sess *Session) Send(msg inet.IMsg) error {
 	if msg == nil {
-		return
+		return fmt.Errorf("msg is nil")
 	}
 
 	if sess.IsClosed() {
 		log.Warnf("Send after sess close localAddr:%s remoteAddr:%s %s %s",
 			sess.conn.LocalAddr(), sess.conn.RemoteAddr(), reflect.TypeOf(msg),
 			fmt.Sprintf("%s", msg)) // log是异步的，所以 msg 必须复制下。
-		return
+		return fmt.Errorf("session closed")
 	}
 
 	// 队列已满, 表示客户端处理太慢，断开。
@@ -141,20 +141,24 @@ func (sess *Session) Send(msg inet.IMsg) {
 	msgBuf, err := sess.EncodeMsg(msg)
 	if err != nil {
 		log.Error("Encode message error in Send(): ", err)
-		return
+		return err
 	}
 
 	sess.sendBuf.Put(msgBuf)
+
+	return nil
 }
 
 // SendRaw 发送数据，立即返回.
-func (sess *Session) SendRaw(buff []byte) {
+func (sess *Session) SendRaw(buff []byte) error {
 	if sess.IsClosed() {
 		log.Warnf("Send after sess close remoteAddr: %s, localAddr: %s", sess.conn.RemoteAddr(), sess.conn.LocalAddr())
-		return
+		return fmt.Errorf("session closed")
 	}
 
 	sess.sendBuf.Put(buff)
+
+	return nil
 }
 
 // EncodeMsg 编码信息

@@ -25,7 +25,7 @@ import (
 
 // iEntityState Entity的状态相关函数
 type iEntityState interface {
-	OnEntityInit()
+	OnEntityInit() error
 	OnEntityAfterInit() error
 	OnEntityLoop()
 	OnEntityDestroy()
@@ -256,7 +256,11 @@ func (e *Entity) OnEntityCreated(entityID uint64, entityType string, groupID uin
 
 	if syncInit {
 		ies := e.ieState
-		ies.OnEntityInit()
+		err = ies.OnEntityInit()
+		if err != nil {
+			return err
+		}
+
 		err = ies.OnEntityAfterInit()
 	}
 
@@ -320,7 +324,7 @@ func (e *Entity) MainLoop() {
 }
 
 // OnEntityInit entity init
-func (e *Entity) OnEntityInit() {
+func (e *Entity) OnEntityInit() error {
 	e.state = iserver.EntityStateLoop
 
 	// 初始创建entity数据
@@ -337,6 +341,8 @@ func (e *Entity) OnEntityInit() {
 	e.RegSrvID()
 
 	e.RegRPCMsg(e.realPtr)
+
+	return nil
 }
 
 // OnEntityAfterInit 实体创建之后的初始化
@@ -377,7 +383,13 @@ func (e *Entity) OnEntityLoop() {
 
 // OnEntityDestroy entity销毁
 func (e *Entity) OnEntityDestroy() {
+	// e.reflushToDB()
 
+	// if e.clientSess != nil {
+	// 	e.clientSess.Close()
+	// }
+
+	e.state = iserver.EntityStateInValid
 }
 
 // IsDestroyed IsDestroyed是否销毁
@@ -388,7 +400,7 @@ func (e *Entity) IsDestroyed() bool {
 // PostCallMsg 把消息投递给实体，立即返回
 func (e *Entity) PostCallMsg(msg *msgdef.CallMsg) error {
 	if !e.GetIEntities().IsMultiThread() {
-		panic("Not MultiThread ")
+		return e.GetIEntities().GetLocalService().PostCallMsg(msg)
 	}
 
 	data := &idata.CallData{}
@@ -402,7 +414,7 @@ func (e *Entity) PostCallMsg(msg *msgdef.CallMsg) error {
 // PostCallMsgAndWait 把消息投递给实体并且等待返回结果
 func (e *Entity) PostCallMsgAndWait(msg *msgdef.CallMsg) *idata.RetData {
 	if !e.GetIEntities().IsMultiThread() {
-		panic("Not MultiThread ")
+		return e.GetIEntities().GetLocalService().PostCallMsgAndWait(msg)
 	}
 
 	data := &idata.CallData{}
@@ -420,7 +432,19 @@ func (e *Entity) PostCallMsgAndWait(msg *msgdef.CallMsg) *idata.RetData {
 // PostFunction 向user协程投递函数
 func (e *Entity) PostFunction(f func()) {
 	if !e.GetIEntities().IsMultiThread() {
-		panic("Not MultiThread ")
+		if e.GetIEntities().GetLocalService().IsMultiThread() {
+			//转给group实体
+			g := e.GetIEntities().GetLocalService().GetEntity(e.GetGroupID())
+			if g != nil {
+				g.PostFunction(f)
+			} else {
+				log.Error("PostFunction, group not found: ", e.GetGroupID())
+			}
+		} else {
+			e.GetIEntities().GetLocalService().PostFunction(f)
+		}
+
+		return
 	}
 
 	e.DataC <- &idata.CallData{Func: f}
@@ -430,7 +454,18 @@ func (e *Entity) PostFunction(f func()) {
 // f runs in the LobbyUser's goroutine.
 func (e *Entity) PostFunctionAndWait(f func() interface{}) interface{} {
 	if !e.GetIEntities().IsMultiThread() {
-		panic("Not MultiThread ")
+		if e.GetIEntities().GetLocalService().IsMultiThread() {
+			//转给group实体
+			g := e.GetIEntities().GetLocalService().GetEntity(e.GetGroupID())
+			if g != nil {
+				return g.PostFunctionAndWait(f)
+			} else {
+				log.Error("PostFunction, group not found: ", e.GetGroupID())
+				return nil
+			}
+		} else {
+			return e.GetIEntities().GetLocalService().PostFunctionAndWait(f)
+		}
 	}
 
 	// 结果从ch返回
@@ -631,8 +666,7 @@ func (e *Entity) AsyncCall(sType idata.ServiceType, methodName string, args ...i
 	if e.GetIEntities().GetLocalService().GetSType() == idata.ServiceGateway && sType == idata.ServiceClient {
 		cli := e.GetClientSess()
 		if cli != nil {
-			cli.Send(msg)
-			return nil
+			return cli.Send(msg)
 		}
 
 		log.Error("AsyncCall failed: ClientSess is null, sType: ", sType, ", methodName: ", methodName)

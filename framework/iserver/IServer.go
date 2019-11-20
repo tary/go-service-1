@@ -14,7 +14,7 @@ type IServer interface {
 
 	//转发rpc消息
 	//ForwardRpcMsg(msg inet.IMsg) error
-	//GetFrameDeltaTime() time.Duration
+	//GetTickMS() time.Duration
 
 }
 

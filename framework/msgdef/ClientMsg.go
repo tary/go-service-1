@@ -26,17 +26,19 @@ const (
 // LoginReq 登录请求
 // Client ==> LobbyServer
 type LoginReq struct {
-	Token   string
-	UID     uint64
-	Version string
-	ExtData []byte //自定义数据
+	Account string // 账号
+	Token   string // token
+	UID     uint64 // 玩家ID
+	Version string // 版本
+	ExtData []byte // 自定义数据
 }
 
 // LoginResp 登录返回
 // LobbyServer ==> Client
 type LoginResp struct {
-	Result  uint32
-	ExtData []byte //自定义数据
+	Result  uint32 // 返回类型
+	ErrStr  string // 错误内容
+	ExtData []byte // 自定义数据
 }
 
 // Ping ping
@@ -56,7 +58,7 @@ type CreateEntityNotify struct {
 // CallMsg 远程调用消息
 type CallMsg struct {
 	GroupID      uint64 // 目标实体所属的GroupID
-	EntityID     uint64 // 目的EntityID
+	EntityID     uint64 // 目标EntityID
 	SType        uint8  // 目标服务类型
 	SID          uint64 // 目标服务ID
 	FromSID      uint64 // From Service ID

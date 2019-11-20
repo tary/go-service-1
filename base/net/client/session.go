@@ -31,18 +31,18 @@ func (s *Session) onClosed() {
 }
 
 // Send 发送
-func (s *Session) Send(msg inet.IMsg) {
-	s.sess.Send(msg)
+func (s *Session) Send(msg inet.IMsg) error {
+	return s.sess.Send(msg)
+}
+
+// SendRaw 发送原始数据
+func (s *Session) SendRaw(buff []byte) error {
+	return s.sess.SendRaw(buff)
 }
 
 // SetEncrypt 设置加密
 func (s *Session) SetEncrypt(isEncrypt bool) {
 	s.sess.SetEncrypt(isEncrypt)
-}
-
-// SendRaw 发送原始数据
-func (s *Session) SendRaw(buff []byte) {
-	s.sess.SendRaw(buff)
 }
 
 // EncodeMsg 编码消息

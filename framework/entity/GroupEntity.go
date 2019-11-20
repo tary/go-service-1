@@ -6,19 +6,24 @@ type GroupEntity struct {
 	*Entities
 }
 
-// OnGroupInit 初始化
-func (g *GroupEntity) OnGroupInit() error {
+// OnEntityInit 初始化
+func (g *GroupEntity) OnEntityInit() error {
+	err := g.Entity.OnEntityInit()
 	g.Entities = NewEntities(false, g.Entity.GetIEntities().GetLocalService())
-	return nil
+
+	return err
 }
 
-// OnGroupLoop loop
-func (g *GroupEntity) OnGroupLoop() {
-	g.Loop()
+// OnEntityLoop loop
+func (g *GroupEntity) OnEntityLoop() {
+	g.Entity.OnEntityLoop()
+	g.Entities.Loop()
 }
 
-// OnGroupDestroy group destroy
-func (g *GroupEntity) OnGroupDestroy() {
+// OnEntityDestroy group destroy
+func (g *GroupEntity) OnEntityDestroy() {
 	//销毁所有成员
 	g.Destroy()
+
+	g.Entity.OnEntityDestroy()
 }

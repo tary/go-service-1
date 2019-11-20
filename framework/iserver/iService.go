@@ -20,15 +20,17 @@ type IServiceBase interface {
 	msghandler.IRPCHandlers
 	IEntities
 
-	//初始化BaseService
+	// InitBaseService 初始化BaseService
 	InitBaseService(serviceName string, serviceType idata.ServiceType, ilocal ILocalService) error
-	//获取服务ID
+	// GetSID 获取服务ID
 	GetSID() uint64
-	//获取服务类型
+	// GetSType 获取服务类型
 	GetSType() idata.ServiceType
-	//获取服务名
+	// GetTickMS 获取每帧毫秒数
+	GetTickMS() int64
+	// GetSName 获取服务名
 	GetSName() string
-	//获取服务信息
+	// GetServiceInfo 获取服务信息
 	GetServiceInfo() *idata.ServiceInfo
 	// SetMetadata 设置元数据
 	SetMetadata(key, value string)
@@ -45,6 +47,12 @@ type IBaseCtrlService interface {
 // ILocalService 本地服务用到的接口
 type ILocalService interface {
 	IBaseCtrlService
+
+	// PostFunction 投递函数给实体，并在实体所在的协程中执行
+	PostFunction(f func())
+	// PostFunctionAndWait 投递函数给实体协程执行，并等待执行结果
+	PostFunctionAndWait(f func() interface{}) interface{}
+
 	// PostCallMsg 把消息投递给服务
 	PostCallMsg(msg *msgdef.CallMsg) error
 	// PostCallMsgAndWait 把消息投递给服务并等待执行结果

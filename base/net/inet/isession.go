@@ -9,8 +9,8 @@ type ISession interface {
 	RegMsgProcFunc(msgID MsgID, procFunc func(IMsg))
 	RegMsgProc(interface{})
 
-	Send(IMsg)
-	SendRaw([]byte)
+	Send(IMsg) error
+	SendRaw([]byte) error
 	EncodeMsg(IMsg) ([]byte, error)
 	CompressAndEncrypt([]byte) ([]byte, error)
 
