@@ -1,4 +1,4 @@
-package px
+package unitypx
 
 /*
 #cgo LDFLAGS: -L./ -lunitypx
