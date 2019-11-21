@@ -17,7 +17,7 @@ extern "C" {
 //typedef struct {} *unitypx_scene_t;
 //typedef struct {} *unitypx_player_t;
 
-typedef struct {}  StructV;
+typedef struct A{}  StructV;
 StructV * unitypx_sdk_t;
 StructV * unitypx_scene_t;
 StructV * unitypx_player_t;
