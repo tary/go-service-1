@@ -14,8 +14,8 @@ extern "C" {
 #endif
 
 typedef struct A{} *unitypx_sdk_t;
-typedef struct A{} *unitypx_scene_t;
-typedef struct A{} *unitypx_player_t;
+typedef struct B{} *unitypx_scene_t;
+typedef struct C{} *unitypx_player_t;
 
 /*typedef struct A{}  StructV;
 StructV * unitypx_sdk_t;
