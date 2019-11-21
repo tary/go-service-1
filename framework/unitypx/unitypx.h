@@ -13,9 +13,14 @@
 extern "C" {
 #endif
 
-typedef struct {} *unitypx_sdk_t;
-typedef struct {} *unitypx_scene_t;
-typedef struct {} *unitypx_player_t;
+//typedef struct {} *unitypx_sdk_t;
+//typedef struct {} *unitypx_scene_t;
+//typedef struct {} *unitypx_player_t;
+
+typedef struct {}  StructV;
+StructV * unitypx_sdk_t;
+StructV * unitypx_scene_t;
+StructV * unitypx_player_t;
 
 typedef struct {
 	float origin_x, origin_y, origin_z;
