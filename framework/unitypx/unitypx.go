@@ -1,7 +1,7 @@
 package unitypx
 
 /*
-#cgo LDFLAGS: -L./ -lunitypx
+#cgo LDFLAGS: -L ../../lib/physx -lunitypx
 #include "unitypx.h"
 */
 import "C"
