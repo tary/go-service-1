@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/Ricky-Hao/V2Ray.Stats/workflows/Build/badge.svg)](https://github.com/Ricky-Hao/V2Ray.Stats/actions)
+[![Actions Status](https://github.com/giant-tech/go-service/workflows/Build/badge.svg)](https://github.com/giant-tech/go-service/actions)
 
 go-service是用Golang开发的一款分布式服务器框架。
 
