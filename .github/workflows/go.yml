@@ -25,4 +25,5 @@ jobs:
         fi
 
     - name: Build
+      run: export LD_LIBRARY_PATH=./lib/physx
       run: go build -v ./base/... ./framework/... ./logic/...
