@@ -53,7 +53,7 @@ func (scene *Scene) Raycast(origin, direction linmath.Vector3, length float32, m
 		return float32(cResult.distance), pos, int32(cResult.layer), true
 	}
 
-	return 0, linmath.Vector3_Invalid(), 0, false
+	return 0, linmath.Vector3Invalid(), 0, false
 }
 
 // CapsuleRaycast 射线检测
