@@ -21,11 +21,9 @@ func (def *MsgDef) InitBytesMsg() {
 	def.RegMsg(MRolePropsSyncClientMsgID, new(MRolePropsSyncClient))
 	def.RegMsg(EnterCellReqMsgID, new(EnterCellReq))
 	def.RegMsg(LeaveCellReqMsgID, new(LeaveCellReq))
-	def.RegMsg(EnterAOIMsgID, new(EnterAOI))
-	def.RegMsg(LeaveAOIMsgID, new(LeaveAOI))
+
 	//def.RegMsg(AOIPosChangeMsgID, new(AOIPosChange))
-	def.RegMsg(EnterCellMsgID, new(EnterCell))
-	def.RegMsg(LeaveCellMsgID, new(LeaveCell))
+
 	//def.RegMsg(UserMoveMsgID, new(UserMove))
 	//def.RegMsg(EntityPosSetMsgID, new(EntityPosSet))
 	def.RegMsg(CellEntityMsgID, new(CellEntityMsg))
@@ -55,7 +53,6 @@ func (def *MsgDef) InitBytesMsg() {
 	def.RegMsg(SyncUserStateMsgID, new(SyncUserState))
 	def.RegMsg(AOISyncUserStateMsgID, new(AOISyncUserState))
 	def.RegMsg(AdjustUserStateMsgID, new(AdjustUserState))
-	def.RegMsg(EntityAOISMsgID, new(EntityAOIS))
 	def.RegMsg(EntityEventMsgID, new(EntityEvent))
 
 	def.RegMsg(CreateGhostReqMsgID, new(CreateGhostReq))
