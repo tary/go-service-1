@@ -1,7 +1,7 @@
 package unitypx
 
 /*
-#cgo LDFLAGS: -L./ -lunitypx
+#cgo LDFLAGS: -L ../../lib/physx -lunitypx
 #include "unitypx.h"
 */
 import "C"
@@ -9,6 +9,7 @@ import "C"
 import (
 	"fmt"
 	"math"
+
 	"github.com/giant-tech/go-service/base/linmath"
 )
 
@@ -30,6 +31,7 @@ func NewScene(path string) (*Scene, error) {
 	return scene, nil
 }
 
+// NewEmptyScene 新建空场景
 func NewEmptyScene() *Scene {
 	scene := &Scene{}
 	scene._cScene = C.unitypx_scene_create_empty(sdk)
