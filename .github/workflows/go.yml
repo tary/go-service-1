@@ -32,5 +32,6 @@ jobs:
     
     - name: Test
       run: |
+        export LD_LIBRARY_PATH=/home/runner/work/go-service/go-service/lib/physx/
         chmod +x ci.sh
         ./ci.sh test
