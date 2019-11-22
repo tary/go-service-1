@@ -13,7 +13,7 @@ const (
 	aoiTolerance = 1.0
 )
 
-type iAOIPacker1 interface {
+type iAOIPacker interface {
 	GetID() uint64
 	GetType() string
 	GetAOIProp() (int, []byte)
