@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/giant-tech/go-service/workflows/Build/badge.svg)](https://github.com/giant-tech/go-service/actions)
+[![Build Status](https://travis-ci.org/atotto/travisci-golang-example.png)](https://travis-ci.org/atotto/travisci-golang-example)
 
 go-service是用Golang开发的一款分布式服务器框架。
 
