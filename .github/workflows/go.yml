@@ -31,4 +31,6 @@ jobs:
         go build -v ./base/... ./framework/... ./logic/...
     
     - name: Test
-      run: ./ci.sh test
+      run: |
+        chmod +x ci.sh
+        ./ci.sh test
