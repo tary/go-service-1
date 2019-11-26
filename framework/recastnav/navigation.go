@@ -1,12 +1,13 @@
-package navigation
+package recastnav
 
 /*
-#cgo LDFLAGS: -L ./ -lnavigation
+#cgo LDFLAGS: -L ../lib/navigation -lnavigation
 #cgo CFLAGS:  -Wno-incompatible-pointer-types
-#include "./navigation.h"
+#include "navigation.h"
 #include <stdlib.h>
 */
 import "C"
+
 import (
 	"container/list"
 	"unsafe"
