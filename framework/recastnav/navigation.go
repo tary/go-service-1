@@ -9,8 +9,9 @@ package navigation
 import "C"
 import (
 	"container/list"
-	"linmath"
 	"unsafe"
+
+	"github.com/giant-tech/go-service/base/linmath"
 )
 
 type Navigation struct {
