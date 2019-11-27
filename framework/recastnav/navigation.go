@@ -1,7 +1,7 @@
 package recastnav
 
 /*
-#cgo LDFLAGS: -L ../../lib -lnavigation1
+#cgo LDFLAGS: -L ../../lib -lnavigations
 #cgo CFLAGS:  -Wno-incompatible-pointer-types
 #include "navigation.h"
 #include <stdlib.h>
