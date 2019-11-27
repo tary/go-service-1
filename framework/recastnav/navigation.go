@@ -1,21 +1,20 @@
 package recastnav
 
 /*
-#cgo LDFLAGS: -L ../../lib -lnavigation
+#cgo LDFLAGS: -L ../../lib -lunitypx
+#cgo CFLAGS:  -Wno-incompatible-pointer-types
 #include "navigation.h"
 #include <stdlib.h>
 */
 import "C"
 
-import (
-	"container/list"
-	"unsafe"
+//"container/list"
+//"unsafe"
 
-	"github.com/giant-tech/go-service/base/linmath"
-)
+//"github.com/giant-tech/go-service/base/linmath"
 
 // Navigation 结构体
-type Navigation struct {
+/*type Navigation struct {
 	sdk C.navigation_sdk_t
 }
 
@@ -74,3 +73,4 @@ func (nav *Navigation) FindPath(startPos, endPos linmath.Vector3) (bool, *list.L
 
 	return true, posList
 }
+*/
