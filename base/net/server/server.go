@@ -17,11 +17,11 @@ type Server struct {
 
 // New 创建一个服务服.
 // 自动开始监听。
-// protocal 支持："kcp", "tcp", "tcp+kcp".
+// protocol 支持："kcp", "tcp", "tcp+kcp".
 // "tcp+kcp"可接受kcp客户端，也可接受tcp客户端。
 // addr 形如：":80", "1.2.3.4:80"
 // maxConns 是最大连接数
-func New(protocal string, addr string, maxConns int) (*Server, error) {
+func New(protocol string, addr string, maxConns int) (*Server, error) {
 	srv := &Server{
 		connHandler: connhandler.New(),
 	}
@@ -30,7 +30,7 @@ func New(protocal string, addr string, maxConns int) (*Server, error) {
 
 	var err error
 	// 接受新连接时会 go sessMgr.HandleConn(), 运行 session.Start().
-	srv.listener, err = listener.NewListener(protocal, addr, maxConns)
+	srv.listener, err = listener.NewListener(protocol, addr, maxConns)
 	return srv, err
 }
 
