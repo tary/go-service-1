@@ -14,7 +14,7 @@ import (
 
 // ARQListener 网络服务器监听
 type ARQListener struct {
-	protocal    string
+	protocol    string
 	listener    net.Listener
 	kcpListener net.Listener
 	ctx         context.Context
@@ -25,9 +25,9 @@ type ARQListener struct {
 }
 
 // NewARQListener 新建arq监听
-func NewARQListener(protocal string, addr string, maxConns int) (*ARQListener, error) {
+func NewARQListener(protocol string, addr string, maxConns int) (*ARQListener, error) {
 	l := &ARQListener{
-		protocal:    protocal,
+		protocol:    protocol,
 		listener:    nil,
 		kcpListener: nil,
 		maxConns:    maxConns,
@@ -43,7 +43,7 @@ func (a *ARQListener) listen(addr string) error {
 	var err error
 	var kcpListener *kcp.Listener
 
-	switch a.protocal {
+	switch a.protocol {
 	case "tcp":
 		a.listener, err = net.Listen("tcp", addr)
 	case "kcp":
@@ -65,7 +65,7 @@ func (a *ARQListener) listen(addr string) error {
 		kcpListener.SetDSCP(46)
 		a.kcpListener = kcpListener
 	default:
-		panic("WRONG PROTOCAL")
+		panic("WRONG PROTOCOL")
 	}
 	if err != nil {
 		return err

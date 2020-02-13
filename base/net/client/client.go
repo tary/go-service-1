@@ -10,17 +10,17 @@ import (
 )
 
 // Dial 创建一个连接
-func Dial(protocal string, addr string) (inet.ISession, error) {
+func Dial(protocol string, addr string) (inet.ISession, error) {
 	var conn net.Conn
 	var err error
 
-	seelog.Debug("Dial protocal: ", protocal, ", addr: ", addr)
+	seelog.Debug("Dial protocol: ", protocol, ", addr: ", addr)
 
-	if protocal == "tcp" || protocal == "idip" {
+	if protocol == "tcp" || protocol == "idip" {
 		if conn, err = net.Dial("tcp", addr); err != nil {
 			return nil, err
 		}
-	} else if protocal == "kcp" {
+	} else if protocol == "kcp" {
 		var kcpConn *kcp.UDPSession
 		if kcpConn, err = kcp.DialWithOptions(addr, nil, 3, 2); err != nil {
 			return nil, err
@@ -33,11 +33,11 @@ func Dial(protocal string, addr string) (inet.ISession, error) {
 
 		conn = kcpConn
 	} else {
-		return nil, fmt.Errorf("unknown network protocol '%s'", protocal)
+		return nil, fmt.Errorf("unknown network protocol '%s'", protocol)
 	}
 
 	isIdip := false
-	if protocal == "idip" {
+	if protocol == "idip" {
 		isIdip = true
 	}
 

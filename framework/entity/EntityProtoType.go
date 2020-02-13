@@ -31,7 +31,7 @@ func (es *ProtoType) RegProtoType(name string, protoType iserver.IEntity, autoCr
 
 	_, ok := es.entityProtoType[name]
 	if ok {
-		log.Warn("Registed type", name)
+		log.Warn("Registered type", name)
 		return
 	}
 

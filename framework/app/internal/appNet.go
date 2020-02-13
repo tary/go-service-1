@@ -209,7 +209,7 @@ func (appnet *AppNet) GetServiceListFromDB() []*idata.ServiceInfo {
 
 	serviceList, err := servermgr.Getservermgr().GetServiceList()
 	if err != nil {
-		log.Error("fetch sevice info failed", err)
+		log.Error("fetch service info failed", err)
 		return nil
 	}
 	return serviceList

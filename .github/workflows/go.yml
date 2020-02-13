@@ -25,4 +25,14 @@ jobs:
         fi
 
     - name: Build
-      run: go build -v ./base/... ./framework/... ./logic/...
+      run: |
+        export LD_LIBRARY_PATH=/home/runner/work/go-service/go-service/lib
+        echo $LD_LIBRARY_PATH
+        go build -v ./base/... ./framework/... ./logic/...
+    
+    # - name: Test
+    #  run: |
+    #    export LD_LIBRARY_PATH=/home/runner/work/go-service/go-service/lib/physx/
+    #    chmod +x ci.sh
+    #   ./ci.sh test
+    
