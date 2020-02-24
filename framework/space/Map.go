@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/giant-tech/go-service/framework/nav"
-	"github.com/giant-tech/go-service/framework/unitypx"
+	"github.com/giant-tech/go-service/base/nav"
+	"github.com/giant-tech/go-service/base/unitypx"
 
 	log "github.com/cihub/seelog"
 )

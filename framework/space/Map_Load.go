@@ -4,8 +4,8 @@ import (
 	"errors"
 	"io/ioutil"
 
+	"github.com/giant-tech/go-service/base/nav"
 	"github.com/giant-tech/go-service/base/stream"
-	"github.com/giant-tech/go-service/framework/nav"
 )
 
 func (ms *Maps) loadNavMesh(path string) (*nav.Mesh, *nav.MeshPathFinder, error) {
