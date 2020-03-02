@@ -4,20 +4,19 @@ import (
 	"fmt"
 	"os"
 	"sync/atomic"
-
-	"github.com/giant-tech/go-service/base/itf/ioption"
 )
 
 // level is a log level
 type Level int32
 
 const (
-	LevelFatal Level = iota
-	LevelError
-	LevelWarn
-	LevelInfo
-	LevelDebug
-	LevelTrace
+	TraceLevel Level = iota - 1
+	DebugLevel
+	InfoLevel
+	WarnLevel
+	ErrorLevel
+	PanicLevel
+	FatalLevel
 )
 
 var (
@@ -25,7 +24,7 @@ var (
 	defaultLog ILogger
 
 	// default log level is info
-	level = LevelInfo
+	level = InfoLevel
 
 	// prefix for all messages
 	prefix string
@@ -34,7 +33,7 @@ var (
 // ILogger is a generic logging interface
 type ILogger interface {
 	// Init initialises options
-	Init(options ...ioption.OptionFunc) error
+	Init(options ...OptionFunc) error
 	// Level returns the logging level
 	Level() Level
 	// Log inserts a log entry.  Arguments may be handled in the manner
@@ -57,33 +56,33 @@ type ILogger interface {
 func init() {
 	switch os.Getenv("SERVICE_LOG_LEVEL") {
 	case "trace":
-		level = LevelTrace
+		level = TraceLevel
 	case "debug":
-		level = LevelDebug
+		level = DebugLevel
 	case "warn":
-		level = LevelWarn
+		level = WarnLevel
 	case "info":
-		level = LevelInfo
+		level = InfoLevel
 	case "error":
-		level = LevelError
+		level = ErrorLevel
 	case "fatal":
-		level = LevelFatal
+		level = FatalLevel
 	}
 }
 
 func (l Level) String() string {
 	switch l {
-	case LevelTrace:
+	case TraceLevel:
 		return "trace"
-	case LevelDebug:
+	case DebugLevel:
 		return "debug"
-	case LevelWarn:
+	case WarnLevel:
 		return "warn"
-	case LevelInfo:
+	case InfoLevel:
 		return "info"
-	case LevelError:
+	case ErrorLevel:
 		return "error"
-	case LevelFatal:
+	case FatalLevel:
 		return "fatal"
 	default:
 		return "unknown"
@@ -108,63 +107,63 @@ func WithLevelf(l Level, format string, v ...interface{}) {
 
 // Trace provides trace level logging
 func Trace(v ...interface{}) {
-	WithLevel(LevelTrace, v...)
+	WithLevel(TraceLevel, v...)
 }
 
 // Tracef provides trace level logging
 func Tracef(format string, v ...interface{}) {
-	WithLevelf(LevelTrace, format, v...)
+	WithLevelf(TraceLevel, format, v...)
 }
 
 // Debug provides debug level logging
 func Debug(v ...interface{}) {
-	WithLevel(LevelDebug, v...)
+	WithLevel(DebugLevel, v...)
 }
 
 // Debugf provides debug level logging
 func Debugf(format string, v ...interface{}) {
-	WithLevelf(LevelDebug, format, v...)
+	WithLevelf(DebugLevel, format, v...)
 }
 
 // Warn provides warn level logging
 func Warn(v ...interface{}) {
-	WithLevel(LevelWarn, v...)
+	WithLevel(WarnLevel, v...)
 }
 
 // Warnf provides warn level logging
 func Warnf(format string, v ...interface{}) {
-	WithLevelf(LevelWarn, format, v...)
+	WithLevelf(WarnLevel, format, v...)
 }
 
 // Info provides info level logging
 func Info(v ...interface{}) {
-	WithLevel(LevelInfo, v...)
+	WithLevel(InfoLevel, v...)
 }
 
 // Infof provides info level logging
 func Infof(format string, v ...interface{}) {
-	WithLevelf(LevelInfo, format, v...)
+	WithLevelf(InfoLevel, format, v...)
 }
 
 // Error provides warn level logging
 func Error(v ...interface{}) {
-	WithLevel(LevelError, v...)
+	WithLevel(ErrorLevel, v...)
 }
 
 // Errorf provides warn level logging
 func Errorf(format string, v ...interface{}) {
-	WithLevelf(LevelError, format, v...)
+	WithLevelf(ErrorLevel, format, v...)
 }
 
 // Fatal logs with Log and then exits with os.Exit(1)
 func Fatal(v ...interface{}) {
-	WithLevel(LevelFatal, v...)
+	WithLevel(FatalLevel, v...)
 	os.Exit(1)
 }
 
 // Fatalf logs with Logf and then exits with os.Exit(1)
 func Fatalf(format string, v ...interface{}) {
-	WithLevelf(LevelFatal, format, v...)
+	WithLevelf(FatalLevel, format, v...)
 	os.Exit(1)
 }
 

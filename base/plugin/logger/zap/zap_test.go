@@ -3,7 +3,7 @@ package zap
 import (
 	"testing"
 
-	"github.com/micro/go-micro/v2/logger"
+	"github.com/giant-tech/go-service/base/itf/ilog"
 )
 
 func TestName(t *testing.T) {
@@ -25,7 +25,7 @@ func TestLogf(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	l.Logf(logger.InfoLevel, "test logf: %s", "name")
+	l.Logf(ilog.InfoLevel, "test logf: %s", "name")
 }
 
 func TestSetLevel(t *testing.T) {
@@ -34,9 +34,9 @@ func TestSetLevel(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	l.SetLevel(logger.DebugLevel)
-	l.Logf(logger.DebugLevel, "test show debug: %s", "debug msg")
+	l.SetLevel(ilog.DebugLevel)
+	l.Logf(ilog.DebugLevel, "test show debug: %s", "debug msg")
 
-	l.SetLevel(logger.InfoLevel)
-	l.Logf(logger.DebugLevel, "test non-show debug: %s", "debug msg")
+	l.SetLevel(ilog.InfoLevel)
+	l.Logf(ilog.DebugLevel, "test non-show debug: %s", "debug msg")
 }

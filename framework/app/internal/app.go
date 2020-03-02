@@ -3,7 +3,10 @@ package internal
 import (
 	"fmt"
 	"net/http"
+
+	//pprof test
 	_ "net/http/pprof"
+
 	"os"
 	"os/signal"
 	"runtime/debug"
@@ -13,8 +16,10 @@ import (
 	"time"
 
 	"github.com/giant-tech/go-service/base/itf/ilog"
+	"github.com/giant-tech/go-service/base/itf/ioption"
 	"github.com/giant-tech/go-service/base/net/server"
 	"github.com/giant-tech/go-service/base/plugin/logger/logrus"
+
 	dbservice "github.com/giant-tech/go-service/base/redisservice"
 	"github.com/giant-tech/go-service/base/zlog"
 	"github.com/giant-tech/go-service/framework/idata"
@@ -103,7 +108,7 @@ func getNotConnectServiceMap(str string) map[idata.ServiceType]idata.ServiceType
 type App struct {
 	//*server.Server
 	*AppNet
-	opts        Options
+	opts        ioption.Options
 	appID       uint64
 	startupTime time.Time
 

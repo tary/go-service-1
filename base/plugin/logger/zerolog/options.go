@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/micro/go-micro/v2/logger"
+
 	"github.com/rs/zerolog"
 )
 

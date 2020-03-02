@@ -7,7 +7,7 @@ import (
 	"os"
 	"runtime/debug"
 
-	"github.com/micro/go-micro/v2/logger"
+	
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
 	"github.com/rs/zerolog/pkgerrors"
@@ -31,7 +31,7 @@ var (
 	useAsDefault = false
 	// The logging level the logger should log at.
 	// This defaults to 100 means not explicitly set by user
-	level      logger.Level = 100
+	level      ilog.Level = 100
 	fields     map[string]interface{}
 	hooks      []zerolog.Hook
 	timeFormat string
@@ -43,19 +43,19 @@ type zeroLogger struct {
 	nativelogger zerolog.Logger
 }
 
-func (l *zeroLogger) Fields(fields map[string]interface{}) ilog.Logger {
+func (l *zeroLogger) Fields(fields map[string]interface{}) ilog.ILogger {
 	return &zeroLogger{l.nativelogger.With().Fields(fields).Logger()}
 }
 
-func (l *zeroLogger) Error(err error) ilog.Logger {
+func (l *zeroLogger) Error(err error) ilog.ILogger {
 	return &zeroLogger{
 		l.nativelogger.With().Fields(map[string]interface{}{zerolog.ErrorFieldName: err}).Logger(),
 	}
 }
 
-func (l *zeroLogger) Init(opts ...logger.Option) error {
+func (l *zeroLogger) Init(opts ...ilog.OptionFunc) error {
 
-	options := &Options{logger.Options{Context: context.Background()}}
+	options := &Options{ilog.Options{Context: context.Background()}}
 	for _, o := range opts {
 		o(&options.Options)
 	}
@@ -69,7 +69,7 @@ func (l *zeroLogger) Init(opts ...logger.Option) error {
 	if flds, ok := options.Context.Value(fieldsKey{}).(map[string]interface{}); ok {
 		fields = flds
 	}
-	if lvl, ok := options.Context.Value(levelKey{}).(logger.Level); ok {
+	if lvl, ok := options.Context.Value(levelKey{}).(ilog.Level); ok {
 		level = lvl
 	}
 	if tf, ok := options.Context.Value(timeFormatKey{}).(string); ok {
@@ -106,7 +106,7 @@ func (l *zeroLogger) Init(opts ...logger.Option) error {
 				w.NoColor = false
 			},
 		)
-		level = logger.DebugLevel
+		level = ilog.DebugLevel
 		l.nativelogger = zerolog.New(consOut).
 			Level(zerolog.DebugLevel).
 			With().Timestamp().Stack().Logger()
@@ -154,28 +154,28 @@ func (l *zeroLogger) Init(opts ...logger.Option) error {
 	return nil
 }
 
-func (l *zeroLogger) SetLevel(level logger.Level) {
+func (l *zeroLogger) SetLevel(level ilog.Level) {
 	//zerolog.SetGlobalLevel(loggerToZerologLevel(level))
 	l.nativelogger = l.nativelogger.Level(loggerToZerologLevel(level))
 }
 
-func (l *zeroLogger) Level() logger.Level {
+func (l *zeroLogger) Level() ilog.Level {
 	return ZerologToLoggerLevel(l.nativelogger.GetLevel())
 }
 
-func (l *zeroLogger) Log(level logger.Level, args ...interface{}) {
+func (l *zeroLogger) Log(level ilog.Level, args ...interface{}) {
 	msg := fmt.Sprintf("%s", args)
 	l.nativelogger.WithLevel(loggerToZerologLevel(level)).Msg(msg[1 : len(msg)-1])
 	// Invoke os.Exit because unlike zerolog.Logger.Fatal zerolog.Logger.WithLevel won't stop the execution.
-	if level == logger.FatalLevel {
+	if level == ilog.FatalLevel {
 		exitFunc(1)
 	}
 }
 
-func (l *zeroLogger) Logf(level logger.Level, format string, args ...interface{}) {
+func (l *zeroLogger) Logf(level ilog.Level, format string, args ...interface{}) {
 	l.nativelogger.WithLevel(loggerToZerologLevel(level)).Msgf(format, args...)
 	// Invoke os.Exit because unlike zerolog.Logger.Fatal zerolog.Logger.WithLevel won't stop the execution.
-	if level == logger.FatalLevel {
+	if level == ilog.FatalLevel {
 		exitFunc(1)
 	}
 }
@@ -185,7 +185,7 @@ func (l *zeroLogger) String() string {
 }
 
 // NewLogger builds a new logger based on options
-func NewLogger(opts ...logger.Option) ilog.Logger {
+func NewLogger(opts ...ilog.OptionFunc) ilog.ILogger {
 	l := &zeroLogger{}
 	_ = l.Init(opts...)
 	return l
@@ -193,7 +193,7 @@ func NewLogger(opts ...logger.Option) ilog.Logger {
 
 // ParseLevel converts a level string into a logger Level value.
 // returns an error if the input string does not match known values.
-func ParseLevel(levelStr string) (lvl logger.Level, err error) {
+func ParseLevel(levelStr string) (lvl ilog.Level, err error) {
 	if zLevel, err := zerolog.ParseLevel(levelStr); err == nil {
 		return ZerologToLoggerLevel(zLevel), err
 	} else {
@@ -201,44 +201,44 @@ func ParseLevel(levelStr string) (lvl logger.Level, err error) {
 	}
 }
 
-func loggerToZerologLevel(level logger.Level) zerolog.Level {
+func loggerToZerologLevel(level ilog.Level) zerolog.Level {
 	switch level {
-	case logger.TraceLevel:
+	case ilog.TraceLevel:
 		return zerolog.TraceLevel
-	case logger.DebugLevel:
+	case ilog.DebugLevel:
 		return zerolog.DebugLevel
-	case logger.InfoLevel:
+	case ilog.InfoLevel:
 		return zerolog.InfoLevel
-	case logger.WarnLevel:
+	case ilog.WarnLevel:
 		return zerolog.WarnLevel
-	case logger.ErrorLevel:
+	case ilog.ErrorLevel:
 		return zerolog.ErrorLevel
-	case logger.PanicLevel:
+	case ilog.PanicLevel:
 		return zerolog.PanicLevel
-	case logger.FatalLevel:
+	case ilog.FatalLevel:
 		return zerolog.FatalLevel
 	default:
 		return zerolog.InfoLevel
 	}
 }
 
-func ZerologToLoggerLevel(level zerolog.Level) logger.Level {
+func ZerologToLoggerLevel(level zerolog.Level) ilog.Level {
 	switch level {
 	case zerolog.TraceLevel:
-		return logger.TraceLevel
+		return ilog.TraceLevel
 	case zerolog.DebugLevel:
-		return logger.DebugLevel
+		return ilog.DebugLevel
 	case zerolog.InfoLevel:
-		return logger.InfoLevel
+		return ilog.InfoLevel
 	case zerolog.WarnLevel:
-		return logger.WarnLevel
+		return ilog.WarnLevel
 	case zerolog.ErrorLevel:
-		return logger.ErrorLevel
+		return ilog.ErrorLevel
 	case zerolog.PanicLevel:
-		return logger.PanicLevel
+		return ilog.PanicLevel
 	case zerolog.FatalLevel:
-		return logger.FatalLevel
+		return ilog.FatalLevel
 	default:
-		return logger.InfoLevel
+		return ilog.InfoLevel
 	}
 }

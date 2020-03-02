@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/micro/go-micro/v2/logger"
+	"github.com/giant-tech/go-service/base/itf/ilog"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -14,7 +14,7 @@ type zaplog struct {
 	zap *zap.Logger
 }
 
-func (l *zaplog) Fields(fields map[string]interface{}) ilog.Logger {
+func (l *zaplog) Fields(fields map[string]interface{}) ilog.ILogger {
 	data := make([]zap.Field, len(fields))
 	for k, v := range fields {
 		data = append(data, zap.Any(k, v))
@@ -23,7 +23,7 @@ func (l *zaplog) Fields(fields map[string]interface{}) ilog.Logger {
 	return &zaplog{cfg: l.cfg, zap: l.zap.With(data...)}
 }
 
-func (l *zaplog) Error(err error) ilog.Logger {
+func (l *zaplog) Error(err error) ilog.ILogger {
 	return &zaplog{
 		cfg: l.cfg,
 		zap: l.zap.With(zap.Error(err)),
@@ -115,7 +115,7 @@ func (l *zaplog) String() string {
 }
 
 // New builds a new logger based on options
-func NewLogger(opts ...logger.Option) (ilog.Logger, error) {
+func NewLogger(opts ...logger.Option) (ilog.ILogger, error) {
 	l := &zaplog{}
 	if err := l.Init(); err != nil {
 		return nil, err

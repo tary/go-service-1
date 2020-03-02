@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-
+	"github.com/giant-tech/go-service/base/itf/ilog"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,17 +21,17 @@ type logger struct {
 	*logrus.Logger
 }
 
-func (l *logger) Fields(fields map[string]interface{}) ilog.Logger {
+func (l *logger) Fields(fields map[string]interface{}) ilog.ILogger {
 	// shall we need pool here?
 	// but logrus already has pool for its entry.
 	return &logger{logrus.WithFields(fields).Logger}
 }
 
-func (l *logger) Error(err error) ilog.Logger {
+func (l *logger) Error(err error) ilog.ILogger {
 	return &logger{logrus.WithError(err).Logger}
 }
 
-func (l *logger) Init(opts ...log.Option) error {
+func (l *logger) Init(opts ...ilog.OptionFunc) error {
 	options := &Options{}
 	for _, o := range opts {
 		o(&options.Options)
@@ -43,7 +43,7 @@ func (l *logger) Init(opts ...log.Option) error {
 			formatter = f
 		}
 
-		l, ok := options.Context.Value(levelKey{}).(log.Level)
+		l, ok := options.Context.Value(levelKey{}).(ilog.Level)
 		if ok {
 			lvl = convertToLogrusLevel(l)
 		}
@@ -83,20 +83,20 @@ func (l *logger) Init(opts ...log.Option) error {
 	return nil
 }
 
-func (l *logger) SetLevel(level log.Level) {
+func (l *logger) SetLevel(level ilog.Level) {
 	l.Logger.SetLevel(convertToLogrusLevel(level))
 }
 
-func (l *logger) Level() log.Level {
+func (l *logger) Level() ilog.Level {
 	return convertLevel(l.Logger.Level)
 }
 
-func (l *logger) Log(level log.Level, args ...interface{}) {
-	l.Logger.Log(convertToLogrusLevel(level), args...)
+func (l *logger) Log(level ilog.Level, args ...interface{}) {
+	//l.Logger.Log(convertToLogrusLevel(level), args...)
 }
 
-func (l *logger) Logf(level log.Level, format string, args ...interface{}) {
-	l.Logger.Logf(convertToLogrusLevel(level), format, args...)
+func (l *logger) Logf(level ilog.Level, format string, args ...interface{}) {
+	//l.Logger.Logf(convertToLogrusLevel(level), format, args...)
 }
 
 func (l *logger) String() string {
@@ -104,50 +104,50 @@ func (l *logger) String() string {
 }
 
 // New builds a new logger based on options
-func NewLogger(opts ...log.Option) ilog.Logger {
+func NewLogger(opts ...ilog.OptionFunc) ilog.ILogger {
 	l := &logger{}
 	_ = l.Init(opts...)
 	return l
 }
 
-func convertToLogrusLevel(level log.Level) logrus.Level {
+func convertToLogrusLevel(level ilog.Level) logrus.Level {
 	switch level {
-	case log.TraceLevel:
+	case ilog.TraceLevel:
 		return logrus.TraceLevel
-	case log.DebugLevel:
+	case ilog.DebugLevel:
 		return logrus.DebugLevel
-	case log.InfoLevel:
+	case ilog.InfoLevel:
 		return logrus.InfoLevel
-	case log.WarnLevel:
+	case ilog.WarnLevel:
 		return logrus.WarnLevel
-	case log.ErrorLevel:
+	case ilog.ErrorLevel:
 		return logrus.ErrorLevel
-	case log.PanicLevel:
+	case ilog.PanicLevel:
 		return logrus.PanicLevel
-	case log.FatalLevel:
+	case ilog.FatalLevel:
 		return logrus.FatalLevel
 	default:
 		return logrus.InfoLevel
 	}
 }
 
-func convertLevel(level logrus.Level) log.Level {
+func convertLevel(level logrus.Level) ilog.Level {
 	switch level {
 	case logrus.TraceLevel:
-		return log.TraceLevel
+		return ilog.TraceLevel
 	case logrus.DebugLevel:
-		return log.DebugLevel
+		return ilog.DebugLevel
 	case logrus.InfoLevel:
-		return log.InfoLevel
+		return ilog.InfoLevel
 	case logrus.WarnLevel:
-		return log.WarnLevel
+		return ilog.WarnLevel
 	case logrus.ErrorLevel:
-		return log.ErrorLevel
+		return ilog.ErrorLevel
 	case logrus.PanicLevel:
-		return log.PanicLevel
+		return ilog.PanicLevel
 	case logrus.FatalLevel:
-		return log.FatalLevel
+		return ilog.FatalLevel
 	default:
-		return log.InfoLevel
+		return ilog.InfoLevel
 	}
 }
