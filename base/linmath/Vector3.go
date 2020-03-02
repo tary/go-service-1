@@ -108,6 +108,11 @@ func (v Vector3) Len() float32 {
 	return float32(math.Sqrt(float64(v.Dot(v))))
 }
 
+// SqrMagnitudeTo 距离
+func (v *Vector3) SqrMagnitudeTo(v2 *Vector3) float32 {
+	return (v.X-v2.X)*(v.X-v2.X) + (v.Y-v2.Y)*(v.Y-v2.Y) + (v.Z-v2.Z)*(v.Z-v2.Z)
+}
+
 // Normalize 归一化
 func (v *Vector3) Normalize() {
 	len := v.Len()
@@ -119,4 +124,15 @@ func (v *Vector3) Normalize() {
 	v.X = v.X / len
 	v.Y = v.Y / len
 	v.Z = v.Z / len
+}
+
+// IsSameDir 方向是否一致
+func IsSameDir(dir, pos1, pos2 *Vector3) bool {
+	if dir != nil {
+		if dir.Dot(pos1.Sub(*pos2)) > 0 {
+			return true
+		}
+	}
+
+	return false
 }

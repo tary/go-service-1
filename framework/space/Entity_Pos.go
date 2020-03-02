@@ -33,6 +33,11 @@ func (e *Entity) GetPos() linmath.Vector3 {
 	return e.pos
 }
 
+// GetPosPtr 获取位置指针
+func (e *Entity) GetPosPtr() *linmath.Vector3 {
+	return &e.pos
+}
+
 // GetRota 获取旋转
 func (e *Entity) GetRota() linmath.Vector3 {
 	return e.rota

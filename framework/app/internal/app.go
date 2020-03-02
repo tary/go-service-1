@@ -12,7 +12,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/giant-tech/go-service/base/itf/ilog"
 	"github.com/giant-tech/go-service/base/net/server"
+	"github.com/giant-tech/go-service/base/plugin/logger/logrus"
 	dbservice "github.com/giant-tech/go-service/base/redisservice"
 	"github.com/giant-tech/go-service/base/zlog"
 	"github.com/giant-tech/go-service/framework/idata"
@@ -35,6 +37,9 @@ func init() {
 	MyApp = &App{}
 
 	iserver.SetApp(interface{}(MyApp).(iserver.IApp))
+
+	//设置默认log
+	ilog.SetLogger(logrus.NewLogger())
 }
 
 // setConfig 设置配置
@@ -98,6 +103,7 @@ func getNotConnectServiceMap(str string) map[idata.ServiceType]idata.ServiceType
 type App struct {
 	//*server.Server
 	*AppNet
+	opts        Options
 	appID       uint64
 	startupTime time.Time
 
