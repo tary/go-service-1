@@ -10,8 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fananchong/v-micro/common/log"
-	"github.com/fananchong/v-micro/registry"
+	log "github.com/cihub/seelog"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 	"github.com/micro/mdns"
 	hash "github.com/mitchellh/hashstructure"
 )

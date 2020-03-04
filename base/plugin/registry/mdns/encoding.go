@@ -8,7 +8,9 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/fananchong/v-micro/common/log"
+	//log "github.com/giant-tech/go-service/base/plugin/logger"
+
+	log "github.com/cihub/seelog"
 )
 
 func encode(txt *mdnsTxt) ([]string, error) {

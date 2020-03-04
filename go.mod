@@ -13,6 +13,8 @@ require (
 	github.com/golang/snappy v0.0.1
 	github.com/klauspost/cpuid v1.2.1 // indirect
 	github.com/klauspost/reedsolomon v1.9.2 // indirect
+	github.com/micro/mdns v0.3.0
+	github.com/mitchellh/hashstructure v1.0.0
 	github.com/prometheus/common v0.4.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/pflag v1.0.3
