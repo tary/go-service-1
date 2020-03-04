@@ -1,6 +1,41 @@
 package app
 
-import "github.com/giant-tech/go-service/base/itf/ioption"
+import (
+	"context"
+
+	"github.com/giant-tech/go-service/base/itf/ioption"
+	"github.com/giant-tech/go-service/base/plugin/registry"
+)
+
+// Options options
+type Options struct {
+	// For the Command Line itself
+	ID          string
+	Name        string
+	Description string
+	Version     string
+
+	// We need pointers to things so we can swap them out if needed.
+	//Logger *ilog.Logger
+	//Registry  *registry.Registry
+	//Selector  *selector.Selector
+	//Connector *connector.Connector
+	//Transport *transport.Transport
+	//Client    *client.Client
+	//Server    *server.Server
+
+	//Loggers    map[string]func(...log.Option) log.Logger
+	//Clients    map[string]func(...client.Option) client.Client
+	Registries map[string]func(...registry.Option) registry.Registry
+	//Selectors  map[string]func(...selector.Option) selector.Selector
+	//Connectors map[string]func(...connector.Option) connector.Connector
+	//Servers    map[string]func(...server.Option) server.Server
+	//	Transports map[string]func(...transport.Option) transport.Transport
+
+	// Other options for implementations of the interface
+	// can be stored in a context
+	Context context.Context
+}
 
 // Name of the service
 func Name(n string) ioption.OptionFunc {
