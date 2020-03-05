@@ -37,6 +37,9 @@ type Options struct {
 	Context context.Context
 }
 
+// Option option
+type Option func(*Options)
+
 // Name of the service
 func Name(n string) ioption.OptionFunc {
 	return func(o *ioption.Options) {

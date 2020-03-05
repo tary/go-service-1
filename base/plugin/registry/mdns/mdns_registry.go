@@ -347,7 +347,7 @@ func (m *mdnsRegistry) ListServices() ([]*registry.Service, error) {
 	return services, nil
 }
 
-func (m *mdnsRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, error) {
+/*func (m *mdnsRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, error) {
 	var wo registry.WatchOptions
 	for _, o := range opts {
 		o(&wo)
@@ -368,6 +368,7 @@ func (m *mdnsRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, er
 
 	return md, nil
 }
+*/
 
 func (m *mdnsRegistry) String() string {
 	return "mdns"

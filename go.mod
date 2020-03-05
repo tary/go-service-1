@@ -4,7 +4,6 @@ require (
 	github.com/ant0ine/go-json-rest v3.3.2+incompatible
 	github.com/aurelien-rainone/assertgo v0.0.0-20180702120748-a1be5afdc871
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575
-	github.com/fananchong/v-micro v0.0.0-20200303024450-625ea8d3b85c
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/garyburd/redigo v1.6.0
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
@@ -15,7 +14,6 @@ require (
 	github.com/klauspost/reedsolomon v1.9.2 // indirect
 	github.com/micro/mdns v0.3.0
 	github.com/mitchellh/hashstructure v1.0.0
-	github.com/prometheus/common v0.4.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/pflag v1.0.3
 	github.com/spf13/viper v1.4.0

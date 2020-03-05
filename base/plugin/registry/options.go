@@ -54,8 +54,9 @@ func RegisterTTL(t time.Duration) RegisterOption {
 }
 
 // WatchService Watch a service
-func WatchService(name string) WatchOption {
+/*func WatchService(name string) WatchOption {
 	return func(o *WatchOptions) {
 		o.Service = name
 	}
 }
+*/
