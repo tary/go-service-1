@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/prometheus/common/log"
+	//"github.com/prometheus/common/log"
+	log "github.com/cihub/seelog"
 	"github.com/giant-tech/go-service/base/mail/auth"
 	"github.com/giant-tech/go-service/base/mail/consts"
 	"github.com/giant-tech/go-service/base/mail/pb"

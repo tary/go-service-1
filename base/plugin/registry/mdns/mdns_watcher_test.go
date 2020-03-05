@@ -3,7 +3,7 @@ package mdns
 import (
 	"testing"
 
-	"github.com/fananchong/v-micro/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 )
 
 func TestWatcher(t *testing.T) {

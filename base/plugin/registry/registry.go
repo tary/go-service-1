@@ -13,7 +13,7 @@ type Registry interface {
 	Deregister(*Service) error
 	GetService(string) ([]*Service, error)
 	ListServices() ([]*Service, error)
-	Watch(...WatchOption) (Watcher, error)
+	//	Watch(...WatchOption) (Watcher, error)
 	String() string
 }
 
@@ -24,7 +24,7 @@ type Option func(*Options)
 type RegisterOption func(*RegisterOptions)
 
 // WatchOption watch option
-type WatchOption func(*WatchOptions)
+//type WatchOption func(*WatchOptions)
 
 var (
 	// ErrNotFound Not found error when GetService is called

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/giant-tech/go-service/base/itf/ioption"
-	"github.com/giant-tech/go-service/base/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 )
 
 // Options options

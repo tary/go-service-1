@@ -10,7 +10,7 @@ import (
 	"github.com/giant-tech/go-service/base/utility"
 
 	"github.com/cihub/seelog"
-	"github.com/prometheus/common/log"
+	//"github.com/prometheus/common/log"
 	"github.com/spf13/viper"
 )
 
@@ -130,7 +130,7 @@ func (v *CodeVisitor) Visit(n ast.Node) ast.Visitor {
 		}
 
 	default:
-		log.Errorf("default, %T\n", n)
+		seelog.Errorf("default, %T\n", n)
 	}
 
 	return v

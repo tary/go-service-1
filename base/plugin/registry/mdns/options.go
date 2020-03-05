@@ -3,7 +3,7 @@ package mdns
 import (
 	"context"
 
-	"github.com/fananchong/v-micro/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 )
 
 type portType struct{}
