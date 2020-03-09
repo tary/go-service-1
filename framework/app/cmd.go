@@ -20,10 +20,67 @@ type cmd struct {
 
 func newCmd(opts ...Option) Cmd {
 
-	options := Options{}
+	/*l := newLogger(defaultLog)
+	r := newRegistry(defaultRegistry)
+	tran := newTransport(defaultTransport)
+	slt := newSelector(defaultSelector, []selector.Option{
+		selector.Registry(r),
+	}...)
+	ct := newConnctor(defaultConnector, []connector.Option{
+		connector.Transport(tran),
+	}...)
+	srv := newServer(defaultServer, []server.Option{
+		server.Registry(r),
+		server.Transport(tran),
+	}...)
+	c := newClient(defaultClient, []client.Option{
+		client.Registry(r),
+		client.Transport(tran),
+		client.Selector(slt),
+		client.Connector(ct),
+	}...)
+	*/
+
+	options := Options{
+	/*Logger:     &l,
+	Client:     &c,
+	Registry:   &r,
+	Server:     &srv,
+	Selector:   &slt,
+	Connector:  &ct,
+	Transport:  &tran,
+	Loggers:    DefaultLogs,
+	Clients:    DefaultClients,
+	Registries: DefaultRegistries,
+	Selectors:  DefaultSelectors,
+	Servers:    DefaultServers,
+	Transports: DefaultTransports,
+	Action:     func(c *cli.Context) {},
+	*/
+	}
+
+	for _, o := range opts {
+		o(&options)
+	}
+
+	if len(options.Description) == 0 {
+		options.Description = "a v-micro service"
+	}
+
 	cmd := new(cmd)
 	cmd.opts = options
+	/*cmd.app = cli.NewApp()
+	cmd.app.Name = cmd.opts.Name
+	cmd.app.Version = cmd.opts.Version
+	cmd.app.Usage = cmd.opts.Description
+	cmd.app.Before = cmd.Before
+	cmd.app.Flags = DefaultFlags
+	cmd.app.Action = func(c *cli.Context) {}
 
+	if len(options.Version) == 0 {
+		cmd.app.HideVersion = true
+	}
+	*/
 	return cmd
 }
 

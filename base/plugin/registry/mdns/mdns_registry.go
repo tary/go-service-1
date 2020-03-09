@@ -35,7 +35,7 @@ type mdnsRegistry struct {
 	services map[string][]*mdnsEntry
 }
 
-func newRegistry(opts ...registry.Option) registry.Registry {
+func newRegistry(opts ...registry.Option) registry.IRegistry {
 	options := registry.Options{
 		Timeout: 1 * time.Second,
 	}
@@ -375,6 +375,6 @@ func (m *mdnsRegistry) String() string {
 }
 
 // NewRegistry returns a new default registry which is mdns
-func NewRegistry(opts ...registry.Option) registry.Registry {
+func NewRegistry(opts ...registry.Option) registry.IRegistry {
 	return newRegistry(opts...)
 }

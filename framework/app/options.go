@@ -26,7 +26,7 @@ type Options struct {
 
 	//Loggers    map[string]func(...log.Option) log.Logger
 	//Clients    map[string]func(...client.Option) client.Client
-	Registries map[string]func(...registry.Option) registry.Registry
+	Registries map[string]func(...registry.Option) registry.IRegistry
 	//Selectors  map[string]func(...selector.Option) selector.Selector
 	//Connectors map[string]func(...connector.Option) connector.Connector
 	//Servers    map[string]func(...server.Option) server.Server

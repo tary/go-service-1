@@ -3,10 +3,10 @@ package registry
 
 import "errors"
 
-// Registry The registry provides an interface for service discovery
+// IRegistry The registry provides an interface for service discovery
 // and an abstraction over varying implementations
 // {consul, etcd, zookeeper, ...}
-type Registry interface {
+type IRegistry interface {
 	Init(...Option) error
 	Options() Options
 	Register(*Service, ...RegisterOption) error
