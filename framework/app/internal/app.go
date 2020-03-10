@@ -122,19 +122,19 @@ type App struct {
 }
 
 // init app初始化
-func (srv *App) init(names ...string) error {
+func (app *App) init(names ...string) error {
 	msgdef.Init()
 
-	srv.startupTime = time.Now()
+	app.startupTime = time.Now()
 
 	var err error
-	srv.appID, err = dbservice.GetIDGenerator().GetGlobalID()
+	app.appID, err = dbservice.GetIDGenerator().GetGlobalID()
 	if err != nil {
 		seelog.Error("get server id error: ", err)
 		return err
 	}
 
-	seelog.Debug("App.init, appID: ", srv.appID)
+	seelog.Debug("App.init, appID: ", app.appID)
 
 	//初始化服务
 	for i := 0; i < len(names); i++ {
@@ -146,17 +146,17 @@ func (srv *App) init(names ...string) error {
 	}
 
 	listenAddr := viper.GetString("ServerApp.ListenAddr")
-	srv.AppNet = NewAppNet(1, listenAddr, "")
-	srv.AppNet.init()
+	app.AppNet = NewAppNet(1, listenAddr, "")
+	app.AppNet.init()
 
-	srv.AppNet.Server, err = server.New("tcp", listenAddr, 0)
+	app.AppNet.Server, err = server.New("tcp", listenAddr, 0)
 	if err != nil {
 		return err
 	}
 	//多设了一遍，可以删掉？	srv.AppNet.Server.SetVerifyMsgID(msgdef.ClientVerifyReqMsgID)
 
 	// 添加MsgProc, 这样新连接创建时会注册处理函数
-	srv.AppNet.Server.AddMsgProc(&ProcApp{})
+	app.AppNet.Server.AddMsgProc(&ProcApp{})
 
 	service.GetLocalServiceMgr().RunLocalService()
 
@@ -164,27 +164,27 @@ func (srv *App) init(names ...string) error {
 }
 
 // destroy app销毁
-func (srv *App) destroy() {
+func (app *App) destroy() {
 	seelog.Debug("App.destory")
 
-	srv.pendingClose <- true
+	app.pendingClose <- true
 
 	service.GetLocalServiceMgr().Destroy()
 	//删除redis里的app信息,
 	info := &idata.AppInfo{
-		AppID: srv.appID,
+		AppID: app.appID,
 	}
 	servermgr.Getservermgr().Unregister(info)
 	// 删除app上的所有service信息
-	service.GetServiceProxyMgr().DelServiceByAppID(srv.appID)
-	if srv.Server != nil {
-		srv.Server.Close()
+	service.GetServiceProxyMgr().DelServiceByAppID(app.appID)
+	if app.Server != nil {
+		app.Server.Close()
 	}
 }
 
 // Run 逻辑入口
 // configFile 配置文件
-func (srv *App) Run(configFile string) {
+func (app *App) Run(configFile string) {
 	pflag.Uint("pprof-port", 0, "pprof http port")
 	pflag.String("configfile", "../res/config/server.toml", "config file")
 
@@ -210,19 +210,19 @@ func (srv *App) Run(configFile string) {
 		panic("no service")
 	}
 
-	srv.notConnectServices = getNotConnectServiceMap(viper.GetString("ServerApp.NotConnect"))
+	app.notConnectServices = getNotConnectServiceMap(viper.GetString("ServerApp.NotConnect"))
 
 	seelog.Info("services", services)
-	if err := srv.init(services...); err != nil {
+	if err := app.init(services...); err != nil {
 		panic(err)
 	}
 
-	if srv.Server != nil {
-		go srv.Server.Run()
+	if app.Server != nil {
+		go app.Server.Run()
 	}
 
-	srv.pendingClose = make(chan bool, 1)
-	go srv.loopCheckPendingCall(srv.pendingClose)
+	app.pendingClose = make(chan bool, 1)
+	go app.loopCheckPendingCall(app.pendingClose)
 
 	// close
 	c := make(chan os.Signal, 1)
@@ -231,39 +231,39 @@ func (srv *App) Run(configFile string) {
 
 	<-c
 
-	srv.destroy()
+	app.destroy()
 }
 
 // GetAppID 获得appID
-func (srv *App) GetAppID() uint64 {
-	return srv.appID
+func (app *App) GetAppID() uint64 {
+	return app.appID
 }
 
 // GetSeq 获得请求
-func (srv *App) GetSeq() uint64 {
-	return srv.seq.Inc()
+func (app *App) GetSeq() uint64 {
+	return app.seq.Inc()
 }
 
 // GetNotConnectServices 获取不会连接的服务对
-func (srv *App) GetNotConnectServices() map[idata.ServiceType]idata.ServiceType {
-	return srv.notConnectServices
+func (app *App) GetNotConnectServices() map[idata.ServiceType]idata.ServiceType {
+	return app.notConnectServices
 }
 
 // AddPendingCall 添加等待调用
-func (srv *App) AddPendingCall(call *idata.PendingCall) {
+func (app *App) AddPendingCall(call *idata.PendingCall) {
 	//seelog.Debug("AddPendingCall, seq: ", call.Seq, ", startTime: ", call.StartTime)
-	srv.pendingMap.Store(call.Seq, call)
+	app.pendingMap.Store(call.Seq, call)
 }
 
 // DelPendingCall 删除等待调用
-func (srv *App) DelPendingCall(seq uint64) {
+func (app *App) DelPendingCall(seq uint64) {
 	//seelog.Debug("delPendingCall, seq: ", seq)
-	srv.pendingMap.Delete(seq)
+	app.pendingMap.Delete(seq)
 }
 
 // GetPendingCall 获得等待调用
-func (srv *App) GetPendingCall(seq uint64) *idata.PendingCall {
-	call, ok := srv.pendingMap.Load(seq)
+func (app *App) GetPendingCall(seq uint64) *idata.PendingCall {
+	call, ok := app.pendingMap.Load(seq)
 	if ok {
 		return call.(*idata.PendingCall)
 	}
@@ -272,7 +272,7 @@ func (srv *App) GetPendingCall(seq uint64) *idata.PendingCall {
 }
 
 // loopCheckPendingCall 循环检查等待调用
-func (srv *App) loopCheckPendingCall(closeSig chan bool) {
+func (app *App) loopCheckPendingCall(closeSig chan bool) {
 	defer func() {
 		if err := recover(); err != nil {
 			seelog.Error("loopCheckPendingCall panic:", err, ", Stack: ", string(debug.Stack()))
@@ -288,27 +288,27 @@ func (srv *App) loopCheckPendingCall(closeSig chan bool) {
 	for {
 		select {
 		case <-closeSig:
-			srv.delTimeoutPendingCall(true)
+			app.delTimeoutPendingCall(true)
 			return
 
 		case <-ticker.C:
-			srv.delTimeoutPendingCall(false)
+			app.delTimeoutPendingCall(false)
 		}
 	}
 }
 
 // delTimeoutPendingCall 定时删除等待调用
-func (srv *App) delTimeoutPendingCall(force bool) {
+func (app *App) delTimeoutPendingCall(force bool) {
 	//seelog.Debug("delTimeoutPendingCall")
 
-	srv.pendingMap.Range(
+	app.pendingMap.Range(
 		func(key, value interface{}) bool {
 			call := value.(*idata.PendingCall)
 			//seelog.Debug("call.StartTime: ", call.StartTime, ", now: ", time.Now().Unix())
 
 			//暂时定为4秒就超时
 			if call.StartTime+4 < time.Now().Unix() || force {
-				srv.DelPendingCall(key.(uint64))
+				app.DelPendingCall(key.(uint64))
 				retData := &idata.RetData{}
 				retData.Err = fmt.Errorf("call timeout")
 				call.RetChan <- retData
@@ -319,8 +319,8 @@ func (srv *App) delTimeoutPendingCall(force bool) {
 }
 
 // GetAppNet 获得app组网
-func (srv *App) GetAppNet() iserver.IAppNet {
-	return srv.AppNet
+func (app *App) GetAppNet() iserver.IAppNet {
+	return app.AppNet
 }
 
 // startProfServer 开始性能指标检测
