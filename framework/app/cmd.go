@@ -1,7 +1,11 @@
 package app
 
-// interface cmd接口
+import (
+	"github.com/giant-tech/go-service/base/plugin/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry/mdns"
+)
 
+// interface cmd接口
 type Cmd interface {
 
 	// The cli app within this cmd
@@ -18,11 +22,35 @@ type cmd struct {
 	//app  *cli.App
 }
 
+var (
+	// DefaultRegistries default registries
+	DefaultRegistries = map[string]func(...registry.Option) registry.IRegistry{
+		"mdns": mdns.NewRegistry,
+	}
+
+	defaultRegistry = "mdns"
+)
+
+func newRegistry(name string) registry.IRegistry {
+	var r registry.IRegistry
+	if name == "mdns" {
+		// Many products will also use the 5353 port for mdns service discovery, such as jenkins.
+		// Change to other ports, to avoid 'discovering other APP services,
+		// and protocol parsing failed, resulting in an infinite loop BUG'
+		opt := []registry.Option{mdns.Port(5354)}
+		r = DefaultRegistries[name](opt...)
+	} else {
+		r = DefaultRegistries[name]()
+	}
+	return r
+}
+
 func newCmd(opts ...Option) Cmd {
 
-	/*l := newLogger(defaultLog)
-	r := newRegistry(defaultRegistry)
-	tran := newTransport(defaultTransport)
+	//l := newLogger(defaultLog)
+	/*r := */
+	newRegistry(defaultRegistry)
+	/*tran := newTransport(defaultTransport)
 	slt := newSelector(defaultSelector, []selector.Option{
 		selector.Registry(r),
 	}...)

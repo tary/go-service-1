@@ -4,6 +4,7 @@ require (
 	github.com/ant0ine/go-json-rest v3.3.2+incompatible
 	github.com/aurelien-rainone/assertgo v0.0.0-20180702120748-a1be5afdc871
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575
+	github.com/fananchong/v-micro v0.0.0-20200303024450-625ea8d3b85c
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/garyburd/redigo v1.6.0
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
