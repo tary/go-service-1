@@ -1,5 +1,7 @@
 module github.com/giant-tech/go-service
 
+go 1.14
+
 require (
 	github.com/ant0ine/go-json-rest v3.3.2+incompatible
 	github.com/aurelien-rainone/assertgo v0.0.0-20180702120748-a1be5afdc871
@@ -11,8 +13,10 @@ require (
 	github.com/go-log/log v0.2.0
 	github.com/gogo/protobuf v1.2.1
 	github.com/golang/snappy v0.0.1
+	github.com/hashicorp/consul/api v1.4.0
 	github.com/klauspost/cpuid v1.2.1 // indirect
 	github.com/klauspost/reedsolomon v1.9.2 // indirect
+	github.com/micro/go-micro/v2 v2.2.0
 	github.com/micro/mdns v0.3.0
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/sirupsen/logrus v1.4.2
@@ -22,9 +26,8 @@ require (
 	github.com/templexxx/xor v0.0.0-20181023030647-4e92f724b73b // indirect
 	github.com/tjfoc/gmsm v1.0.1 // indirect
 	github.com/xtaci/kcp-go v5.4.2+incompatible
-	go.uber.org/atomic v1.4.0
-	golang.org/x/lint v0.0.0-20190409202823-959b441ac422 // indirect
-	golang.org/x/net v0.0.0-20190522155817-f3200d17e092
-	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
-	google.golang.org/grpc v1.21.0
+	go.uber.org/atomic v1.5.0
+	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
+	golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0
+	google.golang.org/grpc v1.26.0
 )

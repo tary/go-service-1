@@ -1,11 +1,8 @@
-// Package mdns is a multicast dns registry
-package mdns
+// Package redisd is redis registry
+package redisd
 
 import (
 	"context"
-	"fmt"
-	"net"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -13,26 +10,13 @@ import (
 	log "github.com/cihub/seelog"
 	"github.com/giant-tech/go-service/base/plugin/registry"
 	"github.com/micro/mdns"
-	hash "github.com/mitchellh/hashstructure"
 )
 
-type mdnsTxt struct {
-	Service  string
-	Version  string
-	Metadata map[string]string
-}
-
-type mdnsEntry struct {
-	hash uint64
-	id   string
-	node *mdns.Server
-}
-
-type mdnsRegistry struct {
+type redisRegistry struct {
 	opts registry.Options
 
 	sync.Mutex
-	services map[string][]*mdnsEntry
+	//services map[string][]*mdnsEntry
 }
 
 func newRegistry(opts ...registry.Option) registry.IRegistry {
@@ -40,9 +24,9 @@ func newRegistry(opts ...registry.Option) registry.IRegistry {
 		Timeout: 1 * time.Second,
 	}
 
-	registry := &mdnsRegistry{
-		opts:     options,
-		services: make(map[string][]*mdnsEntry),
+	registry := &redisRegistry{
+		opts: options,
+		//services: make(map[string][]*mdnsEntry),
 	}
 
 	for _, o := range opts {
@@ -52,29 +36,29 @@ func newRegistry(opts ...registry.Option) registry.IRegistry {
 	return registry
 }
 
-func (m *mdnsRegistry) Init(opts ...registry.Option) error {
+func (m *redisRegistry) Init(opts ...registry.Option) error {
 	for _, o := range opts {
 		o(&m.opts)
 	}
 	return nil
 }
 
-func (m *mdnsRegistry) Options() registry.Options {
+func (m *redisRegistry) Options() registry.Options {
 	return m.opts
 }
 
-func (m *mdnsRegistry) Register(service *registry.Service, opts ...registry.RegisterOption) error {
+func (m *redisRegistry) Register(service *registry.Service, opts ...registry.RegisterOption) error {
 	m.Lock()
 	defer m.Unlock()
-	var mdnsPort int
+	/*var mdnsPort int
 	if m.opts.Context != nil {
 		if v, ok := m.opts.Context.Value(portType{}).(int); ok {
 			mdnsPort = v
 		}
 	}
-	entries, ok := m.services[service.Name]
+	entries, ok := m.services[service.Name]*/
 	// first entry, create wildcard used for list queries
-	if !ok {
+	/*if !ok {
 		s, err := mdns.NewMDNSService(
 			service.Name,
 			"_services",
@@ -98,131 +82,52 @@ func (m *mdnsRegistry) Register(service *registry.Service, opts ...registry.Regi
 		// append the wildcard entry
 		entries = append(entries, &mdnsEntry{id: "*", node: srv})
 	}
+	*/
 
 	var gerr error
 
-	for _, node := range service.Nodes {
-		// create hash of service; uint64
-		h, err := hash.Hash(node, nil)
-		if err != nil {
-			log.Error(err)
-			gerr = err
-			continue
-		}
-
-		var seen bool
-		var e *mdnsEntry
-		for _, entry := range entries {
-			if node.ID == entry.id {
-				seen = true
-				e = entry
-				break
-			}
-		}
-
-		// already registered, continue
-		if seen && e.hash == h {
-			continue
-			// hash doesn't match, shutdown
-		} else if seen {
-			log.Infof("id:%s, node hash:%s, old hash:%s. node will restart ...", node.ID, h, e.hash)
-			_ = e.node.Shutdown()
-			// doesn't exist
-		} else {
-			e = &mdnsEntry{hash: h}
-		}
-
-		txt, err := encode(&mdnsTxt{
-			Service:  service.Name,
-			Version:  service.Version,
-			Metadata: node.Metadata,
-		})
-
-		if err != nil {
-			log.Error(err)
-			gerr = err
-			continue
-		}
-
-		//
-		host, pt, err := net.SplitHostPort(node.Address)
-		if err != nil {
-			log.Error(err)
-			gerr = err
-			continue
-		}
-		port, _ := strconv.Atoi(pt)
-
-		// we got here, new node
-		s, err := mdns.NewMDNSService(
-			node.ID,
-			service.Name,
-			"",
-			"",
-			port,
-			[]net.IP{net.ParseIP(host)},
-			txt,
-		)
-		if err != nil {
-			log.Error(err)
-			gerr = err
-			continue
-		}
-
-		srv, err := mdns.NewServer(&mdns.Config{Zone: s, Port: mdnsPort})
-		if err != nil {
-			log.Error(err)
-			gerr = err
-			continue
-		}
-
-		e.id = node.ID
-		e.node = srv
-		entries = append(entries, e)
-	}
-
 	// save
-	m.services[service.Name] = entries
+	//m.services[service.Name] = entries
 
 	return gerr
 }
 
-func (m *mdnsRegistry) Deregister(service *registry.Service) error {
+func (m *redisRegistry) Deregister(service *registry.Service) error {
 	m.Lock()
 	defer m.Unlock()
 
-	var newEntries []*mdnsEntry
+	/*	var newEntries []*mdnsEntry
 
-	// loop existing entries, check if any match, shutdown those that do
-	for _, entry := range m.services[service.Name] {
-		var remove bool
+		// loop existing entries, check if any match, shutdown those that do
+		for _, entry := range m.services[service.Name] {
+			var remove bool
 
-		for _, node := range service.Nodes {
-			if node.ID == entry.id {
-				_ = entry.node.Shutdown()
-				remove = true
-				break
+			for _, node := range service.Nodes {
+				if node.ID == entry.id {
+					_ = entry.node.Shutdown()
+					remove = true
+					break
+				}
+			}
+
+			// keep it?
+			if !remove {
+				newEntries = append(newEntries, entry)
 			}
 		}
 
-		// keep it?
-		if !remove {
-			newEntries = append(newEntries, entry)
+		// last entry is the wildcard for list queries. Remove it.
+		if len(newEntries) == 1 && newEntries[0].id == "*" {
+			_ = newEntries[0].node.Shutdown()
+			delete(m.services, service.Name)
+		} else {
+			m.services[service.Name] = newEntries
 		}
-	}
-
-	// last entry is the wildcard for list queries. Remove it.
-	if len(newEntries) == 1 && newEntries[0].id == "*" {
-		_ = newEntries[0].node.Shutdown()
-		delete(m.services, service.Name)
-	} else {
-		m.services[service.Name] = newEntries
-	}
-
+	*/
 	return nil
 }
 
-func (m *mdnsRegistry) GetService(service string) ([]*registry.Service, error) {
+func (m *redisRegistry) GetService(service string) ([]*registry.Service, error) {
 	serviceMap := make(map[string]*registry.Service)
 	entries := make(chan *mdns.ServiceEntry, 10)
 	done := make(chan bool)
@@ -248,7 +153,7 @@ func (m *mdnsRegistry) GetService(service string) ([]*registry.Service, error) {
 					continue
 				}
 
-				txt, err := decode(e.InfoFields)
+				/*txt, err := decode(e.InfoFields)
 				if err != nil {
 					log.Error(err)
 					continue
@@ -272,7 +177,7 @@ func (m *mdnsRegistry) GetService(service string) ([]*registry.Service, error) {
 					Metadata: txt.Metadata,
 				})
 
-				serviceMap[txt.Version] = s
+				serviceMap[txt.Version] = s*/
 			case <-p.Context.Done():
 				cancel()
 				close(done)
@@ -300,7 +205,7 @@ func (m *mdnsRegistry) GetService(service string) ([]*registry.Service, error) {
 	return services, nil
 }
 
-func (m *mdnsRegistry) ListServices() ([]*registry.Service, error) {
+func (m *redisRegistry) ListServices() ([]*registry.Service, error) {
 	serviceMap := make(map[string]bool)
 	entries := make(chan *mdns.ServiceEntry, 10)
 	done := make(chan bool)
@@ -347,13 +252,13 @@ func (m *mdnsRegistry) ListServices() ([]*registry.Service, error) {
 	return services, nil
 }
 
-func (m *mdnsRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, error) {
+func (m *redisRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, error) {
 	var wo registry.WatchOptions
 	for _, o := range opts {
 		o(&wo)
 	}
 
-	md := &mdnsWatcher{
+	md := &redisWatcher{
 		wo:   wo,
 		ch:   make(chan *mdns.ServiceEntry, 32),
 		exit: make(chan struct{}),
@@ -362,18 +267,18 @@ func (m *mdnsRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, er
 	go func() {
 		if err := mdns.Listen(md.ch, md.exit); err != nil {
 			log.Error(err)
-			md.Stop()
+			//md.Stop()
 		}
 	}()
 
 	return md, nil
 }
 
-func (m *mdnsRegistry) String() string {
-	return "mdns"
+func (m *redisRegistry) String() string {
+	return "redis"
 }
 
-// NewRegistry returns a new default registry which is mdns
+// NewRegistry returns a new default registry which is redis
 func NewRegistry(opts ...registry.Option) registry.IRegistry {
 	return newRegistry(opts...)
 }
