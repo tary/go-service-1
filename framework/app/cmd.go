@@ -2,10 +2,11 @@ package app
 
 import (
 	"github.com/giant-tech/go-service/base/plugin/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry/consul"
 	"github.com/giant-tech/go-service/base/plugin/registry/mdns"
 )
 
-// interface cmd接口
+// Cmd interface cmd接口
 type Cmd interface {
 
 	// The cli app within this cmd
@@ -25,10 +26,10 @@ type cmd struct {
 var (
 	// DefaultRegistries default registries
 	DefaultRegistries = map[string]func(...registry.Option) registry.IRegistry{
-		"mdns": mdns.NewRegistry,
+		"consul": consul.NewRegistry,
 	}
 
-	defaultRegistry = "mdns"
+	defaultRegistry = "consul"
 )
 
 func newRegistry(name string) registry.IRegistry {
@@ -70,21 +71,21 @@ func newCmd(opts ...Option) Cmd {
 	*/
 
 	options := Options{
-	/*Logger:     &l,
-	Client:     &c,
-	Registry:   &r,
-	Server:     &srv,
-	Selector:   &slt,
-	Connector:  &ct,
-	Transport:  &tran,
-	Loggers:    DefaultLogs,
-	Clients:    DefaultClients,
-	Registries: DefaultRegistries,
-	Selectors:  DefaultSelectors,
-	Servers:    DefaultServers,
-	Transports: DefaultTransports,
-	Action:     func(c *cli.Context) {},
-	*/
+		/*Logger:     &l,
+		Client:     &c,
+		Registry:   &r,
+		Server:     &srv,
+		Selector:   &slt,
+		Connector:  &ct,
+		Transport:  &tran,
+		Loggers:    DefaultLogs,
+		Clients:    DefaultClients,
+		Registries: DefaultRegistries,
+		Selectors:  DefaultSelectors,
+		Servers:    DefaultServers,
+		Transports: DefaultTransports,
+		Action:     func(c *cli.Context) {},
+		*/
 	}
 
 	for _, o := range opts {

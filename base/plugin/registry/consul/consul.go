@@ -11,10 +11,13 @@ import (
 	"sync"
 	"time"
 
+	"github.com/giant-tech/go-service/base/plugin/registry"
 	consul "github.com/hashicorp/consul/api"
 	"github.com/micro/go-micro/v2/config/cmd"
-	"github.com/micro/go-micro/v2/registry"
-	mnet "github.com/micro/go-micro/v2/util/net"
+	//"github.com/micro/go-micro/v2/config/cmd"
+
+	//"github.com/micro/go-micro/v2/registry"
+	//mnet "github.com/micro/go-micro/v2/util/net"
 	hash "github.com/mitchellh/hashstructure"
 )
 
@@ -429,7 +432,8 @@ func (c *consulRegistry) Client() *consul.Client {
 	return c.client
 }
 
-func NewRegistry(opts ...registry.Option) registry.Registry {
+// NewRegistry 新建注册
+func NewRegistry(opts ...registry.Option) registry.IRegistry {
 	cr := &consulRegistry{
 		opts:        registry.Options{},
 		register:    make(map[string]uint64),

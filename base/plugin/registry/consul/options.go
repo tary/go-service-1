@@ -18,6 +18,7 @@ func Connect() registry.Option {
 	}
 }
 
+// Config 配置
 func Config(c *consul.Config) registry.Option {
 	return func(o *registry.Options) {
 		if o.Context == nil {
