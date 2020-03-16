@@ -10,7 +10,8 @@ import (
 	"time"
 
 	consul "github.com/hashicorp/consul/api"
-	"github.com/micro/go-micro/v2/registry"
+	//"github.com/micro/go-micro/v2/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 )
 
 type mockRegistry struct {

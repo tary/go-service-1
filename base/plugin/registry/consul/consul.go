@@ -13,8 +13,9 @@ import (
 
 	"github.com/giant-tech/go-service/base/plugin/registry"
 	consul "github.com/hashicorp/consul/api"
-	"github.com/micro/go-micro/v2/config/cmd"
+
 	//"github.com/micro/go-micro/v2/config/cmd"
+	"github.com/giant-tech/go-service/framework/app"
 
 	//"github.com/micro/go-micro/v2/registry"
 	//mnet "github.com/micro/go-micro/v2/util/net"
@@ -40,7 +41,7 @@ type consulRegistry struct {
 }
 
 func init() {
-	cmd.DefaultRegistries["consul"] = NewRegistry
+	app.DefaultRegistries["consul"] = NewRegistry
 }
 
 func getDeregisterTTL(t time.Duration) time.Duration {
@@ -132,12 +133,12 @@ func configure(c *consulRegistry, opts ...registry.Option) {
 	}
 
 	// requires secure connection?
-	if c.opts.Secure || c.opts.TLSConfig != nil {
+	/*if c.opts.Secure || c.opts.TLSConfig != nil {
 		config.Scheme = "https"
 		// We're going to support InsecureSkipVerify
 		config.HttpClient.Transport = newTransport(c.opts.TLSConfig)
 	}
-
+	*/
 	// set timeout
 	if c.opts.Timeout > 0 {
 		config.HttpClient.Timeout = c.opts.Timeout
@@ -170,7 +171,7 @@ func (c *consulRegistry) Deregister(s *registry.Service) error {
 	c.Unlock()
 
 	node := s.Nodes[0]
-	return c.Client().Agent().ServiceDeregister(node.Id)
+	return c.Client().Agent().ServiceDeregister(node.ID)
 }
 
 func (c *consulRegistry) Register(s *registry.Service, opts ...registry.RegisterOption) error {
@@ -218,7 +219,7 @@ func (c *consulRegistry) Register(s *registry.Service, opts ...registry.Register
 			services, _, err := c.Client().Health().Checks(s.Name, c.queryOptions)
 			if err == nil {
 				for _, v := range services {
-					if v.ServiceID == node.Id {
+					if v.ServiceID == node.ID {
 						return nil
 					}
 				}
@@ -226,7 +227,7 @@ func (c *consulRegistry) Register(s *registry.Service, opts ...registry.Register
 		} else {
 			// if the err is nil we're all good, bail out
 			// if not, we don't know what the state is, so full re-register
-			if err := c.Client().Agent().PassTTL("service:"+node.Id, ""); err == nil {
+			if err := c.Client().Agent().PassTTL("service:"+node.ID, ""); err == nil {
 				return nil
 			}
 		}
@@ -266,7 +267,7 @@ func (c *consulRegistry) Register(s *registry.Service, opts ...registry.Register
 
 	// register the service
 	asr := &consul.AgentServiceRegistration{
-		ID:      node.Id,
+		ID:      node.ID,
 		Name:    s.Name,
 		Tags:    tags,
 		Port:    port,
@@ -297,7 +298,7 @@ func (c *consulRegistry) Register(s *registry.Service, opts ...registry.Register
 	}
 
 	// pass the healthcheck
-	return c.Client().Agent().PassTTL("service:"+node.Id, "")
+	return c.Client().Agent().PassTTL("service:"+node.ID, "")
 }
 
 func (c *consulRegistry) GetService(name string) ([]*registry.Service, error) {
@@ -362,8 +363,9 @@ func (c *consulRegistry) GetService(name string) ([]*registry.Service, error) {
 		}
 
 		svc.Nodes = append(svc.Nodes, &registry.Node{
-			Id:       id,
-			Address:  mnet.HostPort(address, s.Service.Port),
+			ID: id,
+			// temp 注释
+			//Address:  mnet.HostPort(address, s.Service.Port),
 			Metadata: decodeMetadata(s.Service.Tags),
 		})
 	}

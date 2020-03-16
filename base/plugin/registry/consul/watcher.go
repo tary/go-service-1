@@ -8,7 +8,9 @@ import (
 
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/api/watch"
-	"github.com/micro/go-micro/v2/registry"
+
+	//"github.com/micro/go-micro/v2/registry"
+	"github.com/giant-tech/go-service/base/plugin/registry"
 )
 
 type consulWatcher struct {
@@ -102,7 +104,7 @@ func (cw *consulWatcher) serviceHandler(idx uint64, data interface{}) {
 		}
 
 		svc.Nodes = append(svc.Nodes, &registry.Node{
-			Id:       id,
+			ID:       id,
 			Address:  fmt.Sprintf("%s:%d", address, e.Service.Port),
 			Metadata: decodeMetadata(e.Service.Tags),
 		})
@@ -149,7 +151,7 @@ func (cw *consulWatcher) serviceHandler(idx uint64, data interface{}) {
 			for _, oldNode := range oldService.Nodes {
 				var seen bool
 				for _, newNode := range newService.Nodes {
-					if newNode.Id == oldNode.Id {
+					if newNode.ID == oldNode.ID {
 						seen = true
 						break
 					}

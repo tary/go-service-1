@@ -2,7 +2,6 @@ package app
 
 import (
 	"github.com/giant-tech/go-service/base/plugin/registry"
-	"github.com/giant-tech/go-service/base/plugin/registry/consul"
 	"github.com/giant-tech/go-service/base/plugin/registry/mdns"
 )
 
@@ -26,7 +25,7 @@ type cmd struct {
 var (
 	// DefaultRegistries default registries
 	DefaultRegistries = map[string]func(...registry.Option) registry.IRegistry{
-		"consul": consul.NewRegistry,
+		//"consul": consul.NewRegistry,
 	}
 
 	defaultRegistry = "consul"
