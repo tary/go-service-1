@@ -6,7 +6,7 @@ go-service是用Golang开发的一款分布式服务器框架。
 
 go-service提供了一套分布式组件（分布式服务和分布式实体），以及它们所提供的RPC方法。我们可以在任何地方调用这些服务和实体所提供的方法，而不用关心这些服务和实体是不是与调用者在一个进程或机器。框架的三个核心概念为：App，Service，Entity。
 - App：为一个进程，一台机器可以开启多个App，每个App可以根据配置加载一到多个Service。
-- Service：开发者所开发的逻辑服务（比如聊天服，网关服等），可以管理多个实体，也可以是无实体的服务。
+- Service：开发者所开发的逻辑功能的集合（比如聊天服，网关服等），可以管理多个实体，也可以是无实体的服务。
 - Entity：服务中管理的对象，比如Player、Team等，可以分布在一到多个Service中。
 三者关系如下：
 
@@ -53,6 +53,11 @@ randProxy := iserver.GetServiceProxyMgr().GetRandService(servicetype.TeamService
 //用于保存同步调用的返回值
 var name string
 err := randProxy.SyncCall(&name, "GetName")
+```
+
+## 实体内部的rpc调用
+```
+  entity.AsyncCall(lobby, "SetName", "NewName")
 ```
 
 ## 实体代理的获取及实体方法的调用
