@@ -89,3 +89,4 @@ err := randProxy.SyncCall(&name, "GetName")
 - 942711528
 ## github下载慢的，可到码云下载，下载地址：
 - https://gitee.com/yekoufeng/go-service
+- https://gitee.com/yekoufeng/go-service-examples
