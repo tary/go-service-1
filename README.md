@@ -55,7 +55,7 @@ var name string
 err := randProxy.SyncCall(&name, "GetName")
 ```
 
-## 实体内部的rpc调用
+## 实体内部的rpc调用,entity为实体对象
 ```
   entity.AsyncCall(lobby, "SetName", "NewName")
 ```
