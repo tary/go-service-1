@@ -55,7 +55,7 @@ var name string
 err := randProxy.SyncCall(&name, "GetName")
 ```
 
-## 实体内部的rpc调用
+## 实体内部的rpc调用,entity为实体对象
 ```
   entity.AsyncCall(lobby, "SetName", "NewName")
 ```
@@ -94,3 +94,4 @@ err := randProxy.SyncCall(&name, "GetName")
 - 942711528
 ## github下载慢的，可到码云下载，下载地址：
 - https://gitee.com/yekoufeng/go-service
+- https://gitee.com/yekoufeng/go-service-examples
