@@ -31,64 +31,65 @@ The messaging of Service and Entity is handed over to App for processing, and no
   * Provide windows, linux one-click running script
 - Go mod support, can automatically download the required tripartite library, and the framework's underlying library
 
-# 如何开始
-- 环境准备
-	* 需要安装go.1.12及以上版本,无需配置GOPATH
-	* 编辑器可以采用vscode,或者普通的文本编辑器
-	* 如果新建自己的工程，可以参照下面的例子建工程，里面的批处理会自动下载、编译跑起来。
+# How to start
+- Environment preparation
+	* Need to install go.1.12 and above, no need to configure GOPATH
+	* The editor can be vscode, or a normal text editor
+	* If you create your own project, you can refer to the following example to build the project, the batch processing inside will be automatically downloaded, compiled and run.
 
-# 代码示例
-## 服务的获取及服务方法的调用
-异步调用TeamService提供的SetName方法，把名字设置为"NewName"
+
+# Code example
+## Get service and call service method
+Asynchronously call the SetName method provided by TeamService and set the name to "NewName"
 ```
 randProxy := iserver.GetServiceProxyMgr().GetRandService(servicetype.TeamService)
 err := randProxy.AsyncCall("SetName", "NewName")
 ```
-同步调用TeamService提供的GetName方法，并把返回的结果赋值给name
+Synchronously call the GetName method provided by TeamService, and assign the returned result to name
 ```
 randProxy := iserver.GetServiceProxyMgr().GetRandService(servicetype.TeamService)
-//用于保存同步调用的返回值
+//Used to save the return value of a synchronous call
 var name string
 err := randProxy.SyncCall(&name, "GetName")
 ```
 
-## 实体内部的rpc调用,entity为实体对象
+## Rpc call inside the entity (entity is an entity object)
 ```
   entity.AsyncCall(lobby, "SetName", "NewName")
 ```
 
-## 实体代理的获取及实体方法的调用
+## Get entity agent and call entity method
 
-异步调用Team实体的SetName方法，把队伍ID为"TeamID"的队伍名字设置为"NewTeamName"。
+Asynchronously call the SetName method of the Team entity, and set the name of the team whose team ID is "TeamID" to "NewTeamName"
 ```
   err := entity.NewEntityProxy(TeamID).AsyncCall(servicetype.TeamService, "SetName", "NewTeamName")
 ```
 
-同步调用队伍实体的GetName方法，获取队伍ID为"TeamID"的队伍的名字。
+Synchronously call the GetName method of the team entity to obtain the name of the team whose team ID is "TeamID"
 ```
   var teamName string
   err := entity.NewEntityProxy(TeamID).SyncCall(servicetype.TeamService, &teamName, "GetName")
 ```
 
-## 完整代码示例
-- unity客户端(c#)调用服务器
+## Complete code example
+- Unity client (c#) calls the server
 
 	https://github.com/giant-tech/go-service-examples/tree/master/client-service-demo-csharp
 
-- go客户端调用服务器
+- go client calls server
 
 	https://github.com/giant-tech/go-service-examples/tree/master/client-call-serviceA
 
-- entity之间如何调用
+- how to call between entities
 
 	https://github.com/giant-tech/go-service-examples/tree/master/entity-call-entity
 
-- 两个service之间如何调用
+- how to call between two services
 
 	https://github.com/giant-tech/go-service-examples/tree/master/serviceA-call-serviceB
 
-## qq讨论群
+## qq(Welcome to discuss)
 - 942711528
-## github下载慢的，可到码云下载，下载地址：
+## If the github download is slow, you can go to gitee to download, download address:
 - https://gitee.com/yekoufeng/go-service
 - https://gitee.com/yekoufeng/go-service-examples
