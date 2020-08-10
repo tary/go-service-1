@@ -1,5 +1,7 @@
 module github.com/giant-tech/go-service
 
+go 1.14
+
 require (
 	github.com/ant0ine/go-json-rest v3.3.2+incompatible
 	github.com/aurelien-rainone/assertgo v0.0.0-20180702120748-a1be5afdc871

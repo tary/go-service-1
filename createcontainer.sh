@@ -1,6 +1,5 @@
-
 #!/bin/bash
-#docker¹¤×÷ÏµÍ³´´½¨½Å±¾
+#dockerå·¥ä½œç³»ç»Ÿåˆ›å»ºè„šæœ¬
 
 BASE_DIR=$0
 echo $BASE_DIR
@@ -15,9 +14,9 @@ fi
 function createcontainer(){
     #echo "docker create --name "$1"DV -v "$3" centos:7.5.1804"
     #echo "(docker run --name "$1" --volumes-from "$1"DV -p "$2":22 dev_os:v2 /usr/sbin/sshd -D) &"
-    #´Ë´¦´´½¨Êı¾İÈİÆ÷£¬ÓÃÓÚ´æ´¢¿ª·¢ÕßÊı¾İ
+    #æ­¤å¤„åˆ›å»ºæ•°æ®å®¹å™¨ï¼Œç”¨äºå­˜å‚¨å¼€å‘è€…æ•°æ®
     docker create --name "$1"DV -v /opt/dockerdata hello-world:latest
-    #´Ë´¦´´½¨ÏµÍ³ÈİÆ÷£¬ÓÃÓÚ¿ª·¢Õß¿ª·¢Ê¹ÓÃ
+    #æ­¤å¤„åˆ›å»ºç³»ç»Ÿå®¹å™¨ï¼Œç”¨äºå¼€å‘è€…å¼€å‘ä½¿ç”¨
     docker create --name "$1" --volumes-from "$1"DV -p "$2":22 -p "$3":8888 --security-opt seccomp=unconfined --privileged=true base_os:v3 /usr/sbin/init
     docker start $1
     docker cp $BASE_DIR/createuser.sh $1:/root
