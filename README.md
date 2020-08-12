@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/atotto/travisci-golang-example.png)](https://travis-ci.org/atotto/travisci-golang-example)
 
-# [Chinese](https://github.com/giant-tech/go-service/blob/master/README-CN.md) 
+# [中文](https://github.com/giant-tech/go-service/blob/master/README-CN.md) 
 
 go-service is a distributed server framework developed with Golang
 
