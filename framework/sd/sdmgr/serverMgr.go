@@ -48,12 +48,12 @@ func (mgr *ServerMgr) GetWatchedServerType() int32 {
 }
 
 // GetRandCli 随机获取一个连接
-func (mgr *ServerMgr) GetRandCli() (uint64, inet.ISessionBase, error) {
+func (mgr *ServerMgr) GetRandCli() (uint64, inet.ISDSession, error) {
 	return sdsess.GetRandSession(mgr.srvType)
 }
 
 // GetCliByID 获取client session
-func (mgr *ServerMgr) GetCliByID(srvID uint64) (inet.ISessionBase, error) {
+func (mgr *ServerMgr) GetCliByID(srvID uint64) (inet.ISDSession, error) {
 	return sdsess.GetSession(srvID)
 }
 

@@ -31,11 +31,11 @@ func init() {
 type serverSessionInfo struct {
 	serverID   uint64
 	serverType int32
-	sess       inet.ISessionBase
+	sess       inet.ISDSession
 }
 
 // GetSession 获取连接
-func GetSession(serverID uint64) (inet.ISessionBase, error) {
+func GetSession(serverID uint64) (inet.ISDSession, error) {
 	srv, ok := sessMap.Load(serverID)
 	if ok {
 		return srv.(*serverSessionInfo).sess, nil
@@ -45,7 +45,7 @@ func GetSession(serverID uint64) (inet.ISessionBase, error) {
 }
 
 // GetRandSession 随机一个某类型的连接
-func GetRandSession(serverType int32) (uint64, inet.ISessionBase, error) {
+func GetRandSession(serverType int32) (uint64, inet.ISDSession, error) {
 	v, _ := typeSessMap.LoadOrStore(serverType, []*serverSessionInfo{})
 	lst := v.([]*serverSessionInfo)
 	num := int32(len(lst))
@@ -58,7 +58,7 @@ func GetRandSession(serverType int32) (uint64, inet.ISessionBase, error) {
 }
 
 // AddSession 添加连接，认证后添加
-func AddSession(serverID uint64, serverType int32, sess inet.ISessionBase) {
+func AddSession(serverID uint64, serverType int32, sess inet.ISDSession) {
 	info := &serverSessionInfo{
 		serverID:   serverID,
 		serverType: serverType,
