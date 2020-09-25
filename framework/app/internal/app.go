@@ -12,12 +12,12 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/giant-tech/go-service/base/net/server"
 	dbservice "github.com/giant-tech/go-service/base/redisservice"
 	"github.com/giant-tech/go-service/base/zlog"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/server"
 	"github.com/giant-tech/go-service/framework/servermgr"
 	"github.com/giant-tech/go-service/framework/service"
 

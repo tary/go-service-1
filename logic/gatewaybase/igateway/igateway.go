@@ -1,9 +1,9 @@
 package igateway
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/inet"
 )
 
 // ReconnectData 断线重连返回的数据

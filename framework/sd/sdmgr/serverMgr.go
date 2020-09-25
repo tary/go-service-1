@@ -3,8 +3,9 @@ package sdmgr
 import (
 	"fmt"
 
-	"github.com/giant-tech/go-service/base/net/client"
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
+	"github.com/giant-tech/go-service/framework/net/client"
+	"github.com/giant-tech/go-service/framework/net/inet"
 	"github.com/giant-tech/go-service/framework/sd/sdsess"
 )
 
@@ -48,17 +49,17 @@ func (mgr *ServerMgr) GetWatchedServerType() int32 {
 }
 
 // GetRandCli 随机获取一个连接
-func (mgr *ServerMgr) GetRandCli() (uint64, inet.ISDSession, error) {
+func (mgr *ServerMgr) GetRandCli() (uint64, inet.ISessionBase, error) {
 	return sdsess.GetRandSession(mgr.srvType)
 }
 
 // GetCliByID 获取client session
-func (mgr *ServerMgr) GetCliByID(srvID uint64) (inet.ISDSession, error) {
+func (mgr *ServerMgr) GetCliByID(srvID uint64) (inet.ISessionBase, error) {
 	return sdsess.GetSession(srvID)
 }
 
 //BroadcastMsg 广播消息
-func (mgr *ServerMgr) BroadcastMsg(msg inet.IMsg) {
+func (mgr *ServerMgr) BroadcastMsg(msg imsg.IMsg) {
 	// mgr.srvIDMap.Range(func(k, v interface{}) bool {
 	// 	cli := v.(*svrInfo).svrSess
 	// 	cli.Send(msg)

@@ -7,12 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/giant-tech/go-service/base/net/client"
-	"github.com/giant-tech/go-service/base/net/inet"
-	"github.com/giant-tech/go-service/base/net/server"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/client"
+	"github.com/giant-tech/go-service/framework/net/inet"
+	"github.com/giant-tech/go-service/framework/net/server"
 	"github.com/giant-tech/go-service/framework/servermgr"
 	"github.com/giant-tech/go-service/framework/service"
 
@@ -404,7 +405,7 @@ func (appnet *AppNet) deleteSrvSess(srvID uint64) {
 }
 
 // Send 发送
-func (appnet *AppNet) Send(toAppid uint64, msg inet.IMsg) error {
+func (appnet *AppNet) Send(toAppid uint64, msg imsg.IMsg) error {
 
 	if iserver.GetApp().GetAppID() < toAppid {
 		isess, ok := appnet.clientSesses.Load(iserver.GetApp().GetAppID())

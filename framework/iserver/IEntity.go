@@ -1,11 +1,12 @@
 package iserver
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/idata"
 	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 	"github.com/giant-tech/go-service/framework/msgdef"
 	"github.com/giant-tech/go-service/framework/msghandler"
+	"github.com/giant-tech/go-service/framework/net/inet"
 )
 
 // IEntity entity接口
@@ -25,7 +26,7 @@ type IEntity interface {
 	SetClientSess(inet.ISession) bool
 	GetClientSess() inet.ISession
 	// Send 发送消息，非协程安全
-	Send(msg inet.IMsg) error
+	Send(msg imsg.IMsg) error
 
 	EnterCell(cellID uint64)
 	LeaveCell()

@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/serializer"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/inet"
 
 	"github.com/cihub/seelog"
 )
@@ -110,7 +111,7 @@ func (s *SProxy) AsyncCall(methodName string, args ...interface{}) error {
 }
 
 // SendMsg 发送消息给自己的服务器
-func (s *SProxy) SendMsg(msg inet.IMsg) error {
+func (s *SProxy) SendMsg(msg imsg.IMsg) error {
 	if s.Sess == nil {
 		seelog.Error("SProxy.SendMsg, Sess is nil")
 		return fmt.Errorf("Sess is nil")

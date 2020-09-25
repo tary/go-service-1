@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/serializer"
 	"github.com/giant-tech/go-service/framework/msgdef"
 
@@ -9,7 +9,7 @@ import (
 )
 
 // MsgProcEntityMsgTransport Entity之间转发消息
-/*func (es *Entities) MsgProcEntityMsgTransport(content inet.IMsg) {
+/*func (es *Entities) MsgProcEntityMsgTransport(content imsg.IMsg) {
 	msg := content.(*msgdef.EntityMsgTransport)
 	ie := es.GetEntity(msg.EntityID)
 	if ie == nil {
@@ -52,7 +52,7 @@ import (
 */
 
 // MsgProcCreateEntityReq 请求创建Entity
-func (es *Entities) MsgProcCreateEntityReq(content inet.IMsg) {
+func (es *Entities) MsgProcCreateEntityReq(content imsg.IMsg) {
 	/*maxLoad := viper.GetInt("Config.MaxLoad")
 	if maxLoad != 0 {
 		load := iserver.GetSrvInst().GetLoad()
@@ -75,7 +75,7 @@ func (es *Entities) MsgProcCreateEntityReq(content inet.IMsg) {
 }
 
 // MsgProcDestroyEntityReq 请求删除Entity
-func (es *Entities) MsgProcDestroyEntityReq(content inet.IMsg) {
+func (es *Entities) MsgProcDestroyEntityReq(content imsg.IMsg) {
 	msg := content.(*msgdef.DestroyEntityReq)
 	log.Info("MsgProcDestroyEntityReq entityID ", msg.EntityID)
 
@@ -87,7 +87,7 @@ func (es *Entities) MsgProcDestroyEntityReq(content inet.IMsg) {
 }
 
 // MsgProcSrvMsgTransport 消息传送
-func (es *Entities) MsgProcSrvMsgTransport(content inet.IMsg) {
+func (es *Entities) MsgProcSrvMsgTransport(content imsg.IMsg) {
 	/*	msg := content.(*msgdef.SrvMsgTransport)
 		innerMsg, err := sess.DecodeMsg(msg.MsgContent[3], msg.MsgContent[4:])
 

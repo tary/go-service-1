@@ -3,7 +3,7 @@ package msgdef
 import (
 	"reflect"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/net/inet"
 )
 
 // 基础消息id

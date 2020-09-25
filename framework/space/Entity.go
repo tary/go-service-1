@@ -1,8 +1,8 @@
 package space
 
 import (
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/linmath"
-	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/entity"
 	"github.com/giant-tech/go-service/framework/iserver"
 )
@@ -43,7 +43,7 @@ type IWatcher interface {
 	iserver.IEntity
 	iserver.IPos
 
-	PostToClient(inet.IMsg) error
+	PostToClient(imsg.IMsg) error
 
 	/*
 		getWatchAOIRange() float32

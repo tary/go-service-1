@@ -5,8 +5,9 @@ import (
 	"reflect"
 	"runtime/debug"
 
-	"github.com/giant-tech/go-service/base/net/inet"
-	"github.com/giant-tech/go-service/base/net/msgid"
+	"github.com/giant-tech/go-service/base/imsg"
+	"github.com/giant-tech/go-service/framework/net/inet"
+	"github.com/giant-tech/go-service/framework/net/msgid"
 
 	log "github.com/cihub/seelog"
 )
@@ -43,7 +44,7 @@ func (def *MsgDef) Init() {
 }
 
 // GetMsgInfo 根据消息号，获得消息的类型，名称，如果是protobuf消息，获得proto消息的容器
-func (def *MsgDef) GetMsgInfo(msgID inet.MsgID) (msgName string, msgContent inet.IMsg, err error) {
+func (def *MsgDef) GetMsgInfo(msgID inet.MsgID) (msgName string, msgContent imsg.IMsg, err error) {
 
 	//此处会被多线程调用，不确定会不会有问题
 	info, ok := def.id2Info[msgID]
@@ -52,7 +53,7 @@ func (def *MsgDef) GetMsgInfo(msgID inet.MsgID) (msgName string, msgContent inet
 		return "", nil, fmt.Errorf("不存在消息号 ID: %d", msgID)
 	}
 
-	return info.name, reflect.New(info.msgType.Elem()).Interface().(inet.IMsg), nil
+	return info.name, reflect.New(info.msgType.Elem()).Interface().(imsg.IMsg), nil
 }
 
 // IsMsgExist 消息是否存在
@@ -74,7 +75,7 @@ func (def *MsgDef) GetMsgIDByName(msgName string) (inet.MsgID, error) {
 }
 
 // GetMsgIDByType 从消息类型获取ID.
-func (def *MsgDef) GetMsgIDByType(msg inet.IMsg) (inet.MsgID, error) {
+func (def *MsgDef) GetMsgIDByType(msg imsg.IMsg) (inet.MsgID, error) {
 	info, ok := def.msgTypeToID[reflect.TypeOf(msg)]
 	if !ok {
 		log.Debug(string(debug.Stack()))
@@ -85,7 +86,7 @@ func (def *MsgDef) GetMsgIDByType(msg inet.IMsg) (inet.MsgID, error) {
 }
 
 // RegMsg 注册消息
-func (def *MsgDef) RegMsg(msgID inet.MsgID, msg inet.IMsg) {
+func (def *MsgDef) RegMsg(msgID inet.MsgID, msg imsg.IMsg) {
 	if msgID == 0 {
 		msgID = msgid.GetMsgID(reflect.TypeOf(msg).Elem().Name())
 	}

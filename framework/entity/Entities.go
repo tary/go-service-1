@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/giant-tech/go-service/base/events"
-	"github.com/giant-tech/go-service/base/net/inet"
 	dbservice "github.com/giant-tech/go-service/base/redisservice"
 	logicredis "github.com/giant-tech/go-service/framework/logicredis"
+	"github.com/giant-tech/go-service/framework/net/inet"
 
 	"github.com/giant-tech/go-service/base/timer"
 	"github.com/giant-tech/go-service/framework/iserver"

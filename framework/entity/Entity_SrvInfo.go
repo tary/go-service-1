@@ -2,7 +2,7 @@ package entity
 
 import (
 	"github.com/cihub/seelog"
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/idata"
 	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 )
@@ -115,6 +115,6 @@ func (e *Entity) broadcastSrvInfo() {
 }
 
 // MsgProcEntitySrvInfoNotify MsgProcEntitySrvInfoNotify
-func (e *Entity) MsgProcEntitySrvInfoNotify(inet.IMsg) {
+func (e *Entity) MsgProcEntitySrvInfoNotify(imsg.IMsg) {
 	e.RefreshSrvIDS()
 }

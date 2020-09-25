@@ -5,9 +5,9 @@ import (
 	"math/rand"
 	"sync"
 
-	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/net/inet"
 
 	"github.com/cihub/seelog"
 )

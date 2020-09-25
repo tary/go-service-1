@@ -3,12 +3,12 @@ package internal
 import (
 	"fmt"
 
-	"github.com/giant-tech/go-service/base/net/baseproc/basemsg"
-	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/errormsg"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/baseproc/basemsg"
+	"github.com/giant-tech/go-service/framework/net/inet"
 	"github.com/giant-tech/go-service/framework/service"
 
 	assert "github.com/aurelien-rainone/assertgo"

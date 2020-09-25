@@ -5,7 +5,7 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/entity"
 	"github.com/giant-tech/go-service/framework/idata"
 
@@ -108,7 +108,7 @@ func (gu *GateUserBase) Logout() {
 }
 
 // AsyncSend 由LobbyUserBase协程发送
-func (gu *GateUserBase) AsyncSend(msg inet.IMsg) {
+func (gu *GateUserBase) AsyncSend(msg imsg.IMsg) {
 	gu.PostFunction(func() {
 		gu.Send(msg)
 	})
@@ -122,7 +122,7 @@ func (gu *GateUserBase) AsyncSendRaw(buff []byte) {
 }
 
 // Send 发送消息
-func (gu *GateUserBase) Send(msg inet.IMsg) error {
+func (gu *GateUserBase) Send(msg imsg.IMsg) error {
 	if gu.CliSess != nil {
 		return gu.CliSess.Send(msg)
 	}

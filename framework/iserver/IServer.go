@@ -13,7 +13,7 @@ type IServer interface {
 	GetServerCtrl() ICtrl
 
 	//转发rpc消息
-	//ForwardRpcMsg(msg inet.IMsg) error
+	//ForwardRpcMsg(msg imsg.IMsg) error
 	//GetTickMS() time.Duration
 
 }

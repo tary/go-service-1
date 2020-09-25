@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/stream"
 
 	"github.com/cihub/seelog"
@@ -178,7 +178,7 @@ func serialize(val reflect.Value, bw *stream.ByteStream) error {
 		err = bw.WriteStr(val.String())
 	case reflect.Ptr:
 		//proto特殊判断
-		if protoMsg, ok := val.Interface().(inet.IProtoMsg); ok {
+		if protoMsg, ok := val.Interface().(imsg.IProtoMsg); ok {
 			tmpData := make([]byte, protoMsg.Size())
 			_, msErr := protoMsg.MarshalTo(tmpData)
 			if msErr != nil {
@@ -271,7 +271,7 @@ func unserialize(val reflect.Value, bw *stream.ByteStream) error {
 		}
 
 		//proto特殊判断
-		if protoMsg, ok := val.Interface().(inet.IProtoMsg); ok {
+		if protoMsg, ok := val.Interface().(imsg.IProtoMsg); ok {
 			buff, err := bw.ReadBytes()
 			if err == nil {
 				errRet = protoMsg.Unmarshal(buff)
@@ -402,7 +402,7 @@ func getValueSize(val reflect.Value, size *int) error {
 		*size += 2
 		*size += val.Len()
 	case reflect.Ptr:
-		if protoMsg, ok := val.Interface().(inet.IProtoMsg); ok {
+		if protoMsg, ok := val.Interface().(imsg.IProtoMsg); ok {
 			*size += 2
 			*size += protoMsg.Size()
 		} else {

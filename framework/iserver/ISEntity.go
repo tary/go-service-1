@@ -1,8 +1,8 @@
 package iserver
 
 import (
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/linmath"
-	"github.com/giant-tech/go-service/base/net/inet"
 )
 
 // ICellEntity 代表空间中的一个实体
@@ -46,11 +46,11 @@ type IMover interface {
 
 // IClientBroadcaster AOI广播
 type IClientBroadcaster interface {
-	CastMsgToAllClient(inet.IMsg)
-	CastMsgToMe(inet.IMsg)
-	CastMsgToAllClientExceptMe(inet.IMsg)
-	CastMsgToRangeExceptMe(center *linmath.Vector3, radius int, msg inet.IMsg)
-	CastMsgToCenterExceptMe(center *linmath.Vector3, radius int, msg inet.IMsg)
+	CastMsgToAllClient(imsg.IMsg)
+	CastMsgToMe(imsg.IMsg)
+	CastMsgToAllClientExceptMe(imsg.IMsg)
+	CastMsgToRangeExceptMe(center *linmath.Vector3, radius int, msg imsg.IMsg)
+	CastMsgToCenterExceptMe(center *linmath.Vector3, radius int, msg imsg.IMsg)
 
 	CastRPCToAllClient(methodName string, args ...interface{})
 	CastRPCToMe(methodName string, args ...interface{})
@@ -65,12 +65,12 @@ type IAOIEntity interface {
 
 // ISyncToGhosts 同步ghost接口
 type ISyncToGhosts interface {
-	SyncToGhosts(inet.IMsg)
+	SyncToGhosts(imsg.IMsg)
 }
 
 // ISendMsgToReal 发消息到real接口
 type ISendMsgToReal interface {
-	SendMsgToReal(msg inet.IMsg)
+	SendMsgToReal(msg imsg.IMsg)
 }
 
 // AOIInfo aoi信息

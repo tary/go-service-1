@@ -1,9 +1,9 @@
 package gatewaybase
 
 import (
-	"github.com/giant-tech/go-service/base/net/server"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
+	"github.com/giant-tech/go-service/framework/net/server"
 	"github.com/giant-tech/go-service/framework/service"
 	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
 	"github.com/giant-tech/go-service/logic/gatewaybase/proc"

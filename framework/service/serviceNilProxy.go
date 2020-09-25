@@ -3,8 +3,9 @@ package service
 import (
 	"fmt"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/idata"
+	"github.com/giant-tech/go-service/framework/net/inet"
 )
 
 // SNilProxy 空服务代理
@@ -52,7 +53,7 @@ func (s *SNilProxy) AsyncCall(methodName string, args ...interface{}) error {
 }
 
 // SendMsg 发送消息给自己的服务器
-func (s *SNilProxy) SendMsg(msg inet.IMsg) error {
+func (s *SNilProxy) SendMsg(msg imsg.IMsg) error {
 	return fmt.Errorf("this is nil proxy")
 }
 

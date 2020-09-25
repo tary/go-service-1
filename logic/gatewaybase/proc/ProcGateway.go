@@ -1,8 +1,8 @@
 package proc
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
 	"github.com/giant-tech/go-service/framework/iserver"
+	"github.com/giant-tech/go-service/framework/net/inet"
 	"github.com/giant-tech/go-service/logic/gatewaybase/igateway"
 
 	"github.com/giant-tech/go-service/framework/errormsg"

@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"sync"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/framework/net/inet"
 
 	"github.com/cihub/seelog"
 )
@@ -31,11 +31,11 @@ func init() {
 type serverSessionInfo struct {
 	serverID   uint64
 	serverType int32
-	sess       inet.ISDSession
+	sess       inet.ISessionBase
 }
 
 // GetSession 获取连接
-func GetSession(serverID uint64) (inet.ISDSession, error) {
+func GetSession(serverID uint64) (inet.ISessionBase, error) {
 	srv, ok := sessMap.Load(serverID)
 	if ok {
 		return srv.(*serverSessionInfo).sess, nil
@@ -45,7 +45,7 @@ func GetSession(serverID uint64) (inet.ISDSession, error) {
 }
 
 // GetRandSession 随机一个某类型的连接
-func GetRandSession(serverType int32) (uint64, inet.ISDSession, error) {
+func GetRandSession(serverType int32) (uint64, inet.ISessionBase, error) {
 	v, _ := typeSessMap.LoadOrStore(serverType, []*serverSessionInfo{})
 	lst := v.([]*serverSessionInfo)
 	num := int32(len(lst))
@@ -58,7 +58,7 @@ func GetRandSession(serverType int32) (uint64, inet.ISDSession, error) {
 }
 
 // AddSession 添加连接，认证后添加
-func AddSession(serverID uint64, serverType int32, sess inet.ISDSession) {
+func AddSession(serverID uint64, serverType int32, sess inet.ISessionBase) {
 	info := &serverSessionInfo{
 		serverID:   serverID,
 		serverType: serverType,

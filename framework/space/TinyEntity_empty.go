@@ -1,7 +1,7 @@
 package space
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	logicredis "github.com/giant-tech/go-service/framework/logicredis"
 )
 
@@ -25,7 +25,7 @@ func (e *TinyEntity) IsSpaceEntity() bool {
 	return true
 }
 
-func (e *TinyEntity) Post(srvType uint8, msg inet.IMsg) error {
+func (e *TinyEntity) Post(srvType uint8, msg imsg.IMsg) error {
 	return nil
 }
 

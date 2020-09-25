@@ -5,12 +5,13 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/base/serializer"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/iserver"
 	"github.com/giant-tech/go-service/framework/msgdef"
 	"github.com/giant-tech/go-service/framework/msghandler"
+	"github.com/giant-tech/go-service/framework/net/inet"
 
 	dbservice "github.com/giant-tech/go-service/framework/logicredis"
 
@@ -128,7 +129,7 @@ func (e *Entity) GetClientSess() inet.ISession {
 }
 
 // Send 发送消息，非协程安全
-func (e *Entity) Send(msg inet.IMsg) error {
+func (e *Entity) Send(msg imsg.IMsg) error {
 	if e.CliSess != nil {
 		return e.CliSess.Send(msg)
 	}

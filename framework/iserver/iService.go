@@ -1,10 +1,11 @@
 package iserver
 
 import (
-	"github.com/giant-tech/go-service/base/net/inet"
+	"github.com/giant-tech/go-service/base/imsg"
 	"github.com/giant-tech/go-service/framework/idata"
 	"github.com/giant-tech/go-service/framework/msgdef"
 	"github.com/giant-tech/go-service/framework/msghandler"
+	"github.com/giant-tech/go-service/framework/net/inet"
 )
 
 // IServiceCtrl 上层服务需要实现的接口
@@ -78,7 +79,7 @@ type IServiceProxy interface {
 	// AsyncCall 异步调用，立即返回
 	AsyncCall(methodName string, args ...interface{}) error
 	// SendMsg 发送消息给自己的服务器
-	SendMsg(msg inet.IMsg) error
+	SendMsg(msg imsg.IMsg) error
 	// IsLocal 是否为本地服务
 	IsLocal() bool
 	// IsValid proxy是否有效
