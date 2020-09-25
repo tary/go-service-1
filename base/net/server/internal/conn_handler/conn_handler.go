@@ -12,10 +12,10 @@ import (
 )
 
 // IMsgCreatorGetor 消息创造
-type IMsgCreatorGetor interface {
+/*type IMsgCreatorGetor interface {
 	GetMsgCreator(uint32) inet.IMsgCreator
 }
-
+*/
 // ConnHandler 连接处理
 type ConnHandler struct {
 	msgProcSet  *msgprocset.MsgProcSet

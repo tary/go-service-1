@@ -50,7 +50,7 @@ type _IInternalSession interface {
 	SetBytePerSecLimiter(r rate.Limit, b int)
 	SetQueryPerSecLimiter(r rate.Limit, b int)
 
-	//只有idip才能调用，同征途消息结构匹配
+	//只有idip才能调用，同zt消息结构匹配
 	RegIdipMsgProcFunc(msgID inet.IdipMsgID, procFunc func(interface{}))
 	SendIdip(msg interface{})
 
